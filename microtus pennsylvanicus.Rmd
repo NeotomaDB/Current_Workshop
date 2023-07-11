@@ -1,0 +1,147 @@
+---
+title: "Microtus"
+author: ""
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    code_folding: show
+    fig_caption: yes
+    keep_md: yes
+    self_contained: yes
+    theme: readable
+    toc: yes
+    toc_float: yes
+    
+  pdf_document:
+    pandoc_args: "-V geometry:vmargin=1in -V geometry:hmargin=1in"
+---
+
+```{r setup, echo=FALSE}
+options(warn = -1)
+pacman::p_load(neotoma2, dplyr, ggplot2, sf, geojsonsf, leaflet, DT, readr, stringr, rioja)
+```
+
+## 1. Exercise
+
+Let's try this out :)
+
+1. Let's find all the sites that contain taxa microtus (Remember we can use the wild card `%` here)
+```{r finding microtus}
+microtus <- get_sites(taxa="%pennsylvanicus%", all_data=TRUE)
+
+```
+
+2. Let's find where they are located:
+
+```{r plot microtus sites}
+plotLeaflet(microtus)
+```
+
+Let's retrieve the sample observations. Since there are 1258 sites
+
+```{r obtain records}
+#microtus_dl <- get_downloads(microtus)
+microtus_dl <- readRDS("data/microtusDataDL.RDS")
+```
+
+```{r harmonization}
+# first generate spreadsheet of taxa
+taxalist <- taxa(microtus_dl)
+readr::write_csv(taxalist, "data/microtustable.csv")
+
+# offline, edit the taxa table to just focus on M. pennsylvanicus and harmonize
+
+```
+
+
+Let's load in the "translation" table for microtus:
+
+```{r translationDisplay}
+translation <- readr::read_csv("data/microtustable.csv")
+DT::datatable(translation, rownames = FALSE, 
+                options = list(scrollX = "100%", dom = 't'))
+
+```
+
+Let's also take a look at the samples in the `microtus_dl` 
+
+```{r viewSamples}
+allSamp <- samples(microtus_dl)
+DT::datatable(head(allSamp))
+```
+
+```{r join tables}
+allSampDF <- allSamp %>%
+  inner_join(translation, by = c("variablename" = "harmonizedname")) 
+head(allSampDF)
+```
+
+
+``` {r}
+allSampDF <- allSampDF %>% 
+  group_by(siteid, sitename, variablename,
+           sampleid, units, ageyounger, ageolder, 
+           agetype, depth, datasetid,
+           long, lat) %>%
+  summarise(value = sum(value), .groups='keep')
+DT::datatable(head(allSampDF))
+```
+age older or age younger - 
+
+```{r pleistocene and holocene}
+# first remove older Pleistocene samples and low quality sample
+allSampDF <- allSampDF %>%
+  filter(ageolder < 110000) %>%
+  filter(ageyounger <= 50000) %>% 
+  filter(ageolder-ageyounger < 100000) %>%
+  mutate(era = ifelse(ageolder < 15000, "deglacial - Holocene", "glacial maximum"))%>%
+  filter(!((era == "Pleistocene") && (ageyounger < 11000)))
+DT::datatable(head(allSampDF))
+
+
+
+```
+
+
+
+
+
+```{r plotting data}
+taxaplots <- allSampDF %>%
+  group_by(era, variablename) %>%
+  filter(!any(is.na(era))) %>% 
+  summarise(sites = length(unique(siteid)), samples = length(unique(sampleid)), .groups='keep') %>% 
+  arrange(era)
+
+DT::datatable(taxaplots)
+```
+
+```{r}
+ggplot(data = taxaplots, aes(x = era, y=samples)) +
+  geom_bar(stat = 'identity') +
+  xlab("Age") +
+  ylab("Number of microtus") +
+  theme_bw()
+
+h<- allSampDF%>%filter(era=="deglacial - Holocene")
+p<- allSampDF%>%filter(era=="glacial maximum")
+hist(h$ageolder)
+hist(p$ageyounger)
+```
+
+```{r}
+## JESSICA ADDED THIS AS A QUICK EXAMPLE. USES BASE R SINCE THAT'S WHAT I KNOW BEST, MAYBE NOT THE BEST CODE, BUT DOING SOMETHING LIKE THIS MIGHT BE HELPFUL. maybe add a minimum convex polygon around the points for each time period?
+
+xrange<-range(allSampDF$long,na.rm=T)
+yrange<-range(allSampDF$lat,na.rm=T)
+
+library(maptools)
+data(wrld_simpl)
+
+plot(wrld_simpl,axes=TRUE,col="lightgray", xlim=xrange, ylim=yrange, main="microtus pennsylvanicus")
+points(allSampDF$long[which(allSampDF$era=="deglacial - Holocene")],allSampDF$lat[which(allSampDF$era=="deglacial - Holocene")],col="gold",pch=20,cex=0.8)
+points(allSampDF$long[which(allSampDF$era=="glacial maximum")],allSampDF$lat[which(allSampDF$era=="glacial maximum")],col="red",pch=20,cex=0.8)
+legend(x="bottomleft",legend=c("deglacial - Holocene","glacial maximum"),pch=20,cex=1.25, col=c("gold","red"), bty="n")
+
+
+```
