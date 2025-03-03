@@ -24,6 +24,7 @@ institute:
   - uwiscdsi:
     name: "University of Wisconsin -- Data Science Institute"
 date: "`r Sys.Date()`"
+always_allow_html: true
 output:
   html_document:
     code_folding: show
@@ -36,6 +37,11 @@ output:
     css: "text.css"
   pdf_document:
     pandoc_args: "-V geometry:vmargin=1in -V geometry:hmargin=1in"
+  word_document:
+    fig_caption: yes
+    self_contained: yes
+    toc: yes
+    always_allow_html: true
 csl: 'https://bit.ly/3khj0ZL'
 ---
 
@@ -187,17 +193,25 @@ The original `neotoma` package used a bounding box for locations, structured as 
 As an example of searching for sites using a location, we've created a rough representation of Denmark as a polygon.  To work with this spatial object in R we also transformed the `geoJSON` element to an object for the `sf` package.  There are many other tools to work with spatial objects in R. Regardless of how you get the data into R, `neotoma2` works with almost all objects in the `sf` package.
 
 ```{r boundingBox}
-geoJSON <- '{"coordinates": [[
-            [7.92, 55.02],
-            [12.42, 54.42],
-            [12.86, 55.98],
-            [12.41, 56.44],
-            [10.63, 57.96],
-            [7.74, 57.48],
-            [ 7.70, 57.09],
-            [7.92, 55.02]
-          ]],
-        "type": "Polygon"}'
+geoJSON <- '{"type": "Polygon",
+        "coordinates": [[
+            [-7.030,  36.011],
+            [-18.807, 23.537],
+            [-19.247, 10.282],
+            [-9.139,  -0.211],
+            [18.370, -37.546],
+            [35.069, -36.352],
+            [49.571, -27.097],
+            [58.185,   0.755],
+            [53.351,  13.807],
+            [43.946,  12.008],
+            [31.202,  33.629],
+            [18.897,  34.648],
+            [12.393,  35.583],
+            [11.075,  38.184],
+            [-7.030,  36.011]
+          ]
+        ]}'
 
 denmark_sf <- geojsonsf::geojson_sf(geoJSON)
 

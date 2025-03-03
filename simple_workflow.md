@@ -1,5 +1,5 @@
 ---
-title: "A Simple Workflow"
+title: "A Simple Workflow -- For Speleothems"
 author:
   - name: "Nora Schlenker"
     institute: [uwiscgeog]
@@ -12,7 +12,7 @@ author:
     email: goring@wisc.edu
     orcid_id: 0000-0002-2700-4605
   - name: "Socorro Dominguez Vidaña"
-    institute: [rhtdata]
+    institute: [htdata, uwiscgeog]
     correspondence: false
     email: s.dominguez@ht-data.com
     orcid_id: 0000-0002-7926-4935
