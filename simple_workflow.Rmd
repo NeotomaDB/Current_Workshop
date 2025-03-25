@@ -1,11 +1,6 @@
 ---
 title: "A Simple Workflow"
 author:
-  - name: "Nora Schlenker"
-    institute: [uwiscgeog]
-    correspondence: false
-    email: nschlenker@wisc.edu
-    orcid_id: 0000-0002-3693-5946
   - name: "Simon Goring"
     institute: [uwiscgeog,uwiscdsi]
     correspondence: true
@@ -115,6 +110,7 @@ Data in Neotoma is associated with **sites** -- specific locations with latitude
 
 Within a **site**, there may be one or more [**collection units**](https://open.neotomadb.org/manual/dataset-collection-related-tables-1.html#CollectionUnits) -- locations at which samples are physically collected within the site:
 
+* a cave **site** may have one or more **collection units**, cores within specific speleothem **entities**
 * an archaeological **site** may have one or more **collection units**, pits within a broader dig site
 * a pollen sampling **site** on a lake may have multiple **collection units** -- core sites within the lake basin.
 * A bog sample **site** may have multiple **collection units** -- a transect of surface samples within the bog.
@@ -164,33 +160,37 @@ There are several ways to find sites in `neotoma2`, but we think of `sites` as b
 
 All sites in Neotoma contain one or more datasets. It's worth noting that the results of these search parameters may be slightly unexpected. For example, searching for sites by sitename, latitude, or altitude will return all of the datasets for the particular site. Searching for terms such as datasettype, datasetid or taxa will return the site, but the only datasets returned will be those matching the dataset-specific search terms. We'll see this later.
 
-#### Site names: `sitename="%ø%"` {.tabset}
+#### Site names: `sitename="%cave%"` {.tabset}
 
-We may know exactly what site we're looking for ("Lake Solsø"), or have an approximate guess for the site name (for example, we know it's something like "Solsø", but we're not sure how it was entered specifically), or we may want to search all sites that have a specific term, for example, *ø*.
+We may know exactly what site we're looking for ("Wonderwerk Cave"), or have an approximate guess for the site name (for example, we know it's something like "Wonderwerk", but we're not sure how it was entered specifically), or we may want to search all sites that have a specific term, for example, *cave*.
 
-We use the general format: `get_sites(sitename="%ø%")` for searching by name.
+We use the general format: `get_sites(sitename="%cave%")` for searching by name.
 
-PostgreSQL (and the API) uses the percent sign as a wildcard.  So `"%ø%"` would pick up ["Lake Solsø"](https://data.neotomadb.org/4445) for us (and picks up "Isbenttjønn" and "Lake Flåfattjønna").  Note that the search query is also case insensitive.
+PostgreSQL (and the API) uses the percent sign as a wildcard.  So `"%cave%"` would pick up ["Wonderwerk Cave"](https://data.neotomadb.org/52262) for us (and picks up "Equus Cave" and "Spring Cave shelter").  Note that the search query is also case insensitive.
 
 ##### Code
 
 ```{r sitename, eval=FALSE}
-denmark_sites <- neotoma2::get_sites(sitename = "%ø%")
-plotLeaflet(denmark_sites)
+Sys.setenv(APIPOINT="dev")
+
+cave_sites <- neotoma2::get_sites(sitename = "%cave%")
+plotLeaflet(cave_sites)
 ```
 
 ##### Result
 
 ```{r sitenamePlot, echo=FALSE}
-denmark_sites <- neotoma2::get_sites(sitename = "%ø%")
-plotLeaflet(denmark_sites)
+Sys.setenv(APIPOINT="api-dev")
+
+cave_sites <- neotoma2::get_sites(sitename = "%cave%")
+plotLeaflet(cave_sites)
 ```
 
 #### Location: `loc=c()` {.tabset}
 
 The original `neotoma` package used a bounding box for locations, structured as a vector of latitude and longitude values: `c(xmin, ymin, xmax, ymax)`.  The `neotoma2` R package supports both this simple bounding box, but also more complex spatial objects, using the [`sf` package](https://r-spatial.github.io/sf/). Using the `sf` package allows us to more easily work with raster and polygon data in R, and to select sites from more complex spatial objects.  The `loc` parameter works with the simple vector, [WKT](https://arthur-e.github.io/Wicket/sandbox-gmaps3.html), [geoJSON](http://geojson.io/#map=2/20.0/0.0) objects and native `sf` objects in R.
 
-As an example of searching for sites using a location, we've created a rough representation of Denmark as a polygon.  To work with this spatial object in R we also transformed the `geoJSON` element to an object for the `sf` package.  There are many other tools to work with spatial objects in R. Regardless of how you get the data into R, `neotoma2` works with almost all objects in the `sf` package.
+As an example of searching for sites using a location, we've created a rough representation of Africa as a polygon.  To work with this spatial object in R we also transformed the `geoJSON` element to an object for the `sf` package.  There are many other tools to work with spatial objects in R. Regardless of how you get the data into R, `neotoma2` works with almost all objects in the `sf` package.
 
 ```{r boundingBox}
 geoJSON <- '{"type": "Polygon",
@@ -213,13 +213,13 @@ geoJSON <- '{"type": "Polygon",
           ]
         ]}'
 
-denmark_sf <- geojsonsf::geojson_sf(geoJSON)
+africa_sf <- geojsonsf::geojson_sf(geoJSON)
 
 # Note here we use the `all_data` flag to capture all the sites within the polygon.
 # We're using `all_data` here because we know that the site information is relatively small
-# for denmark. If we were working in a new area or with a new search we would limit the
+# for Africa. If we were working in a new area or with a new search we would limit the
 # search size.
-denmark_sites <- neotoma2::get_sites(loc = denmark_sf, all_data = TRUE)
+africa_sites <- neotoma2::get_sites(loc = africa_sf, all_data = TRUE)
 ```
 
 You can always simply `plot()` the `sites` objects, but you will lose some of the geographic context.  The `plotLeaflet()` function returns a `leaflet()` map, and allows you to further customize it, or add additional spatial data (like our original bounding polygon, `sa_sf`, which works directly with the R `leaflet` package):
@@ -229,18 +229,18 @@ You can always simply `plot()` the `sites` objects, but you will lose some of th
 Note the use of the `%>%` pipe here. If you are not familiar with this symbol, check our ["Piping in R" section](#piping-in-r) of the Appendix.
 
 ```{r plotL, eval=FALSE}
-neotoma2::plotLeaflet(denmark_sites) %>% 
+neotoma2::plotLeaflet(africa_sites) %>% 
   leaflet::addPolygons(map = ., 
-                       data = denmark_sf, 
+                       data = africa_sf, 
                        color = "green")
 ```
 
 ##### Result
 
 ```{r plotLeaf, echo=FALSE}
-neotoma2::plotLeaflet(denmark_sites) %>% 
+neotoma2::plotLeaflet(africa_sites) %>% 
   leaflet::addPolygons(map = ., 
-                       data = denmark_sf, 
+                       data = africa_sf, 
                        color = "green")
 ```
 
@@ -248,49 +248,49 @@ neotoma2::plotLeaflet(denmark_sites) %>%
 
 If we look at the [data structure diagram](#222-data-structures-in-neotoma2) for the objects in the `neotoma2` R package we can see that there are a set of functions that can operate on `sites`.  As we retrieve more information for `sites` objects, using `get_datasets()` or `get_downloads()`, we are able to use more of these helper functions.
 
-As it is, we can take advantage of functions like `summary()` to get a more complete sense of the types of data we have in `denmark_sites`.  The following code gives the summary table. We do some R magic here to change the way the data is displayed (turning it into a [`DT::datatable()`](https://rstudio.github.io/DT/) object), but the main piece is the `summary()` call.
+As it is, we can take advantage of functions like `summary()` to get a more complete sense of the types of data we have in `africa_sites`.  The following code gives the summary table. We do some R magic here to change the way the data is displayed (turning it into a [`DT::datatable()`](https://rstudio.github.io/DT/) object), but the main piece is the `summary()` call.
 
 ##### Code
 
 ```{r summary_sites, eval=FALSE}
 # Give information about the sites themselves, site names &cetera.
-neotoma2::summary(denmark_sites)
+neotoma2::summary(africa_sites)
 # Give the unique identifiers for sites, collection units and datasets found at those sites.
-neotoma2::getids(denmark_sites)
+neotoma2::getids(africa_sites)
 ```
 
 ##### Result
 
 ```{r summarySitesTable, eval=TRUE, echo=FALSE}
-neotoma2::summary(denmark_sites) %>%
+neotoma2::summary(africa_sites) %>%
   DT::datatable(data = ., rownames = FALSE, 
                 options = list(scrollX = "100%", dom = 't'))
 ```
 
-In this document we list only the first 10 records (there are more, you can use `length(datasets(denmark_sites))` to see how many datasets you've got). We can see that there are no chronologies associated with the `site` objects. This is because, at present, we have not pulled in the `dataset` information we need. In Neotoma, a chronology is associated with a collection unit (and that metadata is pulled by `get_datasets()` or `get_downloads()`). All we know from `get_sites()` are the kinds of datasets we have and the location of the sites that contain the datasets.
+In this document we list only the first 10 records (there are more, you can use `length(datasets(africa_sites))` to see how many datasets you've got). We can see that there are no chronologies associated with the `site` objects. This is because, at present, we have not pulled in the `dataset` information we need. In Neotoma, a chronology is associated with a collection unit (and that metadata is pulled by `get_datasets()` or `get_downloads()`). All we know from `get_sites()` are the kinds of datasets we have and the location of the sites that contain the datasets.
 
 ### `get_datasets()` {.tabset}
 
-Within Neotoma, collection units and datasets are contained within sites.  Similarly, a `sites` object contains `collectionunits` which contain `datasets`. From the table above (Result tab in Section 3.1.3.2) we can see that some of the sites we've looked at contain pollen records, some contain geochronologic data and some contain other dataset types. We could write something like this: `table(summary(denmark_sites)$types)` to see the different datasettypes and their counts.
+Within Neotoma, collection units and datasets are contained within sites.  Similarly, a `sites` object contains `collectionunits` which contain `datasets`. From the table above (Result tab in Section 3.1.3.2) we can see that some of the sites we've looked at contain pollen records, some contain geochronologic data and some contain other dataset types. We could write something like this: `table(summary(africa_sites)$types)` to see the different datasettypes and their counts.
 
-With a `sites` object we can directly call `get_datasets()` to pull in more metadata about the datasets.  The `get_datasets()` method also supports any of the search terms listed above in the [Site Search](#3-site-searches) section. At any time we can use `datasets()` to get more information about any datasets that a `sites` object may contain.  Compare the output of `datasets(denmark_sites)` to the output of a similar call using the following:
+With a `sites` object we can directly call `get_datasets()` to pull in more metadata about the datasets.  The `get_datasets()` method also supports any of the search terms listed above in the [Site Search](#3-site-searches) section. At any time we can use `datasets()` to get more information about any datasets that a `sites` object may contain.  Compare the output of `datasets(africa_sites)` to the output of a similar call using the following:
 
 #### Code
 
 ```{r datasetsFromSites, eval=FALSE}
 # This may be slow, because there's a lot of sites!
-# denmark_datasets <- neotoma2::get_datasets(denmark_sites, all_data = TRUE)
+# africa_datasets <- neotoma2::get_datasets(africa_sites, all_data = TRUE)
 
-denmark_datasets <- neotoma2::get_datasets(loc = denmark_sf, datasettype = "pollen", all_data = TRUE)
+africa_datasets <- neotoma2::get_datasets(loc = africa_sf, all_data = TRUE)
 
-datasets(denmark_datasets)
+datasets(africa_datasets)
 ```
 
 #### Result
 
 ```{r datasetsFromSitesResult, echo=FALSE, message=FALSE}
-denmark_datasets <- neotoma2::get_datasets(loc = denmark_sf, datasettype = "pollen", all_data = TRUE)
-datasets(denmark_datasets) %>% 
+africa_datasets <- neotoma2::get_datasets(loc = africa_sf, datasettype = "pollen", all_data = TRUE)
+datasets(africa_datasets) %>% 
   as.data.frame() %>% 
   DT::datatable(data = ., 
                 options = list(scrollX = "100%", dom = 't'))
@@ -305,22 +305,25 @@ If we choose to pull in information about only a single dataset type, or if ther
 #### Code
 
 ```{r downloads, eval=FALSE}
-denmark_records <- denmark_datasets %>% 
-  neotoma2::filter(!is.na(age_range_young))
+africa_speleothem <- africa_datasets %>% 
+  neotoma2::filter(datasettype == 'speleothem')
 
-neotoma2::summary(denmark_records)
+neotoma2::summary(africa_speleothem)
 
 # We've removed records, so the new object should be shorter than the original.
-length(denmark_records) < length(denmark_datasets)
+length(africa_speleothem) < length(africa_datasets)
 ```
 
 #### Result
 
 ```{r downloadsCode, echo = FALSE}
-denmark_records <- denmark_datasets %>% 
-  neotoma2::filter(!is.na(age_range_young))
+africa_speleothem <- africa_datasets %>% 
+  neotoma2::filter(datasettype == 'speleothem')
 
-neotoma2::summary(denmark_records) %>% DT::datatable(data = ., 
+africa_east <- africa_datasets %>%
+  neotoma2::filter(long > 20)
+
+neotoma2::summary(africa_records) %>% DT::datatable(data = ., 
                 options = list(scrollX = "100%", dom = 't'))
 ```
 
@@ -334,15 +337,15 @@ The following call can take some time, but we've frozen the object as an RDS dat
 
 ```{r taxa}
 ## This line is commented out because we've already run it for you.
-## denmark_dl <- denmark_records %>% get_downloads(all_data = TRUE)
-## saveRDS(denmark_dl, "data/dkDownload.RDS")
-denmark_dl <- readRDS("data/dkDownload.RDS")
+## africa_dl <- africa_east %>% get_downloads(all_data = TRUE)
+## saveRDS(africa_dl, "data/dkDownload.RDS")
+africa_dl <- readRDS("data/dkDownload.RDS")
 ```
 
 Once we've downloaded, we now have information for each site about all the associated collection units, the datasets, and, for each dataset, all the samples associated with the datasets. To extract samples all downloads we can call:
 
 ```{r allSamples}
-allSamp <- samples(denmark_dl)
+allSamp <- samples(africa_dl)
 ```
 
 When we've done this, we get a `data.frame` that is `r nrow(allSamp)` rows long and `r ncol(allSamp)` columns wide.  The reason the table is so wide is that we are returning data in a **long** format.  Each row contains all the information you should need to properly interpret it:
@@ -353,6 +356,22 @@ colnames(allSamp)
 
 For some dataset types or analyses, some of these columns may not be needed, however, for other dataset types they may be critically important.  To allow the `neotoma2` package to be as useful as possible for the community we've included as many as we can.
 
+### Ensuring we have entity information
+
+There are two tables associated with entities if we want more information about them. In the future we will be adding more support for speleothems in the R package, but for now we can connect the individual entity attributes to the samples table using some SQL magic in R:
+
+```{r}
+entities <- get_table('speleothems', limit = 5000)
+en_join <- get_table('speleothemcollectionunit', limit = 5000)
+
+allSamp <- allSamp %>% mutate(collunitid = as.integer(collunitid))
+
+samp_w_entity <- allSamp %>%
+  left_join(en_join, by = join_by(collunitid == collectionunitid)) %>%
+  left_join(entities, by = join_by(entityid == entityid))
+
+```
+
 #### Extracting Taxa {.tabset}
 
 If you want to know what taxa we have in the record you can use the helper function `taxa()` on the sites object. The `taxa()` function gives us not only the unique taxa, but two additional columns -- `sites` and `samples` -- that tell us how many sites the taxa appear in, and how many samples the taxa appear in, to help us better understand how common individual taxa are.
@@ -360,15 +379,25 @@ If you want to know what taxa we have in the record you can use the helper funct
 ##### Code
 
 ```{r taxa2, eval=FALSE}
-neotomatx <- neotoma2::taxa(denmark_dl)
+neotomatx <- neotoma2::taxa(africa_dl)
+
+# OR just the 'taxa' in the speleothems:
+sisal_tx <- africa_dl %>% neotoma2::filter(datasettype == 'spelethem') %>% taxa()
 ```
 
 ##### Results
 
 ```{r taxaprint, echo=FALSE, message=FALSE}
-neotomatx <- neotoma2::taxa(denmark_dl)
+neotomatx <- neotoma2::taxa(africa_dl)
 neotomatx %>% 
   DT::datatable(data = head(neotomatx, n = 20), rownames = FALSE, 
+                options = list(scrollX = "100%", dom = 't'))
+```
+
+```{r taxaprint, echo=FALSE, message=FALSE}
+sisal_tx <- africa_dl %>% neotoma2::filter(datasettype == 'spelethem') %>% taxa()
+sisal_tx %>% 
+  DT::datatable(data = sisal_tx, rownames = FALSE, 
                 options = list(scrollX = "100%", dom = 't'))
 ```
 
@@ -414,7 +443,7 @@ A second way to harmonize taxa is to use an external table, which is especially 
 We can get the list of original names directly from the `taxa()` call, applied to a `sites` object that contains samples, and then export it using `write.csv()`.
 
 ```{r countbySitesSamples, eval=FALSE}
-taxaplots <- taxa(denmark_dl)
+taxaplots <- taxa(africa_dl)
 # Save the taxon list to file so we can edit it subsequently.
 readr::write_csv(taxaplots, "data/mytaxontable.csv")
 ```
@@ -428,7 +457,7 @@ This is effectively a rarefaction curve, the more sites a taxon is found at, the
 ##### Code
 
 ```{r PlotTaxonCountsFirst, fig.cap="**Figure**. *A plot of the number of sites a taxon appears in, against the number of samples a taxon appears in.*", eval=FALSE}
-taxaplots <- taxa(denmark_dl)
+taxaplots <- taxa(africa_dl)
 ggplot(data = taxaplots, aes(x = sites, y = samples)) +
   geom_point() +
   stat_smooth(method = 'glm', 
@@ -441,7 +470,7 @@ ggplot(data = taxaplots, aes(x = sites, y = samples)) +
 ##### Result
 
 ```{r PlotTaxonCounts, echo=FALSE, fig.cap="**Figure**. *A plot of the number of sites a taxon appears in, against the number of samples a taxon appears in.*", message=FALSE}
-taxaplots <- taxa(denmark_dl)
+taxaplots <- taxa(africa_dl)
 ggplot(data = taxaplots, aes(x = sites, y = samples)) +
   geom_point() +
   stat_smooth(method = 'glm', 
@@ -472,7 +501,7 @@ DT::datatable(translation, rownames = FALSE,
 You can see we've changed some of the taxon names in the taxon table.  To replace the names in the `samples()` output, we'll join the two tables using an `inner_join()` (meaning the `variablename` must appear in both tables for the result to be included), and then we're going to select only those elements of the sample tables that are relevant to our later analysis, using the `harmonizedname` column as our new name for the taxa:
 
 ```{r joinTranslation, eval = FALSE}
-allSamp <- samples(denmark_dl)
+allSamp <- samples(africa_dl)
 
 allSamp <- allSamp %>%
   inner_join(translation, by = c("variablename" = "variablename")) %>% 
@@ -485,7 +514,7 @@ allSamp <- allSamp %>%
 ```
 
 ```{r harmonizationTableOut, message = FALSE, echo=FALSE}
-cleanSamp <- samples(denmark_dl) %>%
+cleanSamp <- samples(africa_dl) %>%
   inner_join(translation, by = c("variablename" = "variablename")) %>% 
   dplyr::select(!c("variablename")) %>% 
   group_by(siteid, sitename, harmonizedname,
@@ -502,7 +531,7 @@ DT::datatable(head(cleanSamp, n = 50), rownames = FALSE,
 We now have a cleaner set of taxon names compared to the original table, both because of harmonization, and because we cleared out many of the non-**TRSH** (trees and shrubs) taxa from the harmonization table. Plotting the same set of taxa with the new harmonized names results in this plot:
 
 ```{r origTableOut, message = FALSE, echo=FALSE, fig.cap="**Figure**. *The same site/sample plot as above, with with the new harmonized taxonomy. Note that the distribution of points along the curve is smoother, as we remove some of the taxonomic issues.*"}
-taxaplots <- samples(denmark_dl) %>%
+taxaplots <- samples(africa_dl) %>%
   inner_join(translation, by = c("variablename" = "variablename")) %>% 
   dplyr::select(!c("variablename")) %>%
   group_by(harmonizedname) %>%
@@ -528,8 +557,8 @@ We can use packages like `rioja` to do stratigraphic plotting for a single recor
 #### Raw Taxon
 ```{r stratiplotraw, message = FALSE}
 # Get a particular site, in this case we are simply subsetting the
-# `denmark_dl` object to get Lake Solsø:
-plottingSite <- denmark_dl[[2]]
+# `africa_dl` object to get Lake Solsø:
+plottingSite <- africa_dl[[2]]
 
 # Select only pollen measured using NISP and convert to a "wide"
 # table, using proportions. The first column will be "age".
@@ -549,8 +578,8 @@ counts <- counts[, colSums(counts > 0.01, na.rm = TRUE) > 5]
 #### With Harmonization
 ```{r stratiplotharm, message = FALSE}
 # Get a particular site, in this case we are simply subsetting the
-# `denmark_dl` object to get Lake Solsø:
-plottingSite <- denmark_dl[[2]]
+# `africa_dl` object to get Lake Solsø:
+plottingSite <- africa_dl[[2]]
 
 # Select only pollen measured using NISP and convert to a "wide"
 # table, using proportions. The first column will be "age".
@@ -588,7 +617,7 @@ clust <- rioja::chclust(dist(sqrt(counts)),
 
 # Plot the stratigraphic plot, converting proportions to percentages:
 plot <- rioja::strat.plot(counts[,-1] * 100, yvar = counts$age,
-                  title = denmark_dl[[1]]$sitename,
+                  title = africa_dl[[1]]$sitename,
                   ylabel = "Calibrated Years BP",
                   xlabel = "Pollen (% of Trees and Shrubs)",
                   srt.xlabel = 70,
@@ -608,7 +637,7 @@ clust <- rioja::chclust(dist(sqrt(counts_harmonized)),
 
 # Plot the stratigraphic plot, converting proportions to percentages:
 plot <- rioja::strat.plot(counts_harmonized[,-1] * 100, yvar = counts_harmonized$age,
-                  title = denmark_dl[[1]]$sitename,
+                  title = africa_dl[[1]]$sitename,
                   ylabel = "Calibrated Years BP",
                   xlabel = "Pollen (% of Trees and Shrubs)",
                   srt.xlabel = 70,
