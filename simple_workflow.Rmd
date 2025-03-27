@@ -47,7 +47,7 @@ pacman::p_load(neotoma2, dplyr, ggplot2, sf, geojsonsf, leaflet, DT, readr, stri
 
 ## Introduction
 
-This document is intended to act as a primer for the use of the new Neotoma R package, `neotoma2` and is the companion to the [*Introduction to Neotoma* presentation](https://docs.google.com/presentation/d/1Fwp5yMAvIdgYpiC04xhgV7OQZ-olZIcUiGnLfyLPUt4/edit?usp=sharing). Some users may be working with this document as part of a workshop for which there is a Binder instance. The Binder instance will run RStudio in your browser, with all the required packages installed.
+This document is intended to act as a primer for the use of the Neotoma R package, `neotoma2` and is the companion to the [*Introduction to Neotoma* presentation](https://docs.google.com/presentation/d/1Fwp5yMAvIdgYpiC04xhgV7OQZ-olZIcUiGnLfyLPUt4/edit?usp=sharing). Some users may be working with this document as part of a workshop for which there is a Binder instance. The Binder instance will run RStudio in your browser, with all the required packages installed.
 
 If you are using this workflow on its own, or want to use the package directly, [the `neotoma2` package](https://github.com/NeotomaDB/neotoma2) is available on CRAN by running:
 
@@ -180,9 +180,9 @@ plotLeaflet(cave_sites)
 ##### Result
 
 ```{r sitenamePlot, echo=FALSE}
-Sys.setenv(APIPOINT="api-dev")
+Sys.setenv(APIPOINT="dev")
 
-cave_sites <- neotoma2::get_sites(sitename = "%cave%")
+cave_sites <- neotoma2::get_sites(sitename = "%cave%", all_data = TRUE)
 plotLeaflet(cave_sites)
 ```
 
@@ -279,7 +279,6 @@ With a `sites` object we can directly call `get_datasets()` to pull in more meta
 
 ```{r datasetsFromSites, eval=FALSE}
 # This may be slow, because there's a lot of sites!
-# africa_datasets <- neotoma2::get_datasets(africa_sites, all_data = TRUE)
 
 africa_datasets <- neotoma2::get_datasets(loc = africa_sf, all_data = TRUE)
 
@@ -289,7 +288,8 @@ datasets(africa_datasets)
 #### Result
 
 ```{r datasetsFromSitesResult, echo=FALSE, message=FALSE}
-africa_datasets <- neotoma2::get_datasets(loc = africa_sf, datasettype = "pollen", all_data = TRUE)
+africa_datasets <- neotoma2::get_datasets(loc = africa_sf, all_data = TRUE)
+
 datasets(africa_datasets) %>% 
   as.data.frame() %>% 
   DT::datatable(data = ., 
@@ -301,6 +301,8 @@ You can see that this provides information only about the specific dataset, not 
 ### `filter()` Records {.tabset}
   
 If we choose to pull in information about only a single dataset type, or if there is additional filtering we want to do before we download the data, we can use the `filter()` function.  For example, if we only want sedimentary pollen records (as opposed to pollen surface samples), and want records with known chronologies, we can filter by `datasettype` and by the presence of an `age_range_young`, which would indicate that there is a chronology that defines bounds for ages within the record.
+
+**Note**: At present filtering on some of the speleothem entity parameters isn't built into the `neotoma2` R package. We would love to work on this with folks!
 
 #### Code
 
@@ -323,7 +325,7 @@ africa_speleothem <- africa_datasets %>%
 africa_east <- africa_datasets %>%
   neotoma2::filter(long > 20)
 
-neotoma2::summary(africa_records) %>% DT::datatable(data = ., 
+neotoma2::summary(africa_speleothem) %>% DT::datatable(data = ., 
                 options = list(scrollX = "100%", dom = 't'))
 ```
 
@@ -337,9 +339,9 @@ The following call can take some time, but we've frozen the object as an RDS dat
 
 ```{r taxa}
 ## This line is commented out because we've already run it for you.
-## africa_dl <- africa_east %>% get_downloads(all_data = TRUE)
-## saveRDS(africa_dl, "data/dkDownload.RDS")
-africa_dl <- readRDS("data/dkDownload.RDS")
+## africa_dl <- africa_datasets %>% get_downloads(all_data = TRUE)
+## saveRDS(africa_dl, "data/africaDownload.RDS")
+africa_dl <- readRDS("data/africaDownload.RDS")
 ```
 
 Once we've downloaded, we now have information for each site about all the associated collection units, the datasets, and, for each dataset, all the samples associated with the datasets. To extract samples all downloads we can call:
@@ -356,11 +358,15 @@ colnames(allSamp)
 
 For some dataset types or analyses, some of these columns may not be needed, however, for other dataset types they may be critically important.  To allow the `neotoma2` package to be as useful as possible for the community we've included as many as we can.
 
+What is critically important to note as you work is that any variable is explicitly defined as the combination of the `variablename`, the `units`, and then `context` ans `symmetry`. This is because Neotoma contains both instrument measured data, but also faunal remains and plant element, so we might describe δ^18^O in *per mille* units, but also the left half of an oxen skull measured using MNI (minimum number of individuals).
+
+It's also important to note that the date of a single sample is identified using the `age`, and the `agetype`, along with a pointer to the `chronology` used for the record and the uncertainty (as `ageolder` and `ageyounger` for the sample.
+
 ### Ensuring we have entity information
 
-There are two tables associated with entities if we want more information about them. In the future we will be adding more support for speleothems in the R package, but for now we can connect the individual entity attributes to the samples table using some SQL magic in R:
+There are two tables associated with `SISALv3` entities if we want more information about them. In the future we will be adding more support for speleothems in the R package, but for now we can connect the individual entity attributes to the samples table using some SQL magic in R:
 
-```{r}
+```{r add_entity}
 entities <- get_table('speleothems', limit = 5000)
 en_join <- get_table('speleothemcollectionunit', limit = 5000)
 
@@ -369,12 +375,13 @@ allSamp <- allSamp %>% mutate(collunitid = as.integer(collunitid))
 samp_w_entity <- allSamp %>%
   left_join(en_join, by = join_by(collunitid == collectionunitid)) %>%
   left_join(entities, by = join_by(entityid == entityid))
-
 ```
+
+As we move forward we will improve the integration of entity data within Neotoma.
 
 #### Extracting Taxa {.tabset}
 
-If you want to know what taxa we have in the record you can use the helper function `taxa()` on the sites object. The `taxa()` function gives us not only the unique taxa, but two additional columns -- `sites` and `samples` -- that tell us how many sites the taxa appear in, and how many samples the taxa appear in, to help us better understand how common individual taxa are.
+If you want to know what has been masured in the records you can use the helper function `taxa()` on the sites object. The `taxa()` function gives us not only the unique taxa, but two additional columns -- `sites` and `samples` -- that tell us how many sites the taxa appear in, and how many samples the taxa appear in, to help us better understand how common individual taxa are.
 
 ##### Code
 
@@ -382,22 +389,15 @@ If you want to know what taxa we have in the record you can use the helper funct
 neotomatx <- neotoma2::taxa(africa_dl)
 
 # OR just the 'taxa' in the speleothems:
-sisal_tx <- africa_dl %>% neotoma2::filter(datasettype == 'spelethem') %>% taxa()
+sisal_tx <- africa_dl %>% neotoma2::filter(datasettype == 'speleothem') %>% taxa()
 ```
 
 ##### Results
 
 ```{r taxaprint, echo=FALSE, message=FALSE}
-neotomatx <- neotoma2::taxa(africa_dl)
+neotomatx <- africa_dl %>% neotoma2::filter(datasettype == 'speleothem') %>% taxa()
 neotomatx %>% 
   DT::datatable(data = head(neotomatx, n = 20), rownames = FALSE, 
-                options = list(scrollX = "100%", dom = 't'))
-```
-
-```{r taxaprint, echo=FALSE, message=FALSE}
-sisal_tx <- africa_dl %>% neotoma2::filter(datasettype == 'spelethem') %>% taxa()
-sisal_tx %>% 
-  DT::datatable(data = sisal_tx, rownames = FALSE, 
                 options = list(scrollX = "100%", dom = 't'))
 ```
 
@@ -406,145 +406,6 @@ sisal_tx %>%
 Taxonomies in Neotoma are not as straightforward as we might expect. Taxonomic identification in paleoecology can be complex, impacted by the morphology of the object we are trying to identify, the condition of the palynomorph, the expertise of the analyst, and many other conditions. You can read more about concepts of taxonomy within Neotoma in the Neotoma Manual's [section on Taxonomic concepts](https://open.neotomadb.org/manual/database-design-concepts.html#taxonomy-and-synonymy).
 
 We use the unique identifiers (*e.g.*, `taxonid`, `siteid`, `analysisunitid`) throughout the package, since they help us to link between records. The `taxonid` values returned by the `taxa()` call can be linked to the `taxonid` column in the `samples()` table.  This allows us to build taxon harmonization tables if we choose to. You may also note that the `taxonname` is in the field `variablename`.  Individual sample counts are reported in Neotoma as [`variables`](https://open.neotomadb.org/manual/taxonomy-related-tables-1.html#Variables). A "variable" may be either a species, something like laboratory measurements, or a non-organic proxy, like charcoal or XRF measurements, and includes the units of measurement and the value.
-
-#### Simple Harmonization {.tabset}
-
-Let's say we want all samples from which *Poaceae* (grass) taxa have been reported to be grouped together into one pseudo-taxon called *Poaceae-undiff*. **NOTE**, this is may not be an ecologically useful grouping, but is used here for illustration.
-
-There are several ways of grouping taxa, either directly by exporting the file and editing each individual cell, or by creating an external "harmonization" table (which we did in the prior `neotoma` package).  First, lets look for how many different ways *Poaceae* appears in these records. We can use the function `str_detect()` from the `stringr` package to look for patterns, and then return either `TRUE` or `FALSE` when the string is detected:
-
-```{r echo = FALSE}
-# How many different identifications have "Poaceae" been given in these records?
-neotomatx %>%
-  filter(stringr::str_detect(variablename, "Poaceae"))
-```
-
-We can harmonize taxon by taxon a number of different ways. One way would be to get every instance of a *Poaceae* taxon and just change them directly. Here we are taking the column `variablename` from the `allSamp` object (this is where the count data is). The square brackets are telling us which rows we're changing, here only rows where we detect `"Poaceae"` in the variable name. For each of those rows, in that column, we assign the value `"Poaceae undiff"`:
-
-```{r echo = FALSE, eval=FALSE}
-# Don't run this!
-allSamp$variablename[stringr::str_detect(allSamp$variablename, "Poaceae")] <- "Poaceae undiff."
-```
-
-There were originally `r sum(stringr::str_detect(neotomatx$variablename, "Poaceae.*"))` different taxa identified as being within the genus *Poaceae* (including *Poaceae*., *Poaceae (>40 µm)*, and *Poaceae undiff. (<40 µm)*). The above code reduces them all to a single taxonomic group *Poaceae undiff*.
-
-Note that this changes *Poaceae* in the `allSamp` object _only_, not in any of the downloaded objects. If we were to call `samples()` again, the taxonomy would return to its original form.
-
-A second way to harmonize taxa is to use an external table, which is especially useful if we want to have an artifact of our choices. For example, a table of pairs (what we want changed, and the name we want it replaced with) can be generated, and it can include regular expressions (if we choose):
-
-| original | replacement |
-| -------- | ----------- |
-| Poaceae.*  | Poaceae-undiff |
-| Picea.* | Picea-undiff |
-| Plantago.* | Plantago-undiff |
-| Quercus.*  | Quercus-undiff |
-| ... | ... |
-
-We can get the list of original names directly from the `taxa()` call, applied to a `sites` object that contains samples, and then export it using `write.csv()`.
-
-```{r countbySitesSamples, eval=FALSE}
-taxaplots <- taxa(africa_dl)
-# Save the taxon list to file so we can edit it subsequently.
-readr::write_csv(taxaplots, "data/mytaxontable.csv")
-```
-
-#### Looking at the Taxonomic Structure {.tabset}
-
-The `taxa` function returns all our taxonomic information, and it provides some additional information, the columns `samples` and `sites` which record the number of samples across all datasets that contain the taxon, and the number of sites with the taxon. The plot below shows the relationship between samples and sites, which we would expect to be somewhat skewed, as it is.
-
-This is effectively a rarefaction curve, the more sites a taxon is found at, the more samples it is found at.
-
-##### Code
-
-```{r PlotTaxonCountsFirst, fig.cap="**Figure**. *A plot of the number of sites a taxon appears in, against the number of samples a taxon appears in.*", eval=FALSE}
-taxaplots <- taxa(africa_dl)
-ggplot(data = taxaplots, aes(x = sites, y = samples)) +
-  geom_point() +
-  stat_smooth(method = 'glm', 
-              method.args = list(family = 'poisson')) +
-  xlab("Number of Sites") +
-  ylab("Number of Samples") +
-  theme_bw()
-```
-
-##### Result
-
-```{r PlotTaxonCounts, echo=FALSE, fig.cap="**Figure**. *A plot of the number of sites a taxon appears in, against the number of samples a taxon appears in.*", message=FALSE}
-taxaplots <- taxa(africa_dl)
-ggplot(data = taxaplots, aes(x = sites, y = samples)) +
-  geom_point() +
-  stat_smooth(method = 'glm', 
-              method.args = list(family = 'poisson')) +
-  xlab("Number of Sites") +
-  ylab("Number of Samples") +
-  theme_bw()
-```
-  
-#### Editing the Taxonomy Table {-}
-
-The plot (above) is mostly for illustration, but we can see, as a sanity check, that the relationship is as we'd expect. Here, each point represents a separate taxon, roughly, so there is a large density of points (taxa) that plot in the lower left section of the figure, and fewer points in the upper right. This means that there are a large number of taxa that are rarely present and then several that are quite common.
-
-Exporting the taxon table to a `csv` file allows us to edit the table, filtering and selecting taxa based on contextual information, such as the `ecologicalgroup` or `taxongroup` to help you out. Once you've cleaned up the translation table you can load it in (try to save it under a different file name!), and then apply the transformation:
-
-```{r translationTable, message=FALSE, eval=FALSE}
-translation <- readr::read_csv("data/taxontable.csv")
-```
-
-I did a bunch of work here. . . Then we read it in.
-
-```{r translationDisplay, message=FALSE, echo = FALSE}
-translation <- readr::read_csv("data/taxontable.csv")
-DT::datatable(translation, rownames = FALSE, 
-                options = list(scrollX = "100%", dom = 't'))
-```
-
-You can see we've changed some of the taxon names in the taxon table.  To replace the names in the `samples()` output, we'll join the two tables using an `inner_join()` (meaning the `variablename` must appear in both tables for the result to be included), and then we're going to select only those elements of the sample tables that are relevant to our later analysis, using the `harmonizedname` column as our new name for the taxa:
-
-```{r joinTranslation, eval = FALSE}
-allSamp <- samples(africa_dl)
-
-allSamp <- allSamp %>%
-  inner_join(translation, by = c("variablename" = "variablename")) %>% 
-  dplyr::select(!c("variablename")) %>% 
-  group_by(siteid, sitename, harmonizedname,
-           sampleid, units, age,
-           agetype, depth, datasetid,
-           long, lat) %>%
-  summarise(value = sum(value), .groups='keep')
-```
-
-```{r harmonizationTableOut, message = FALSE, echo=FALSE}
-cleanSamp <- samples(africa_dl) %>%
-  inner_join(translation, by = c("variablename" = "variablename")) %>% 
-  dplyr::select(!c("variablename")) %>% 
-  group_by(siteid, sitename, harmonizedname,
-           sampleid, units, age,
-           agetype, depth, datasetid,
-           long, lat) %>%
-  summarise(value = sum(value), .groups='keep') %>%
-  arrange(sitename, age, harmonizedname)
-
-DT::datatable(head(cleanSamp, n = 50), rownames = FALSE,
-                options = list(scrollX = "100%", dom = 't'))
-```
-
-We now have a cleaner set of taxon names compared to the original table, both because of harmonization, and because we cleared out many of the non-**TRSH** (trees and shrubs) taxa from the harmonization table. Plotting the same set of taxa with the new harmonized names results in this plot:
-
-```{r origTableOut, message = FALSE, echo=FALSE, fig.cap="**Figure**. *The same site/sample plot as above, with with the new harmonized taxonomy. Note that the distribution of points along the curve is smoother, as we remove some of the taxonomic issues.*"}
-taxaplots <- samples(africa_dl) %>%
-  inner_join(translation, by = c("variablename" = "variablename")) %>% 
-  dplyr::select(!c("variablename")) %>%
-  group_by(harmonizedname) %>%
-  summarise(sites = length(unique(siteid)), samples = length(unique(sampleid)), .groups='keep')
-
-ggplot(data = taxaplots, aes(x = sites, y = samples)) +
-  geom_point() +
-  stat_smooth(method = 'glm', 
-              method.args = list(family = 'poisson')) +
-  xlab("Number of Sites") +
-  ylab("Number of Samples") +
-  theme_bw()
-```
 
 ## Simple Analytics
 
@@ -558,48 +419,20 @@ We can use packages like `rioja` to do stratigraphic plotting for a single recor
 ```{r stratiplotraw, message = FALSE}
 # Get a particular site, in this case we are simply subsetting the
 # `africa_dl` object to get Lake Solsø:
-plottingSite <- africa_dl[[2]]
+plottingSite <- africa_dl %>%
+  neotoma2::filter(datasettype == 'speleothem')
 
 # Select only pollen measured using NISP and convert to a "wide"
 # table, using proportions. The first column will be "age".
 # This turns our "long" table into a "wide" table:
-counts <- plottingSite %>%
+values <- plottingSite[[2]] %>%
   samples() %>%
-  toWide(ecologicalgroup = c("TRSH"),
-         unit = c("NISP"),
-         elementtypes = c("pollen"),
+  toWide(ecologicalgroup = c("ITOP"),
+         unit = c("per mille"),
          groupby = "age",
-         operation = "prop") %>%
-  arrange(age)
-
-counts <- counts[, colSums(counts > 0.01, na.rm = TRUE) > 5]
-```
-
-#### With Harmonization
-```{r stratiplotharm, message = FALSE}
-# Get a particular site, in this case we are simply subsetting the
-# `africa_dl` object to get Lake Solsø:
-plottingSite <- africa_dl[[2]]
-
-# Select only pollen measured using NISP and convert to a "wide"
-# table, using proportions. The first column will be "age".
-# This turns our "long" table into a "wide" table:
-counts_harmonized <- plottingSite %>%
-  samples() %>%
-  toWide(ecologicalgroup = c("TRSH"),
-         unit = c("NISP"),
-         elementtypes = c("pollen"),
-         groupby = "age",
-         operation = "prop") %>%
-  arrange(age) %>%
-  pivot_longer(-age) %>%
-  inner_join(translation, by = c("name" = "variablename")) %>% 
-  dplyr::select(!c("name", taxonid)) %>% 
-  group_by(harmonizedname, age) %>%
-  summarise(value = sum(value), .groups='keep')%>%
-  pivot_wider(names_from = harmonizedname, values_from = value)
-
-counts_harmonized <- counts_harmonized[, colSums(counts_harmonized > 0.01, na.rm = TRUE) > 5]
+         elementtype = NA,
+         operation = "sum") %>%
+  arrange(age) %>% na.omit()
 ```
 
 ### {.tabset}
@@ -608,48 +441,71 @@ Hopefully the code is pretty straightforward. The `toWide()` function provides y
 
 To plot the data we can use `rioja`'s `strat.plot()`, sorting the taxa using weighted averaging scores (`wa.order`). I've also added a CONISS plot to the edge of the the plot, to show how the new *wide* data frame works with distance metric funcitons.
 
-#### Raw Taxon
+#### Raw Isotope Values
 
 ```{r plotStrigraphraw, message=FALSE, warning=FALSE, out.width='90%'}
 # Perform constrained clustering:
-clust <- rioja::chclust(dist(sqrt(counts)),
+clust <- rioja::chclust(dist(values),
                         method = "coniss")
 
 # Plot the stratigraphic plot, converting proportions to percentages:
-plot <- rioja::strat.plot(counts[,-1] * 100, yvar = counts$age,
-                  title = africa_dl[[1]]$sitename,
-                  ylabel = "Calibrated Years BP",
-                  xlabel = "Pollen (% of Trees and Shrubs)",
+plot <- rioja::strat.plot(values[,-1], yvar = values$age,
+                  title = plottingSite[[2]]$sitename,
+                  ylabel = "Years BP",
+                  xlabel = "Isotope Measurements",
                   srt.xlabel = 70,
                   y.rev = TRUE,
                   clust = clust,
-                  wa.order = "topleft",
-                  scale.percent = TRUE)
+                  scale.percent = FALSE)
 
 rioja::addClustZone(plot, clust, 4, col = "red")
 ```
 
-#### With Harmonization
-```{r plotStrigraphharm, message=FALSE, warning=FALSE, out.width='90%'}
-# Perform constrained clustering:
-clust <- rioja::chclust(dist(sqrt(counts_harmonized)),
-                        method = "coniss")
+### Multi-proxy Analysis {.tabset}
 
-# Plot the stratigraphic plot, converting proportions to percentages:
-plot <- rioja::strat.plot(counts_harmonized[,-1] * 100, yvar = counts_harmonized$age,
-                  title = africa_dl[[1]]$sitename,
-                  ylabel = "Calibrated Years BP",
-                  xlabel = "Pollen (% of Trees and Shrubs)",
-                  srt.xlabel = 70,
-                  y.rev = TRUE,
-                  clust = clust,
-                  wa.order = "topleft",
-                  scale.percent = TRUE)
+#### Code
 
-rioja::addClustZone(plot, clust, 4, col = "red")
+```{r sillyplot, eval = FALSE}
+
+spSamp <- allSamp %>%
+  filter(ecologicalgroup %in% c('TRSH', 'ITOP')) %>%
+  filter(units %in% c('per mille', 'NISP'))
+  
+spPct <- spSamp %>%
+  group_by(sitename, depth) %>%
+  mutate(val = ifelse(units == 'NISP', value / sum(value), value)) %>%
+  ungroup() %>%
+  filter(variablename %in% c('δ13C', 'δ18O', 'Pinus')) %>%
+  filter(!agetype == 'Calendar years AD/BC')
+
+ggplot(spPct, aes(x = val, y = age, color = sitename)) +
+  theme(legend.position="none") +
+  geom_path() +
+  facet_wrap(~variablename, scale = 'free_x') +
+  coord_cartesian(ylim = c(0, 10000))
+
 ```
 
-###
+#### Results
+
+```{r sillyploteval, warning = FALSE}
+
+spSamp <- allSamp %>%
+  filter(ecologicalgroup %in% c('TRSH', 'ITOP')) %>%
+  filter(units %in% c('per mille', 'NISP'))
+  
+spPct <- spSamp %>%
+  group_by(sitename, depth) %>%
+  mutate(val = ifelse(units == 'NISP', value / sum(value), value)) %>%
+  ungroup() %>%
+  filter(variablename %in% c('δ13C', 'δ18O', 'Pinus'))
+
+ggplot(spPct, aes(x = val, y = age)) +
+  theme(legend.position="none") +
+  geom_path() +
+  facet_wrap(~variablename, scale = 'free_x') +
+  ylim(c(0, 10000))
+```
 
 ## Conclusion
 
@@ -700,7 +556,7 @@ With the pipe (`%>%`) we do not need to create the variable, we can just rewrite
 # get_sites and pipe. The `object` parameter for plotLeaflet will be the
 # result of the `get_sites()` function.
 get_sites(sitename = "%ø%") %>%
-  plotLeaflet()
+  plotLeaflet()>
 ```
 
 #### 2.2.3.2. Result
