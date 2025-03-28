@@ -9,11 +9,9 @@ author:
   - name: "Socorro Dominguez Vidaña"
     institute: [rhtdata]
     correspondence: false
-    email: s.dominguez@ht-data.com
+    email: s.dominguez@wisc.edu
     orcid_id: 0000-0002-7926-4935
 institute:
-  - htdata:
-    name: "HT Data"
   - uwiscgeog:
     name: "University of Wisconsin -- Madison: Department of Geography"
   - uwiscdsi:
@@ -52,7 +50,8 @@ This document is intended to act as a primer for the use of the Neotoma R packag
 If you are using this workflow on its own, or want to use the package directly, [the `neotoma2` package](https://github.com/NeotomaDB/neotoma2) is available on CRAN by running:
 
 ```r
-install.packages('neotoma2')
+install.packages("remotes") 
+devtools::install_github("NeotomaDB/neotoma2@dev")
 library(neotoma2)
 ```
 
