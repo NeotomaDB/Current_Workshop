@@ -1,7 +1,7 @@
 [![language-EN](https://img.shields.io/badge/language-EN-red)](README.md) [![language](https://img.shields.io/badge/language-ES-red)](README.es.md) [![language-RU](https://img.shields.io/badge/language-RU-red)](README.ru.md)
 [![language-JP](https://img.shields.io/badge/language-JP-red)](README.jp.md)
 
-[![lifecycle](https://img.shields.io/badge/lifecycle-active-orange.svg)]
+[![lifecycle](https://img.shields.io/badge/lifecycle-active-green.svg)]
 
 [![NSF-1948926](https://img.shields.io/badge/NSF-1948926-blue.svg)](https://nsf.gov/awardsearch/showAward?AWD_ID=1948926)
 
