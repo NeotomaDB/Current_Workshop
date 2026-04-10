@@ -41,7 +41,7 @@ This document is intended to act as a primer for the use of the new Neotoma R pa
 
 If you are using this workflow on its own, or want to use the package directly, [the `neotoma2` package](https://github.com/NeotomaDB/neotoma2) is available on CRAN by running:
 
-```r
+``` r
 install.packages('neotoma2')
 library(neotoma2)
 ```
@@ -54,10 +54,10 @@ This workshop will also require other packages. To maintain the flow of this doc
 
 In this tutorial you will learn how to:
 
-1. [Site Searches](#3-site-searches): Search for sites using site names and geographic parameters.
-2. [Filter Results](#33-filter-records-tabset): Filter results using temporal and spatial parameters.
-3. [Explore Data](#34-pulling-in-sample-data): Obtain sample information for the selected datasets.
-4. [Visualize Data](#4-simple-analytics): Perform basic Stratigraphic Plotting
+1.  [Site Searches](#3-site-searches): Search for sites using site names and geographic parameters.
+2.  [Filter Results](#33-filter-records-tabset): Filter results using temporal and spatial parameters.
+3.  [Explore Data](#34-pulling-in-sample-data): Obtain sample information for the selected datasets.
+4.  [Visualize Data](#4-simple-analytics): Perform basic Stratigraphic Plotting
 
 ## Background
 
@@ -69,70 +69,70 @@ If you're planning on working with Neotoma, please join us on [Slack](https://jo
 
 Data in the Neotoma database itself is structured as a set of linked relationships to express different elements of paleoecological analysis:
 
-* space and time
-  * Where is a sample located in latitude and longitude?
-  * Where is a sample along a depth profile?
-  * What is the estimated age of that sample?
-  * What is the recorded age of elements within or adjacent to the sample?
-* observations
-  * What is being counted or measured?
-  * What units are being used?
-  * Who observed it?
-* scientific methods
-  * What statistical model was used to calculate age?
-  * What uncertainty terms are used in describing an observation?
-* conceptual data models
-  * How do observations in one sample relate to other samples within the same collection?
-  * How does an observation of a fossil relate to extant or extinct relatives?
+-   space and time
+    -   Where is a sample located in latitude and longitude?
+    -   Where is a sample along a depth profile?
+    -   What is the estimated age of that sample?
+    -   What is the recorded age of elements within or adjacent to the sample?
+-   observations
+    -   What is being counted or measured?
+    -   What units are being used?
+    -   Who observed it?
+-   scientific methods
+    -   What statistical model was used to calculate age?
+    -   What uncertainty terms are used in describing an observation?
+-   conceptual data models
+    -   How do observations in one sample relate to other samples within the same collection?
+    -   How does an observation of a fossil relate to extant or extinct relatives?
 
 These relationships can be complex because paleoecology is a broad and evolving discipline. As such, the database itself is highly structured, and normalized, to allow new relationships and facts to be added, while maintaining a stable central data model. If you want to better understand concepts within the database, you can read the [Neotoma Database Manual](https://open.neotomadb.org/manual), or take a look at [the database schema itself](https://open.neotomadb.org/dbschema).
 
 In this workshop we want to highlight two key structural concepts:
-  
-  1. The way data is structured conceptually within Neotoma (Sites, Collection Units and Datasets).
-  2. The way that this structure is adapted within the `neotoma2` R package.
+
+1.  The way data is structured conceptually within Neotoma (Sites, Collection Units and Datasets).
+2.  The way that this structure is adapted within the `neotoma2` R package.
 
 #### Data Structure in the Neotoma Database
 
-![**Figure**. *The structure of sites, collection units, samples, and datasets within Neotoma. A site contains one or more collection units. Chronologies are associated with collection units. Samples with data of a common type (pollen, diatoms, vertebrate fauna) are assigned to a dataset.*](images/site_collunit_dataset_rev.png){width=50%}  
-  
+![**Figure**. *The structure of sites, collection units, samples, and datasets within Neotoma. A site contains one or more collection units. Chronologies are associated with collection units. Samples with data of a common type (pollen, diatoms, vertebrate fauna) are assigned to a dataset.*](images/site_collunit_dataset_rev.png){width="50%"}
+
 Data in Neotoma is associated with **sites** -- specific locations with latitude and longitude coordinates.
 
 Within a **site**, there may be one or more [**collection units**](https://open.neotomadb.org/manual/dataset-collection-related-tables-1.html#CollectionUnits) -- locations at which samples are physically collected within the site:
 
-* an archaeological **site** may have one or more **collection units**, pits within a broader dig site
-* a pollen sampling **site** on a lake may have multiple **collection units** -- core sites within the lake basin.
-* A bog sample **site** may have multiple **collection units** -- a transect of surface samples within the bog.
+-   an archaeological **site** may have one or more **collection units**, pits within a broader dig site
+-   a pollen sampling **site** on a lake may have multiple **collection units** -- core sites within the lake basin.
+-   A bog sample **site** may have multiple **collection units** -- a transect of surface samples within the bog.
 
 Collection units may have higher resolution GPS locations than the site location, but are considered to be part of the broader site.
 
 Data within a **collection unit** is collected at various [**analysis units**](https://open.neotomadb.org/manual/sample-related-tables-1.html#AnalysisUnits).
 
-* All sediment at 10cm depth in the depth profile of a cutbank (the collection unit) along an oxbow lake (the site) is one analysis unit.
-* All material in a single surface sample (the collection unit) from a bog (the site) is an analysis unit.
-* All fossil remains in a buried layer from a bone pile (the collection unit) in a cave (the site) is an analysis unit.
+-   All sediment at 10cm depth in the depth profile of a cutbank (the collection unit) along an oxbow lake (the site) is one analysis unit.
+-   All material in a single surface sample (the collection unit) from a bog (the site) is an analysis unit.
+-   All fossil remains in a buried layer from a bone pile (the collection unit) in a cave (the site) is an analysis unit.
 
 Any data sampled within an analysis unit is grouped by the dataset type (charcoal, diatom, dinoflagellate, etc.) and aggregated into a [**sample**](https://open.neotomadb.org/manual/sample-related-tables-1.html#Samples). The set of samples for a collection unit of a particular dataset type is then assigned to a [**dataset**](https://open.neotomadb.org/manual/dataset-collection-related-tables-1.html#Datasets).
 
-* A sample would be all diatoms (the dataset type) extracted from sediment at 12cm (the analysis unit) in a core (the collection unit) obtained from a lake (the site).
-* A sample would be the record of a single mammoth bone (sample and analysis unit, dataset type is vertebrate fauna) embeded in a riverbank (here the site, and collection unit).
+-   A sample would be all diatoms (the dataset type) extracted from sediment at 12cm (the analysis unit) in a core (the collection unit) obtained from a lake (the site).
+-   A sample would be the record of a single mammoth bone (sample and analysis unit, dataset type is vertebrate fauna) embeded in a riverbank (here the site, and collection unit).
 
 #### Data Structures in `neotoma2` {#222-data-structures-in-neotoma2}
 
-![**Figure**. *Neotoma R Package UML diagram. Each box represents a data class within the package. Individual boxes show the class object, its name, its properties, and functions that can be applied to those objects. For example, a `sites` object has a property `sites`, that is a list. The function `plotLeaflet()` can be used on a `sites` object.*](images/neotomaUML_as.svg)  
+![**Figure**. *Neotoma R Package UML diagram. Each box represents a data class within the package. Individual boxes show the class object, its name, its properties, and functions that can be applied to those objects. For example, a `sites` object has a property `sites`, that is a list. The function `plotLeaflet()` can be used on a `sites` object.*](images/neotomaUML_as.svg)
 
-If we look at the [UML diagram](https://en.wikipedia.org/wiki/Unified_Modeling_Language) for the objects in the `neotoma2` R package we can see that the data structure generally mimics the structure within the database itself.  As we will see in the [Site Searches section](#3-site-searches), we can search for these objects, and begin to manipulate them (in the [Simple Analysis section](#4-simple-analytics)).
+If we look at the [UML diagram](https://en.wikipedia.org/wiki/Unified_Modeling_Language) for the objects in the `neotoma2` R package we can see that the data structure generally mimics the structure within the database itself. As we will see in the [Site Searches section](#3-site-searches), we can search for these objects, and begin to manipulate them (in the [Simple Analysis section](#4-simple-analytics)).
 
-It is important to note: *within the `neotoma2` R package, most objects are `sites` objects, they just contain more or less data*.  There are a set of functions that can operate on `sites`.  As we add to `sites` objects, using `get_datasets()` or `get_downloads()`, we are able to use more of these helper functions.
+It is important to note: *within the `neotoma2` R package, most objects are `sites` objects, they just contain more or less data*. There are a set of functions that can operate on `sites`. As we add to `sites` objects, using `get_datasets()` or `get_downloads()`, we are able to use more of these helper functions.
 
 ## Site Searches
 
 ### `get_sites()`
 
-There are several ways to find sites in `neotoma2`, but we think of `sites` as being spatial objects primarily. They have names, locations, and are found within the context of geopolitical units, but within the API and the package, the site itself does not have associated information about taxa, dataset types or ages.  It is simply the container into which we add that information.  So, when we search for sites we can search by:
+There are several ways to find sites in `neotoma2`, but we think of `sites` as being spatial objects primarily. They have names, locations, and are found within the context of geopolitical units, but within the API and the package, the site itself does not have associated information about taxa, dataset types or ages. It is simply the container into which we add that information. So, when we search for sites we can search by:
 
 | Parameter | Description |
-| --------- | ----------- |
+|---------------------------------|---------------------------------------|
 | sitename | A valid site name (case insensitive) using `%` as a wildcard. |
 | siteid | A unique numeric site id from the Neotoma Database |
 | loc | A bounding box vector, geoJSON or WKT string. |
@@ -155,7 +155,7 @@ We may know exactly what site we're looking for ("Lago Catemaco"), or have an ap
 
 We use the general format: `get_sites(sitename="%Catem%")` for searching by name.
 
-PostgreSQL (and the API) uses the percent sign as a wildcard.  So `"%Catem%"` would pick up ["Lago Catemaco"](https://data.neotomadb.org/10473 for us (and picks up "Atescatempa" as well).  Note that the search query is also case insensitive.
+PostgreSQL (and the API) uses the percent sign as a wildcard. So `"%Catem%"` would pick up ["Lago Catemaco"](<https://data.neotomadb.org/10473> for us (and picks up "Atescatempa" as well). Note that the search query is also case insensitive.
 
 ##### Code
 
@@ -173,11 +173,13 @@ plotLeaflet(lago_catemaco)
 
 #### Location: `loc=c()` {.tabset}
 
-The original `neotoma` package used a bounding box for locations, structured as a vector of latitude and longitude values: `c(xmin, ymin, xmax, ymax)`.  The `neotoma2` R package supports both this simple bounding box, but also more complex spatial objects, using the [`sf` package](https://r-spatial.github.io/sf/). Using the `sf` package allows us to more easily work with raster and polygon data in R, and to select sites from more complex spatial objects.  The `loc` parameter works with the simple vector, [WKT](https://arthur-e.github.io/Wicket/sandbox-gmaps3.html), [geoJSON](http://geojson.io/#map=2/20.0/0.0) objects and native `sf` objects in R.
+The original `neotoma` package used a bounding box for locations, structured as a vector of latitude and longitude values: `c(xmin, ymin, xmax, ymax)`. The `neotoma2` R package supports both this simple bounding box, but also more complex spatial objects, using the [`sf` package](https://r-spatial.github.io/sf/). Using the `sf` package allows us to more easily work with raster and polygon data in R, and to select sites from more complex spatial objects. The `loc` parameter works with the simple vector, [WKT](https://arthur-e.github.io/Wicket/sandbox-gmaps3.html), [geoJSON](http://geojson.io/#map=2/20.0/0.0) objects and native `sf` objects in R.
 
-As an example of searching for sites using a location, we've created a rough representation of africa as a polygon.  To work with this spatial object in R we also transformed the `geoJSON` element to an object for the `sf` package.  There are many other tools to work with spatial objects in R. Regardless of how you get the data into R, `neotoma2` works with almost all objects in the `sf` package.
+As an example of searching for sites using a location, we've created a rough representation of africa as a polygon. To work with this spatial object in R we also transformed the `geoJSON` element to an object for the `sf` package. There are many other tools to work with spatial objects in R. Regardless of how you get the data into R, `neotoma2` works with almost all objects in the `sf` package.
 
-```{r boundingBox}
+##### Code
+
+```{r boundingBox, eval=FALSE}
 geoJSON <- '{"type": "Polygon",
         "coordinates": [[
             [-7.030,  36.011],
@@ -207,11 +209,42 @@ africa_sf <- geojsonsf::geojson_sf(geoJSON)
 africa_sites <- neotoma2::get_sites(loc = africa_sf, all_data = TRUE)
 ```
 
-You can always simply `plot()` the `sites` objects, but you will lose some of the geographic context.  The `plotLeaflet()` function returns a `leaflet()` map, and allows you to further customize it, or add additional spatial data (like our original bounding polygon, `sa_sf`, which works directly with the R `leaflet` package):
+##### Result
+
+```{r boundingBox2, echo=FALSE}
+geoJSON <- '{"type": "Polygon",
+        "coordinates": [[
+            [-7.030,  36.011],
+            [-18.807, 23.537],
+            [-19.247, 10.282],
+            [-9.139,  -0.211],
+            [18.370, -37.546],
+            [35.069, -36.352],
+            [49.571, -27.097],
+            [58.185,   0.755],
+            [53.351,  13.807],
+            [43.946,  12.008],
+            [31.202,  33.629],
+            [18.897,  34.648],
+            [12.393,  35.583],
+            [11.075,  38.184],
+            [-7.030,  36.011]
+          ]
+        ]}'
+
+africa_sf <- geojsonsf::geojson_sf(geoJSON)
+africa_sites <- neotoma2::get_sites(loc = africa_sf, all_data = TRUE) 
+africa_sites %>%
+  as.data.frame() %>%
+  DT::datatable(data = ., rownames = FALSE, 
+                options = list(scrollX = "100%", dom = "t"))
+```
+
+#### Plotting with `plotLeaflet()` {.tabset}
+
+You can always simply `plot()` the `sites` objects, but you will lose some of the geographic context. The `plotLeaflet()` function returns a `leaflet()` map, and allows you to further customize it, or add additional spatial data (like our original bounding polygon, `sa_sf`, which works directly with the R `leaflet` package):
 
 ##### Code
-
-Note the use of the `%>%` pipe here. If you are not familiar with this symbol, check our ["Piping in R" section](#piping-in-r) of the Appendix.
 
 ```{r plotL, eval=FALSE}
 neotoma2::plotLeaflet(africa_sites) %>% 
@@ -229,16 +262,20 @@ neotoma2::plotLeaflet(africa_sites) %>%
                        color = "green")
 ```
 
+###
+
+Note the use of the `%>%` pipe here. If you are not familiar with this symbol, check our ["Piping in R" section](#piping-in-r) of the Appendix.
+
 #### `site` Object Helpers {.tabset}
 
-If we look at the [data structure diagram](#222-data-structures-in-neotoma2) for the objects in the `neotoma2` R package we can see that there are a set of functions that can operate on `sites`.  As we retrieve more information for `sites` objects, using `get_datasets()` or `get_downloads()`, we are able to use more of these helper functions.
+If we look at the [data structure diagram](#222-data-structures-in-neotoma2) for the objects in the `neotoma2` R package we can see that there are a set of functions that can operate on `sites`. As we retrieve more information for `sites` objects, using `get_datasets()` or `get_downloads()`, we are able to use more of these helper functions.
 
-As it is, we can take advantage of functions like `summary()` to get a more complete sense of the types of data we have in `africa_sites`.  The following code gives the summary table. We do some R magic here to change the way the data is displayed (turning it into a [`DT::datatable()`](https://rstudio.github.io/DT/) object), but the main piece is the `summary()` call.
+As it is, we can take advantage of functions like `summary()` to get a more complete sense of the types of data we have in `africa_sites`. The following code gives the summary table. We do some R magic here to change the way the data is displayed (turning it into a [`DT::datatable()`](https://rstudio.github.io/DT/) object), but the main piece is the `summary()` call.
 
 ##### Code
 
 ```{r summary_sites, eval=FALSE}
-# Give information about the sites themselves, site names &cetera.
+# Give information about the sites themselves, site names, etc.
 neotoma2::summary(africa_sites)
 # Give the unique identifiers for sites, collection units and datasets found at those sites.
 neotoma2::getids(africa_sites)
@@ -252,13 +289,15 @@ neotoma2::summary(africa_sites) %>%
                 options = list(scrollX = "100%", dom = "t"))
 ```
 
+###
+
 In this document we list only the first 10 records (there are more, you can use `length(datasets(africa_sites))` to see how many datasets you've got). We can see that there are no chronologies associated with the `site` objects. This is because, at present, we have not pulled in the `dataset` information we need. In Neotoma, a chronology is associated with a collection unit (and that metadata is pulled by `get_datasets()` or `get_downloads()`). All we know from `get_sites()` are the kinds of datasets we have and the location of the sites that contain the datasets.
 
 ### `get_datasets()` {.tabset}
 
-Within Neotoma, collection units and datasets are contained within sites.  Similarly, a `sites` object contains `collectionunits` which contain `datasets`. From the table above (Result tab in Section 3.1.3.2) we can see that some of the sites we've looked at contain pollen records, some contain geochronologic data and some contain other dataset types. We could write something like this: `table(summary(africa_sites)$types)` to see the different datasettypes and their counts.
+Within Neotoma, collection units and datasets are contained within sites. Similarly, a `sites` object contains `collectionunits` which contain `datasets`. From the table above (Result tab in Section 3.1.3.2) we can see that some of the sites we've looked at contain pollen records, some contain geochronologic data and some contain other dataset types. We could write something like this: `table(summary(africa_sites)$types)` to see the different datasettypes and their counts.
 
-With a `sites` object we can directly call `get_datasets()` to pull in more metadata about the datasets.  The `get_datasets()` method also supports any of the search terms listed above in the [Site Search](#3-site-searches) section. At any time we can use `datasets()` to get more information about any datasets that a `sites` object may contain.  Compare the output of `datasets(africa_sites)` to the output of a similar call using the following:
+With a `sites` object we can directly call `get_datasets()` to pull in more metadata about the datasets. The `get_datasets()` method also supports any of the search terms listed above in the [Site Search](#3-site-searches) section. At any time we can use `datasets()` to get more information about any datasets that a `sites` object may contain. Compare the output of `datasets(africa_sites)` to the output of a similar call using the following:
 
 #### Code
 
@@ -283,11 +322,13 @@ datasets(africa_datasets) %>%
                 options = list(scrollX = "100%", dom = "t"))
 ```
 
+### 
+
 You can see that this provides information only about the specific dataset, not the site! For a more complete record we can join site information from `summary()` to dataset information using `datasets()` using the `getids()` function which links sites, and all the collection units and datasets they contain.
 
 ### `filter()` Records {.tabset}
-  
-If we choose to pull in information about only a single dataset type, or if there is additional filtering we want to do before we download the data, we can use the `filter()` function.  For example, if we only want sedimentary pollen records (as opposed to pollen surface samples), and want records with known chronologies, we can filter by `datasettype` and by the presence of an `age_range_young`, which would indicate that there is a chronology that defines bounds for ages within the record.
+
+If we choose to pull in information about only a single dataset type, or if there is additional filtering we want to do before we download the data, we can use the `filter()` function. For example, if we only want sedimentary pollen records (as opposed to pollen surface samples), and want records with known chronologies, we can filter by `datasettype` and by the presence of an `age_range_young`, which would indicate that there is a chronology that defines bounds for ages within the record.
 
 #### Code
 
@@ -311,46 +352,81 @@ neotoma2::summary(africa_records) %>% DT::datatable(data = .,
                 options = list(scrollX = "100%", dom = "t"))
 ```
 
+### 
+
 We can see now that the data table looks different (comparing it to the [table above](#322-result)), and there are fewer total sites. Again, there is no explicit chronology for these records, we need to pull down the complete download for these records, but we begin to get a sense of what kind of data we have.
 
-### Pulling in `sample()` data
+### Pulling in `sample()` data {.tabset}
 
 Because sample data adds a lot of overhead (for this pollen data, the object that includes the dataset with samples is 20 times larger than the `dataset` alone), we try to call `get_downloads()` only after we've done our preliminary filtering. After `get_datasets()` you have enough information to filter based on location, time bounds and dataset type. When we move to `get_download()` we can do more fine-tuned filtering at the analysis unit or taxon level.
 
 The following call can take some time, but we've frozen the object as an RDS data file. You can run this command on your own, and let it run for a bit, or you can just load the object in.
 
-```{r taxa}
-## This line is commented out because we've already run it for you.
-#africa_dl <- africa_records %>% get_downloads(all_data = TRUE)
-#saveRDS(africa_dl, "data/Download.RDS")
-africa_dl <- readRDS("data/Download.RDS")
+#### Code
+
+```{r taxa, eval = FALSE}
+africa_dl <- africa_records %>% get_downloads(all_data = TRUE)
 ```
+
+#### Result
+
+```{r taxa2, echo=FALSE}
+# You can run the code above to get the data, but we've already run it and saved it as an RDS file, so you can just load it in.
+africa_dl <- readRDS("data/Download.RDS")
+africa_dl %>%
+  as.data.frame() %>%
+  DT::datatable(data = ., rownames = FALSE, 
+                options = list(scrollX = "100%", dom = "t"))
+```
+
+###  {.tabset}
 
 Once we've downloaded, we now have information for each site about all the associated collection units, the datasets, and, for each dataset, all the samples associated with the datasets. To extract samples all downloads we can call:
 
-```{r allSamples}
+#### Code
+
+```{r allSamples, eval=FALSE}
 allSamp <- samples(africa_dl)
 ```
 
-When we've done this, we get a `data.frame` that is `r nrow(allSamp)` rows long and `r ncol(allSamp)` columns wide.  The reason the table is so wide is that we are returning data in a **long** format.  Each row contains all the information you should need to properly interpret it:
+#### Result
+
+```{r allSamples2, echo=FALSE}
+allSamp <- samples(africa_dl)
+allSamp %>%
+  DT::datatable(data = ., rownames = FALSE, 
+                options = list(scrollX = "100%", dom = "t"))
+```
+
+###  {.tabset}
+
+When we've done this, we get a `data.frame` that is `r nrow(allSamp)` rows long and `r ncol(allSamp)` columns wide. The reason the table is so wide is that we are returning data in a **long** format. Each row contains all the information you should need to properly interpret it:
+
+#### Code
+
+```{r colNamesAllSamp0, eval=FALSE}
+colnames(allSamp)
+```
+
+#### Result
 
 ```{r colNamesAllSamp, echo = FALSE}
 colnames(allSamp)
 ```
 
-For some dataset types or analyses, some of these columns may not be needed, however, for other dataset types they may be critically important.  To allow the `neotoma2` package to be as useful as possible for the community we've included as many as we can.
+### Extracting Taxa {.tabset}
 
-#### Extracting Taxa {.tabset}
+For some dataset types or analyses, some of these columns may not be needed, however, for other dataset types they may be critically important. To allow the `neotoma2` package to be as useful as possible for the community we've included as many as we can.
 
 If you want to know what taxa we have in the record you can use the helper function `taxa()` on the sites object. The `taxa()` function gives us not only the unique taxa, but two additional columns -- `sites` and `samples` -- that tell us how many sites the taxa appear in, and how many samples the taxa appear in, to help us better understand how common individual taxa are.
 
-##### Code
+#### Code
 
-```{r taxa2, eval=FALSE}
+```{r taxa3, eval=FALSE}
 neotomatx <- neotoma2::taxa(africa_dl)
 ```
 
-##### Results
+#### Results
 
 ```{r taxaprint, echo=FALSE, message=FALSE}
 neotomatx <- neotoma2::taxa(africa_dl)
@@ -363,12 +439,13 @@ neotomatx %>%
 
 ### Stratigraphic Plotting {.tabset}
 
-To plot at strategraphic diargram we are only interested in one site and in one dataset. By looking at the summary of downloads we can see that Lake Solsø has two collection units that both have a pollen record. Lets look at the SOLSOE81 collection unit, which is the second download. To get the samples from just that one collection unit by specifying that you want only the samples from the second download. 
+To plot at strategraphic diargram we are only interested in one site and in one dataset. By looking at the summary of downloads we can see that Lake Solsø has two collection units that both have a pollen record. Lets look at the SOLSOE81 collection unit, which is the second download. To get the samples from just that one collection unit by specifying that you want only the samples from the second download.
 
-We can use packages like `rioja` to do stratigraphic plotting for a single record, but first we need to do some different data management.  Although we could do harmonization again we're going to simply take the taxa at a single site and plot them in a stratigraphic diagram. However, if you would like to plot multiple sites and you want them to have harmonized taxa we have provided examples on how to do both. 
+We can use packages like `rioja` to do stratigraphic plotting for a single record, but first we need to do some different data management. Although we could do harmonization again we're going to simply take the taxa at a single site and plot them in a stratigraphic diagram. However, if you would like to plot multiple sites and you want them to have harmonized taxa we have provided examples on how to do both.
 
-#### Raw Taxon
-```{r stratiplotraw, message = FALSE}
+#### Code
+
+```{r stratiplotraw0, message = FALSE, eval = FALSE}
 # Get a particular site, in this case we are simply subsetting the
 # `africa_dl` object to get Lake Solsø:
 plottingSite <- africa_dl[[2]]
@@ -388,15 +465,61 @@ counts <- plottingSite %>%
 counts <- counts[, colSums(counts > 0.01, na.rm = TRUE) > 5]
 ```
 
-### {.tabset}
+#### Results
+
+```{r stratiplotraw, message = FALSE, echo = FALSE}
+# Get a particular site, in this case we are simply subsetting the
+# `africa_dl` object to get 1 site
+plottingSite <- africa_dl[[2]]
+
+# Select only pollen measured using NISP and convert to a "wide"
+# table, using proportions. The first column will be "age".
+# This turns our "long" table into a "wide" table:
+counts <- plottingSite %>%
+  samples() %>%
+  toWide(ecologicalgroup = c("CHAR"),
+         unit = c("number"),
+         elementtypes = c(">200 µm"),
+         groupby = "age",
+         operation = "prop") %>%
+  arrange(age)
+
+counts <- counts[, colSums(counts > 0.01, na.rm = TRUE) > 5]
+counts %>%
+  DT::datatable(data = ., rownames = FALSE, 
+                options = list(scrollX = "100%", dom = "t"))
+```
+
+###  {.tabset}
 
 Hopefully the code is pretty straightforward. The `toWide()` function provides you with significant control over the taxa, units and other elements of your data before you get them into the wide matrix (`depth` by `taxon`) that most statistical tools such as the `vegan` package or `rioja` use.
 
-To plot the data we can use `rioja`'s `strat.plot()`, sorting the taxa using weighted averaging scores (`wa.order`). I've also added a CONISS plot to the edge of the the plot, to show how the new *wide* data frame works with distance metric funcitons.
+To plot the data we can use `rioja`'s `strat.plot()`, sorting the taxa using weighted averaging scores (`wa.order`). I've also added a CONISS plot to the edge of the the plot, to show how the new *wide* data frame works with distance metric functions.
 
-#### Raw Taxon
+#### Code
 
-```{r plotStrigraphraw, message=FALSE, warning=FALSE, out.width='90%'}
+```{r plotStrigraphraw0, message=FALSE, warning=FALSE, out.width='90%', eval=FALSE}
+# Perform constrained clustering:
+counts <- counts %>% filter(if_all(-age, ~ !is.na(.)))
+clust <- rioja::chclust(dist(sqrt(counts[,-1])), method = "coniss")
+
+# Plot the stratigraphic plot, converting proportions to percentages:
+plot <- rioja::strat.plot(counts[,-1] * 100, yvar = counts$age,
+                  title = africa_dl[[1]]$sitename,
+                  ylabel = "Calibrated Years BP",
+                  xlabel = "Pollen (% of Trees and Shrubs)",
+                  srt.xlabel = 70,
+                  y.rev = TRUE,
+                  clust = clust,
+                  wa.order = "topleft",
+                  scale.percent = TRUE)
+
+rioja::addClustZone(plot, clust, 4, col = "red")
+```
+
+#### Results
+
+```{r plotStrigraphraw, message=FALSE, warning=FALSE, out.width='90%', echo=FALSE}
 # Perform constrained clustering:
 counts <- counts %>% filter(if_all(-age, ~ !is.na(.)))
 clust <- rioja::chclust(dist(sqrt(counts[,-1])), method = "coniss")
@@ -417,7 +540,7 @@ rioja::addClustZone(plot, clust, 4, col = "red")
 
 ## Conclusion
 
-So, we've done a lot in this example.  We've (1) searched for sites using site names and geographic parameters, (2) filtered results using temporal and spatial parameters, (3) obtained sample information for the selected datasets and (4) performed basic analysis including the use of climate data from rasters.  Hopefully you can use these examples as templates for your own future work, or as a building block for something new and cool!
+So, we've done a lot in this example. We've (1) searched for sites using site names and geographic parameters, (2) filtered results using temporal and spatial parameters, (3) obtained sample information for the selected datasets and (4) performed basic analysis including the use of climate data from rasters. Hopefully you can use these examples as templates for your own future work, or as a building block for something new and cool!
 
 ## Appendix Sections
 
@@ -430,16 +553,16 @@ options(warn = -1)
 pacman::p_load(neotoma2, dplyr, ggplot2, sf, geojsonsf, leaflet, terra, DT, readr, stringr, rioja)
 ```
 
-Note that R is sensitive to the order in which packages are loaded.  Using `neotoma2::` tells R explicitly that you want to use the `neotoma2` package to run a particular function. So, for a function like `filter()`, which exists in other packages such as `dplyr`, you may see an error that looks like:
+Note that R is sensitive to the order in which packages are loaded. Using `neotoma2::` tells R explicitly that you want to use the `neotoma2` package to run a particular function. So, for a function like `filter()`, which exists in other packages such as `dplyr`, you may see an error that looks like:
 
-```bash
+``` bash
 Error in UseMethod("filter") : 
   no applicable method for 'filter' applied to an object of class "sites"
 ```
 
 In that case it's likely that the wrong package is trying to run `filter()`, and so explicitly adding `dplyr::` or `neotoma2::` in front of the function name (i.e., `neotoma2::filter()`)is good practice.
 
-### Piping in `R` {.tabset}
+### Piping in `R` {#piping-in-r .tabset}
 
 Piping is a technique that simplifies the process of chaining multiple operations on a data object. It involves using either of these operators: `|>` or `%>%`. `|>` is a base R operator while `%>%` comes from the `tidyverse` ecosystem in R. In `neotoma2` we use `%>%`.
 
@@ -447,7 +570,7 @@ The pipe operator works as a real-life pipe, which carries water from one locati
 
 Without using pipes you can use the `neotoma2` R package to retrieve a site and then plot it by doing:
 
-```r
+``` r
 # Retrieve the site
 plot_site <- neotoma2::get_sites(sitename = "%catem%")
 # Plot the site
@@ -456,9 +579,9 @@ neotoma2::plotLeaflet(object = plot_site)
 
 This would create a variable `plot_site` that we will not need any more, but it was necessary so that we could pass it to the `plotLeaflet` function.
 
-With the pipe (`%>%`) we do not need to create the variable, we can just rewrite our code.  Notice that `plotLeaflet()` doesn't need the `object` argument because the response of `get_sites(sitename = "%ø%")` gets passed directly into the function.
+With the pipe (`%>%`) we do not need to create the variable, we can just rewrite our code. Notice that `plotLeaflet()` doesn't need the `object` argument because the response of `get_sites(sitename = "%ø%")` gets passed directly into the function.
 
-#### 2.2.3.1. Code
+#### Code
 
 ```{r piping code, eval=FALSE}
 # get_sites and pipe. The `object` parameter for plotLeaflet will be the
@@ -467,7 +590,7 @@ get_sites(sitename = "%catem%") %>%
   plotLeaflet()
 ```
 
-#### 2.2.3.2. Result
+#### Results
 
 ```{r piping result, echo=FALSE}
 # get_sites and pipe
