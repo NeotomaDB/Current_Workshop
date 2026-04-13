@@ -149,26 +149,43 @@ There are several ways to find sites in `neotoma2`, but we think of `sites` as b
 
 All sites in Neotoma contain one or more datasets. It's worth noting that the results of these search parameters may be slightly unexpected. For example, searching for sites by sitename, latitude, or altitude will return all of the datasets for the particular site. Searching for terms such as datasettype, datasetid or taxa will return the site, but the only datasets returned will be those matching the dataset-specific search terms. We'll see this later.
 
-#### Site names: `sitename="%Catemaco%"` {.tabset}
+#### Dataset types: `datasettype="charcoal"` {.tabset}
+The `datasettype` parameter allows us to search for sites that contain specific types of datasets. For example, if we want to find sites that contain charcoal records, we can use the following code:
 
-We may know exactly what site we're looking for ("Lago Catemaco"), or have an approximate guess for the site name (for example, we know it's something like "Catem", but we're not sure how it was entered specifically), or we may want to search all sites that have a specific term, for example, *Lago*.
+##### Code
 
-We use the general format: `get_sites(sitename="%Catem%")` for searching by name.
+```{r datasettype, eval=FALSE}
+charcoal_sites <- neotoma2::get_sites(datasettype = "charcoal")
+plotLeaflet(charcoal_sites)
+```
 
-PostgreSQL (and the API) uses the percent sign as a wildcard. So `"%Catem%"` would pick up ["Lago Catemaco"](<https://data.neotomadb.org/10473> for us (and picks up "Atescatempa" as well). Note that the search query is also case insensitive.
+##### Results
+
+```{r datasettypePlot, echo=FALSE}
+charcoal_sites <- neotoma2::get_sites(datasettype = "charcoal")
+plotLeaflet(charcoal_sites)
+```
+
+#### Site names: `sitename="%Beach"` {.tabset}
+
+We may know exactly what site we're looking for ("Pearly Beach"), or have an approximate guess for the site name (for example, we know it's something like "Beach", but we're not sure how it was entered specifically), or we may want to search all sites that have a specific term, for example, *Beach*.
+
+We use the general format: `get_sites(sitename="%Beach")` for searching by name.
+
+PostgreSQL (and the API) uses the percent sign as a wildcard. So `"%Beach"` would pick up ["Pearly Beach"](<https://data.neotomadb.org/49977> for us (and picks up "Wizards Beach" and others as well). Note that the search query is also case insensitive.
 
 ##### Code
 
 ```{r sitename, eval=FALSE}
-lago_catemaco <- neotoma2::get_sites(sitename = "%Catem%")
-plotLeaflet(lago_catemaco)
+pearly_beach <- neotoma2::get_sites(sitename = "%Beach")
+plotLeaflet(pearly_beach)
 ```
 
 ##### Result
 
 ```{r sitenamePlot, echo=FALSE}
-lago_catemaco <- neotoma2::get_sites(sitename = "%Catem%")
-plotLeaflet(lago_catemaco)
+pearly_beach <- neotoma2::get_sites(sitename = "%Beach")
+plotLeaflet(pearly_beach)
 ```
 
 #### Location: `loc=c()` {.tabset}
@@ -334,7 +351,7 @@ If we choose to pull in information about only a single dataset type, or if ther
 
 ```{r downloads, eval=FALSE}
 africa_records <- africa_datasets %>% 
-  neotoma2::filter(!is.na(age_range_young))
+  neotoma2::filter(siteid==27699)
 
 neotoma2::summary(africa_records)
 
@@ -346,7 +363,7 @@ length(africa_records) < length(africa_datasets)
 
 ```{r downloadsCode, echo = FALSE}
 africa_records <- africa_datasets %>% 
-  neotoma2::filter(!is.na(age_range_young))
+  neotoma2::filter(siteid==27699)
 
 neotoma2::summary(africa_records) %>% DT::datatable(data = .,
                 options = list(scrollX = "100%", dom = "t"))
@@ -365,7 +382,10 @@ The following call can take some time, but we've frozen the object as an RDS dat
 #### Code
 
 ```{r taxa, eval = FALSE}
-africa_dl <- africa_records %>% get_downloads(all_data = TRUE)
+africa_dl <- africa_records[[1]]@siteid %>% 
+  get_sites() %>% 
+  neotoma2::filter(datasettype %in% c("pollen", "charcoal")) %>%
+  get_downloads(all_data = TRUE)
 ```
 
 #### Result
@@ -439,103 +459,230 @@ neotomatx %>%
 
 ### Stratigraphic Plotting {.tabset}
 
-To plot at strategraphic diargram we are only interested in one site and in one dataset. By looking at the summary of downloads we can see that Lake Solsø has two collection units that both have a pollen record. Lets look at the SOLSOE81 collection unit, which is the second download. To get the samples from just that one collection unit by specifying that you want only the samples from the second download.
+A stratigraphic diagram shows how taxa — pollen percentages and charcoal counts in this case — change through time at a single site. Age is plotted on the Y-axis with the oldest ages at the bottom, and each taxon or proxy occupies its own column.
 
-We can use packages like `rioja` to do stratigraphic plotting for a single record, but first we need to do some different data management. Although we could do harmonization again we're going to simply take the taxa at a single site and plot them in a stratigraphic diagram. However, if you would like to plot multiple sites and you want them to have harmonized taxa we have provided examples on how to do both.
+We start by splitting `allSamp` into two subsets: tree and shrub pollen records (ecological group `TRSH`, element type `pollen`) and charcoal records (ecological group `CHAR`). We rename and select only the columns needed for plotting.
 
 #### Code
 
-```{r stratiplotraw0, message = FALSE, eval = FALSE}
-# Get a particular site, in this case we are simply subsetting the
-# `africa_dl` object to get Lake Solsø:
-plottingSite <- africa_dl[[2]]
+```{r charcoalPrep0, message=FALSE, eval=FALSE}
+# Pollen:
+pollenSamp <- allSamp %>%
+  filter(ecologicalgroup == "TRSH",
+         elementtype == "pollen") %>%
+  select(depth,
+         age,
+         taxon = variablename,
+         count = value)
 
-# Select only pollen measured using NISP and convert to a "wide"
-# table, using proportions. The first column will be "age".
-# This turns our "long" table into a "wide" table:
-counts <- plottingSite %>%
-  samples() %>%
-  toWide(ecologicalgroup = c("CHAR"),
-         unit = c("number"),
-         elementtypes = c(">200 µm"),
-         groupby = "age",
-         operation = "prop") %>%
-  arrange(age)
-
-counts <- counts[, colSums(counts > 0.01, na.rm = TRUE) > 5]
+# Charcoal
+charSamp <- allSamp %>%
+  filter(ecologicalgroup == "CHAR") %>%
+  select(depth,
+         age,
+         variablename,
+         elementtype,
+         value)
 ```
 
 #### Results
 
-```{r stratiplotraw, message = FALSE, echo = FALSE}
-# Get a particular site, in this case we are simply subsetting the
-# `africa_dl` object to get 1 site
-plottingSite <- africa_dl[[2]]
+```{r charcoalPrep, message=FALSE, echo=FALSE}
+pollenSamp <- allSamp %>%
+  filter(ecologicalgroup == "TRSH",
+         elementtype == "pollen") %>%
+  select(depth,
+         age,
+         taxon = variablename,
+         count = value)
 
-# Select only pollen measured using NISP and convert to a "wide"
-# table, using proportions. The first column will be "age".
-# This turns our "long" table into a "wide" table:
-counts <- plottingSite %>%
-  samples() %>%
-  toWide(ecologicalgroup = c("CHAR"),
-         unit = c("number"),
-         elementtypes = c(">200 µm"),
-         groupby = "age",
-         operation = "prop") %>%
-  arrange(age)
+# Charcoal
+charSamp <- allSamp %>%
+  filter(ecologicalgroup == "CHAR") %>%
+  select(depth,
+         age,
+         variablename,
+         elementtype,
+         value)
 
-counts <- counts[, colSums(counts > 0.01, na.rm = TRUE) > 5]
-counts %>%
-  DT::datatable(data = ., rownames = FALSE, 
+charSamp %>%
+  DT::datatable(data = ., rownames = FALSE,
+                options = list(scrollX = "100%", dom = "t"))
+
+pollenSamp %>%
+  DT::datatable(data = ., rownames = FALSE,
                 options = list(scrollX = "100%", dom = "t"))
 ```
 
 ###  {.tabset}
 
-Hopefully the code is pretty straightforward. The `toWide()` function provides you with significant control over the taxa, units and other elements of your data before you get them into the wide matrix (`depth` by `taxon`) that most statistical tools such as the `vegan` package or `rioja` use.
+Charcoal records in Neotoma are often recorded across multiple size fractions (e.g., 10–50 µm, 50–100 µm, >100 µm). Since we want a single charcoal value per sample depth, we group by `depth` and `age` and sum all size fractions together.
 
-To plot the data we can use `rioja`'s `strat.plot()`, sorting the taxa using weighted averaging scores (`wa.order`). I've also added a CONISS plot to the edge of the the plot, to show how the new *wide* data frame works with distance metric functions.
+#### Code
+```{r charcoalCode, message=FALSE, eval=FALSE}
+charcoal <- charSamp %>%
+  group_by(depth, age) %>%
+  summarise(charcoal = sum(value, na.rm = TRUE), .groups = "drop")
+```
+
+#### Results
+```{r charcoalRes, message=FALSE, echo=FALSE}
+charcoal <- charSamp %>%
+  group_by(depth, age) %>%
+  summarise(charcoal = sum(value, na.rm = TRUE), .groups = "drop")
+charcoal %>%
+  DT::datatable(data = ., rownames = FALSE,
+                options = list(scrollX = "100%", dom = "t"))
+```
+
+#### Code
+```{r pollenCode, message=FALSE, eval=FALSE}
+pollenWide <- pollenSamp %>%
+  group_by(depth, age, taxon) %>%
+  summarise(count = sum(count, na.rm = TRUE), .groups = "drop") %>%
+  pivot_wider(names_from = taxon, values_from = count, values_fill = 0)
+
+# Separate the depth/age columns from the count matrix
+meta    <- pollenWide %>% select(depth, age)
+counts  <- pollenWide %>% select(-depth, -age)
+
+# Convert to percentages (row sums = 100)
+pollen_pct <- counts / rowSums(counts) * 100
+```
+
+#### Results
+```{r pollenRes, message=FALSE, echo=FALSE}
+pollenWide <- pollenSamp %>%
+  group_by(depth, age, taxon) %>%
+  summarise(count = sum(count, na.rm = TRUE), .groups = "drop") %>%
+  pivot_wider(names_from = taxon, values_from = count, values_fill = 0)
+
+# Separate the depth/age columns from the count matrix
+meta    <- pollenWide %>% select(depth, age)
+counts  <- pollenWide %>% select(-depth, -age)
+
+# Convert to percentages (row sums = 100)
+pollen_pct <- counts / rowSums(counts) * 100
+pollen_pct %>%
+  DT::datatable(data = ., rownames = FALSE,
+                options = list(scrollX = "100%", dom = "t"))
+```
+
+###  {.tabset}
+
+With many taxa in the record, a stratigraphic diagram quickly becomes unreadable. A common threshold is to retain only taxa that reach at least 5% in at least one sample — this removes consistently rare taxa while preserving the ecologically meaningful ones.
 
 #### Code
 
-```{r plotStrigraphraw0, message=FALSE, warning=FALSE, out.width='90%', eval=FALSE}
-# Perform constrained clustering:
-counts <- counts %>% filter(if_all(-age, ~ !is.na(.)))
-clust <- rioja::chclust(dist(sqrt(counts[,-1])), method = "coniss")
-
-# Plot the stratigraphic plot, converting proportions to percentages:
-plot <- rioja::strat.plot(counts[,-1] * 100, yvar = counts$age,
-                  title = africa_dl[[1]]$sitename,
-                  ylabel = "Calibrated Years BP",
-                  xlabel = "Pollen (% of Trees and Shrubs)",
-                  srt.xlabel = 70,
-                  y.rev = TRUE,
-                  clust = clust,
-                  wa.order = "topleft",
-                  scale.percent = TRUE)
-
-rioja::addClustZone(plot, clust, 4, col = "red")
+```{r charDiagram0, message=FALSE, warning=FALSE, out.width='70%', eval=FALSE}
+keep <- sapply(pollen_pct, max) >= 5
+pollen_pct <- pollen_pct[, keep]
 ```
 
 #### Results
 
-```{r plotStrigraphraw, message=FALSE, warning=FALSE, out.width='90%', echo=FALSE}
-# Perform constrained clustering:
-counts <- counts %>% filter(if_all(-age, ~ !is.na(.)))
-clust <- rioja::chclust(dist(sqrt(counts[,-1])), method = "coniss")
+```{r charDiagram, message=FALSE, warning=FALSE, out.width='70%', echo=FALSE}
+keep <- sapply(pollen_pct, max) >= 5
+pollen_pct <- pollen_pct[, keep]
+pollen_pct %>%
+  DT::datatable(data = ., rownames = FALSE,
+                options = list(scrollX = "100%", dom = "t"))
+```
 
-# Plot the stratigraphic plot, converting proportions to percentages:
-plot <- rioja::strat.plot(counts[,-1] * 100, yvar = counts$age,
-                  title = africa_dl[[1]]$sitename,
-                  ylabel = "Calibrated Years BP",
-                  xlabel = "Pollen (% of Trees and Shrubs)",
-                  srt.xlabel = 70,
-                  y.rev = TRUE,
-                  clust = clust,
-                  wa.order = "topleft",
-                  scale.percent = TRUE)
+### Assembling the Final Table {.tabset}
 
-rioja::addClustZone(plot, clust, 4, col = "red")
+With pollen percentages and charcoal counts prepared separately, we now assemble them into a single table. We bind the depth/age metadata to the pollen percentage matrix using `bind_cols()`, then join the aggregated charcoal values by `depth` and `age` using `left_join()`. The result is one row per sample, with pollen taxa and charcoal all aligned on the same depth axis.
+
+#### Code
+
+```{r charStd0, message=FALSE, warning=FALSE, out.width='70%', eval=FALSE}
+final <- meta %>%
+  bind_cols(pollen_pct) %>%
+  left_join(charcoal, by = c("depth", "age")) %>%
+  arrange(depth)
+```
+
+#### Results
+
+```{r charStd, message=FALSE, warning=FALSE, out.width='70%', echo=FALSE}
+final <- meta %>%
+  bind_cols(pollen_pct) %>%
+  left_join(charcoal, by = c("depth", "age")) %>%
+  arrange(depth)
+final %>%
+  DT::datatable(data = ., rownames = FALSE,
+                options = list(scrollX = "100%", dom = "t"))
+```
+### Drawing the Stratigraphic Diagram {.tabset}
+
+We use `strat.plot()` from the `rioja` package to draw the stratigraphic diagram. The function expects a data frame of values (pollen percentages and charcoal), a depth or age vector for the Y-axis, and optional graphical parameters such as column widths and axis labels. Because the charcoal values and pollen percentages are on very different scales, the charcoal column is rescaled to a 0–100 range before plotting so it sits comfortably alongside the pollen curves.
+
+To add stratigraphic zones, we first compute a **CONISS** (Constrained Incremental Sum of Squares) cluster analysis on the pollen percentage matrix using `chclust()`. CONISS groups adjacent samples that are compositionally similar, allowing us to identify major transitions in the assemblage. We then pass the resulting cluster object to `strat.plot()`, which draws a dendrogram alongside the diagram, and use `addClustZone()` to overlay zone boundary lines.
+
+#### Code
+
+```{r charStd1, message=FALSE, warning=FALSE, out.width='70%', eval=FALSE}
+y       <- final$age          # or final$depth
+taxa_df <- final %>% select(-depth, -age, -charcoal)
+char_df <- final %>% select(charcoal)
+
+char_scaled <- char_df %>%
+  mutate(charcoal_scaled = charcoal / max(charcoal, na.rm = TRUE) * 100) %>%
+  select(charcoal_scaled)
+
+plot_data <- cbind(taxa_df, char_scaled)
+n_taxa    <- ncol(taxa_df)
+widths    <- c(rep(1, n_taxa), 3)   # charcoal column wider
+
+diss  <- dist(sqrt(pollen_pct / 100))    # chord distance
+clust <- chclust(diss, method = "coniss")
+p <- strat.plot(
+  d             = plot_data,
+  yvar          = y,
+  y.rev         = TRUE,
+  scale.percent = TRUE,
+  graph.widths  = widths,
+  ylabel        = "Age (cal yr BP)",
+  title         = "Pearly Beach — pollen & charcoal",
+  srt.xlabel    = 45,
+  cex.xlabel    = 0.6,
+  clust         = clust
+)
+addClustZone(p, clust, nZone = 4, col = "red")
+```
+
+#### Results
+
+```{r charStd2, message=FALSE, warning=FALSE, out.width='70%', echo=FALSE}
+y       <- final$age          # or final$depth
+taxa_df <- final %>% select(-depth, -age, -charcoal)
+char_df <- final %>% select(charcoal)
+
+char_scaled <- char_df %>%
+  mutate(charcoal_scaled = charcoal / max(charcoal, na.rm = TRUE) * 100) %>%
+  select(charcoal_scaled)
+
+plot_data <- cbind(taxa_df, char_scaled)
+n_taxa    <- ncol(taxa_df)
+widths    <- c(rep(1, n_taxa), 3)   # charcoal column wider
+
+pollen_for_clust <- plot_data %>% select(-charcoal_scaled)
+diss  <- dist(sqrt(pollen_for_clust / 100))
+clust <- chclust(diss, method = "coniss")
+
+p <- strat.plot(
+  d             = plot_data,
+  yvar          = y,
+  y.rev         = TRUE,
+  scale.percent = TRUE,
+  graph.widths  = widths,
+  ylabel        = "Age (cal yr BP)",
+  title         = "Pearly Beach — pollen & charcoal",
+  srt.xlabel    = 45,
+  cex.xlabel    = 0.6,
+  clust         = clust
+)
+addClustZone(p, clust, nZone = 4, col = "red")
 ```
 
 ## Conclusion
