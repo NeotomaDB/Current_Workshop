@@ -477,7 +477,8 @@ pollenSamp <- allSamp %>%
 
 # Charcoal
 charSamp <- allSamp %>%
-  filter(ecologicalgroup == "CHAR") %>%
+  filter(ecologicalgroup == "CHAR",
+         elementtype == "concentration") %>%
   select(depth,
          age,
          variablename,
@@ -498,7 +499,8 @@ pollenSamp <- allSamp %>%
 
 # Charcoal
 charSamp <- allSamp %>%
-  filter(ecologicalgroup == "CHAR") %>%
+  filter(ecologicalgroup == "CHAR",
+         elementtype == "concentration") %>%
   select(depth,
          age,
          variablename,
