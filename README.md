@@ -4,6 +4,8 @@
 
 # Neotoma Current R Workshop
 
+[Simple Workflow](https://open.neotomadb.org/Current_Workshop/simple_workflow.html)
+
 A repository to host the interactive `neotoma2` R workshops. This repository will always be set up for the most recent/current Neotoma Workshop. All past workshops will be archived in the [Neotoma Workshops](https://github.com/NeotomaDB/Workshops) repository.
 
 This repository is built with the structure required to serve the content through an interactive, online RStudio session using Binder. Clicking the Binder link will open RStudio in the user's browser.
