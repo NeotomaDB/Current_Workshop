@@ -1,5 +1,6 @@
 # tidyverse/dev set
-install.packages(c("ggplot2",
+install.packages(c("rlang",
+                   "ggplot2",
                    "tidyverse",
                    "dplyr",
                    "rioja",

@@ -10,3 +10,7 @@ FROM rocker/binder
 
 COPY install.r install.r
 RUN Rscript install.r
+
+COPY simple_workflow.Rmd /home/rstudio/
+COPY data/ /home/rstudio/data/
+COPY images/ /home/rstudio/images/
