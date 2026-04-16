@@ -1,14 +1,96 @@
 <!doctype html>
-<html>
+<html lang="en">
   <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Paleofire Workshop</title>
+    <style>
+      body {
+        font-family: Georgia, serif;
+        max-width: 700px;
+        margin: 60px auto;
+        padding: 0 20px;
+        color: #222;
+        background: #fafaf8;
+        line-height: 1.7;
+      }
+      h1 {
+        font-size: 1.8em;
+        border-bottom: 2px solid #c0392b;
+        padding-bottom: 10px;
+        margin-bottom: 6px;
+      }
+      .subtitle {
+        color: #555;
+        margin-top: 0;
+        margin-bottom: 30px;
+        font-style: italic;
+      }
+      .links {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        margin-top: 24px;
+      }
+      .btn {
+        display: inline-block;
+        padding: 10px 20px;
+        background: #c0392b;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 4px;
+        font-family: sans-serif;
+        font-size: 0.95em;
+        width: fit-content;
+        transition: background 0.2s;
+      }
+      .btn:hover {
+        background: #96281b;
+      }
+      .binder-link {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-family: sans-serif;
+        font-size: 0.95em;
+        text-decoration: none;
+        color: #222;
+      }
+      .binder-link:hover {
+        text-decoration: underline;
+      }
+      footer {
+        margin-top: 60px;
+        font-size: 0.8em;
+        color: #999;
+        font-family: sans-serif;
+      }
+    </style>
   </head>
   <body>
+    <h1>Global Paleofire Workshop</h1>
+    <p class="subtitle">Interactive <code>neotoma2</code> R Workshop &mdash; Neotoma Paleoecology Database</p>
+
     <p>
-      Welcome to the Paleofire neotoma2 R Workshop
-      [Simple Workflow HTML](https://open.neotomadb.org/Current_Workshop/simple_workflow.html)
-      
-      [Simple Workflow Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/NeotomaDB/Current_Workshop/paleofire?urlpath=rstudio)
+      Welcome! This workshop introduces the <code>neotoma2</code> R package for accessing and analysing
+      paleoecological data from the Neotoma database. Use the links below to open the tutorial
+      or launch an interactive RStudio session in your browser via Binder.
     </p>
+
+    <div class="links">
+      <a class="btn" href="https://open.neotomadb.org/Current_Workshop/simple_workflow.html">
+        Simple Workflow (HTML)
+      </a>
+
+      <a class="binder-link" href="https://mybinder.org/v2/gh/NeotomaDB/Current_Workshop/paleofire?urlpath=rstudio">
+        <img src="https://mybinder.org/badge_logo.svg" alt="Launch Binder">
+        Launch in RStudio (Binder)
+      </a>
+    </div>
+
+    <footer>
+      Hosted by the <a href="https://www.neotomadb.org/">Neotoma Paleoecology Database</a>.
+      Supported by NSF Award #1948926.
+    </footer>
   </body>
 </html>
