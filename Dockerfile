@@ -12,6 +12,7 @@ COPY install.r install.r
 RUN Rscript install.r
 
 COPY simple_workflow.Rmd /home/jovyan/
+COPY complex_workflow.Rmd /home/jovyan/
 COPY connecting_to_GBIF.Rmd /home/jovyan/
 COPY text.css /home/jovyan/
 COPY images/ /home/jovyan/images/
