@@ -1,51 +1,51 @@
 taxonid,variablename,ecologicalgroup,harmonizedname,genus,habit
-10159,Achnanthes helvetica,DIAT,Achnanthes helvetica,Achnanthes,benthic
-10162,Achnanthes didyma,DIAT,Achnanthes didyma,Achnanthes,benthic
-10164,Achnanthes exigua var. heterovalva,DIAT,Achnanthes exigua,Achnanthes,benthic
-10178,Achnanthes levanderi var. helvetica,DIAT,Achnanthes levanderi,Achnanthes,benthic
-10179,Achnanthes linearis,DIAT,Achnanthes linearis,Achnanthes,benthic
-10180,Achnanthes linearis fo. curta,DIAT,Achnanthes linearis,Achnanthes,benthic
-10183,Achnanthes marginulata,DIAT,Achnanthes marginulata,Achnanthes,benthic
-10184,Achnanthes microcephala,DIAT,Achnanthes microcephala,Achnanthes,benthic
-10185,Achnanthes minutissima,DIAT,Achnanthes minutissima,Achnanthes,benthic
-10194,Achnanthes detha,DIAT,Achnanthes detha,Achnanthes,benthic
-10200,Achnanthes laterostrata,DIAT,Achnanthes laterostrata,Achnanthes,benthic
-10210,Achnanthes hungarica,DIAT,Achnanthes hungarica,Achnanthes,benthic
-10218,Achnanthes lapponica,DIAT,Achnanthes lapponica,Achnanthes,benthic
-10247,Achnanthes conspicua,DIAT,Achnanthes conspicua,Achnanthes,benthic
-10249,Achnanthes gracillima,DIAT,Achnanthes gracillima,Achnanthes,benthic
-10251,Achnanthes lanceolata subsp. rostrata,DIAT,Achnanthes lanceolata,Achnanthes,benthic
-10252,Achnanthes montana,DIAT,Achnanthes montana,Achnanthes,benthic
-10317,Actinella punctata,DIAT,Actinella punctata,Actinella,benthic
+10159,Achnanthes helvetica,DIAT,Achnanthes helvetica,Achnanthes,NA
+10162,Achnanthes didyma,DIAT,Achnanthes didyma,Achnanthes,NA
+10164,Achnanthes exigua var. heterovalva,DIAT,Achnanthes exigua,Achnanthes,NA
+10178,Achnanthes levanderi var. helvetica,DIAT,Achnanthes levanderi,Achnanthes,NA
+10179,Achnanthes linearis,DIAT,Achnanthes linearis,Achnanthes,NA
+10180,Achnanthes linearis fo. curta,DIAT,Achnanthes linearis,Achnanthes,NA
+10183,Achnanthes marginulata,DIAT,Achnanthes marginulata,Achnanthes,NA
+10184,Achnanthes microcephala,DIAT,Achnanthes microcephala,Achnanthes,NA
+10185,Achnanthes minutissima,DIAT,Achnanthes minutissima,Achnanthes,NA
+10194,Achnanthes detha,DIAT,Achnanthes detha,Achnanthes,NA
+10200,Achnanthes laterostrata,DIAT,Achnanthes laterostrata,Achnanthes,NA
+10210,Achnanthes hungarica,DIAT,Achnanthes hungarica,Achnanthes,NA
+10218,Achnanthes lapponica,DIAT,Achnanthes lapponica,Achnanthes,NA
+10247,Achnanthes conspicua,DIAT,Achnanthes conspicua,Achnanthes,NA
+10249,Achnanthes gracillima,DIAT,Achnanthes gracillima,Achnanthes,NA
+10251,Achnanthes lanceolata subsp. rostrata,DIAT,Achnanthes lanceolata,Achnanthes,NA
+10252,Achnanthes montana,DIAT,Achnanthes montana,Achnanthes,NA
+10317,Actinella punctata,DIAT,Actinella punctata,Actinella,NA
 10324,Amphora ovalis var. pediculus,DIAT,Amphora ovalis,Amphora,benthic
-10352,Anomoeoneis serians,DIAT,Anomoeoneis serians,Anomoeoneis,benthic
-10356,Anomoeoneis vitrea,DIAT,Anomoeoneis vitrea,Anomoeoneis,benthic
-10358,Anomoeoneis sp. 3 PIRLA,DIAT,Anomoeoneis,Anomoeoneis,benthic
-10361,Anomoeoneis zellensis,DIAT,Anomoeoneis zellensis,Anomoeoneis,benthic
-10367,Anomoeoneis serians var. brachysira fo. thermalis,DIAT,Anomoeoneis serians,Anomoeoneis,benthic
-10373,Anomoeoneis spp.,DIAT,Anomoeoneis,Anomoeoneis,benthic
+10352,Anomoeoneis serians,DIAT,Anomoeoneis serians,Anomoeoneis,NA
+10356,Anomoeoneis vitrea,DIAT,Anomoeoneis vitrea,Anomoeoneis,NA
+10358,Anomoeoneis sp. 3 PIRLA,DIAT,Anomoeoneis,Anomoeoneis,NA
+10361,Anomoeoneis zellensis,DIAT,Anomoeoneis zellensis,Anomoeoneis,NA
+10367,Anomoeoneis serians var. brachysira fo. thermalis,DIAT,Anomoeoneis serians,Anomoeoneis,NA
+10373,Anomoeoneis spp.,DIAT,Anomoeoneis,Anomoeoneis,NA
 10376,Asterionella formosa,DIAT,Asterionella formosa,Asterionella,planktonic
 10378,Asterionella formosa var. gracillima,DIAT,Asterionella formosa,Asterionella,planktonic
 10380,Asterionella ralfsii var. americana (>45 µm),DIAT,Asterionella ralfsii,Asterionella,planktonic
 10386,Aulacoseira canadensis,DIAT,Aulacoseira canadensis,Aulacoseira,planktonic
 10389,Aulacoseira ambigua,DIAT,Aulacoseira ambigua,Aulacoseira,planktonic
-10415,Caloneis schumanniana var. biconstricta,DIAT,Caloneis schumanniana,Caloneis,benthic
+10415,Caloneis schumanniana var. biconstricta,DIAT,Caloneis schumanniana,Caloneis,NA
 10448,Cocconeis placentula,DIAT,Cocconeis placentula,Cocconeis,benthic
-10465,Coscinodiscus spp.,DIAT,Coscinodiscus,Coscinodiscus,planktonic
+10465,Coscinodiscus spp.,DIAT,Coscinodiscus,Coscinodiscus,NA
 10476,Cyclotella comta,DIAT,Cyclotella comta,Cyclotella,planktonic
 10481,Cyclotella ocellata,DIAT,Cyclotella ocellata,Cyclotella,planktonic
 10482,Cyclotella stelligera,DIAT,Cyclotella stelligera,Cyclotella,planktonic
 10515,Cymatopleura solea,DIAT,Cymatopleura solea,Cymatopleura,NA
-10525,Cymbella cuspidata,DIAT,Cymbella cuspidata,Cymbella,benthic
-10527,Cymbella hebridica,DIAT,Cymbella hebridica,Cymbella,benthic
-10532,Cymbella minuta fo. latens,DIAT,Cymbella minuta,Cymbella,benthic
-10539,Cymbella sp. 1 PIRLA,DIAT,Cymbella,Cymbella,benthic
-10541,Cymbella sp. 2 PIRLA,DIAT,Cymbella,Cymbella,benthic
-10543,Cymbella cf. schubartii,DIAT,Cymbella schubartii,Cymbella,benthic
-10546,Cymbella descripta,DIAT,Cymbella descripta,Cymbella,benthic
-10548,Cymbella amphioxys,DIAT,Cymbella amphioxys,Cymbella,benthic
-10586,Cymbella hybrida,DIAT,Cymbella hybrida,Cymbella,benthic
-10630,Diatoma anceps,DIAT,Diatoma anceps,Diatoma,tychoplanktonic
+10525,Cymbella cuspidata,DIAT,Cymbella cuspidata,Cymbella,NA
+10527,Cymbella hebridica,DIAT,Cymbella hebridica,Cymbella,NA
+10532,Cymbella minuta fo. latens,DIAT,Cymbella minuta,Cymbella,NA
+10539,Cymbella sp. 1 PIRLA,DIAT,Cymbella,Cymbella,NA
+10541,Cymbella sp. 2 PIRLA,DIAT,Cymbella,Cymbella,NA
+10543,Cymbella cf. schubartii,DIAT,Cymbella schubartii,Cymbella,NA
+10546,Cymbella descripta,DIAT,Cymbella descripta,Cymbella,NA
+10548,Cymbella amphioxys,DIAT,Cymbella amphioxys,Cymbella,NA
+10586,Cymbella hybrida,DIAT,Cymbella hybrida,Cymbella,NA
+10630,Diatoma anceps,DIAT,Diatoma anceps,Diatoma,NA
 10653,Diploneis boldtiana,DIAT,Diploneis boldtiana,Diploneis,benthic
 10684,Eunotia arcus,DIAT,Eunotia arcus,Eunotia,benthic
 10686,Eunotia bactriana,DIAT,Eunotia bactriana,Eunotia,benthic
@@ -100,32 +100,32 @@ taxonid,variablename,ecologicalgroup,harmonizedname,genus,habit
 11165,Melosira nygaardii,DIAT,Melosira nygaardii,Melosira,tychoplanktonic
 11181,Melosira distans vars.,DIAT,Melosira distans,Melosira,tychoplanktonic
 11296,Navicula cf. heimansii,DIAT,Navicula heimansii,Navicula,benthic
-11666,Neidium iridis var. amphigomphus,DIAT,Neidium iridis,Neidium,benthic
+11666,Neidium iridis var. amphigomphus,DIAT,Neidium iridis,Neidium,NA
 11729,Nitzschia gracilis,DIAT,Nitzschia gracilis,Nitzschia,benthic
 11736,Nitzschia microcephala,DIAT,Nitzschia microcephala,Nitzschia,benthic
-11978,Pinnularia braunii,DIAT,Pinnularia braunii,Pinnularia,benthic
-11999,Pinnularia maior,DIAT,Pinnularia maior,Pinnularia,benthic
-12003,Pinnularia mesolepta,DIAT,Pinnularia mesolepta,Pinnularia,benthic
-12034,Pinnularia abaujensis var. lacustris,DIAT,Pinnularia abaujensis,Pinnularia,benthic
-12211,Stenopterobia intermedia,DIAT,Stenopterobia intermedia,Stenopterobia,benthic
-12248,Surirella delicatissima,DIAT,Surirella delicatissima,Surirella,benthic
-12252,Surirella linearis var. constricta,DIAT,Surirella linearis,Surirella,benthic
+11978,Pinnularia braunii,DIAT,Pinnularia braunii,Pinnularia,NA
+11999,Pinnularia maior,DIAT,Pinnularia maior,Pinnularia,NA
+12003,Pinnularia mesolepta,DIAT,Pinnularia mesolepta,Pinnularia,NA
+12034,Pinnularia abaujensis var. lacustris,DIAT,Pinnularia abaujensis,Pinnularia,NA
+12211,Stenopterobia intermedia,DIAT,Stenopterobia intermedia,Stenopterobia,NA
+12248,Surirella delicatissima,DIAT,Surirella delicatissima,Surirella,NA
+12252,Surirella linearis var. constricta,DIAT,Surirella linearis,Surirella,NA
 12383,"Tabellaria flocculosa (strain IV, sensu Koppen)",DIAT,Tabellaria flocculosa,Tabellaria,tychoplanktonic
 12385,Tabellaria quadriseptata,DIAT,Tabellaria quadriseptata,Tabellaria,tychoplanktonic
-12415,Actinocyclus normanii,DIAT,Actinocyclus normanii,Actinocyclus,planktonic
+12415,Actinocyclus normanii,DIAT,Actinocyclus normanii,Actinocyclus,NA
 24466,Amphora spp.,DIAT,Amphora,Amphora,benthic
 24982,Cyclotella michiganiana,DIAT,Cyclotella michiganiana,Cyclotella,planktonic
 10152,Achnanthidium minutissimum,DIAT,Achnanthidium minutissimum,Achnanthidium,benthic
 10154,Achnanthidium altergracillima,DIAT,Achnanthidium altergracillima,Achnanthidium,benthic
-10170,Achnanthes lanceolata,DIAT,Achnanthes lanceolata,Achnanthes,benthic
-10177,Achnanthes levanderi,DIAT,Achnanthes levanderi,Achnanthes,benthic
-10187,Achnanthes nodosa,DIAT,Achnanthes nodosa,Achnanthes,benthic
-10254,Achnanthes oblongella,DIAT,Achnanthes oblongella,Achnanthes,benthic
-10270,Achnanthes subhudsonis var. kraeuselii,DIAT,Achnanthes subhudsonis,Achnanthes,benthic
-10295,Achnanthes lanceolata subsp. frequentissima,DIAT,Achnanthes lanceolata,Achnanthes,benthic
-10302,Achnanthes curtissima,DIAT,Achnanthes curtissima,Achnanthes,benthic
+10170,Achnanthes lanceolata,DIAT,Achnanthes lanceolata,Achnanthes,NA
+10177,Achnanthes levanderi,DIAT,Achnanthes levanderi,Achnanthes,NA
+10187,Achnanthes nodosa,DIAT,Achnanthes nodosa,Achnanthes,NA
+10254,Achnanthes oblongella,DIAT,Achnanthes oblongella,Achnanthes,NA
+10270,Achnanthes subhudsonis var. kraeuselii,DIAT,Achnanthes subhudsonis,Achnanthes,NA
+10295,Achnanthes lanceolata subsp. frequentissima,DIAT,Achnanthes lanceolata,Achnanthes,NA
+10302,Achnanthes curtissima,DIAT,Achnanthes curtissima,Achnanthes,NA
 10318,Actinoptychus senarius,DIAT,Actinoptychus senarius,Actinoptychus,NA
-10319,Amphipleura pellucida,DIAT,Amphipleura pellucida,Amphipleura,benthic
+10319,Amphipleura pellucida,DIAT,Amphipleura pellucida,Amphipleura,NA
 10322,Amphora ovalis,DIAT,Amphora ovalis,Amphora,benthic
 10327,Amphora veneta,DIAT,Amphora veneta,Amphora,benthic
 10331,Amphora inariensis,DIAT,Amphora inariensis,Amphora,benthic
@@ -145,23 +145,23 @@ taxonid,variablename,ecologicalgroup,harmonizedname,genus,habit
 10399,Aulacoseira granulata var. valida,DIAT,Aulacoseira granulata,Aulacoseira,planktonic
 10400,Aulacoseira muzzanensis,DIAT,Aulacoseira muzzanensis,Aulacoseira,planktonic
 10403,Aulacoseira italica var. tenuissima,DIAT,Aulacoseira italica,Aulacoseira,planktonic
-10404,Caloneis bacillum,DIAT,Caloneis bacillum,Caloneis,benthic
-10413,Caloneis silicula,DIAT,Caloneis silicula,Caloneis,benthic
-10417,Caloneis lewisii,DIAT,Caloneis lewisii,Caloneis,benthic
-10420,Caloneis undulata,DIAT,Caloneis undulata,Caloneis,benthic
-10428,Caloneis schumanniana,DIAT,Caloneis schumanniana,Caloneis,benthic
+10404,Caloneis bacillum,DIAT,Caloneis bacillum,Caloneis,NA
+10413,Caloneis silicula,DIAT,Caloneis silicula,Caloneis,NA
+10417,Caloneis lewisii,DIAT,Caloneis lewisii,Caloneis,NA
+10420,Caloneis undulata,DIAT,Caloneis undulata,Caloneis,NA
+10428,Caloneis schumanniana,DIAT,Caloneis schumanniana,Caloneis,NA
 10447,Cocconeis placentula var. lineata,DIAT,Cocconeis placentula,Cocconeis,benthic
 10452,Cocconeis disculus,DIAT,Cocconeis disculus,Cocconeis,benthic
 10454,Cocconeis pediculus,DIAT,Cocconeis pediculus,Cocconeis,benthic
 10458,Cocconeis pseudothumensis,DIAT,Cocconeis pseudothumensis,Cocconeis,benthic
 10461,Cocconeis neothumensis,DIAT,Cocconeis neothumensis,Cocconeis,benthic
-10466,Brachysira procera,DIAT,Brachysira procera,Brachysira,benthic
-10467,Brachysira serians,DIAT,Brachysira serians,Brachysira,benthic
-10469,Brachysira brebissonii,DIAT,Brachysira brebissonii,Brachysira,benthic
-10470,Brachysira vitrea,DIAT,Brachysira vitrea,Brachysira,benthic
-10471,Cyclostephanos dubius,DIAT,Cyclostephanos dubius,Cyclostephanos,planktonic
-10472,Cyclostephanos tholiformis,DIAT,Cyclostephanos tholiformis,Cyclostephanos,planktonic
-10473,Cyclostephanos invisitatus,DIAT,Cyclostephanos invisitatus,Cyclostephanos,planktonic
+10466,Brachysira procera,DIAT,Brachysira procera,Brachysira,NA
+10467,Brachysira serians,DIAT,Brachysira serians,Brachysira,NA
+10469,Brachysira brebissonii,DIAT,Brachysira brebissonii,Brachysira,NA
+10470,Brachysira vitrea,DIAT,Brachysira vitrea,Brachysira,NA
+10471,Cyclostephanos dubius,DIAT,Cyclostephanos dubius,Cyclostephanos,NA
+10472,Cyclostephanos tholiformis,DIAT,Cyclostephanos tholiformis,Cyclostephanos,NA
+10473,Cyclostephanos invisitatus,DIAT,Cyclostephanos invisitatus,Cyclostephanos,NA
 10474,Cyclotella atomus,DIAT,Cyclotella atomus,Cyclotella,planktonic
 10478,Cyclotella kuetzingiana var. radiosa,DIAT,Cyclotella kuetzingiana,Cyclotella,planktonic
 10479,Cyclotella meneghiniana,DIAT,Cyclotella meneghiniana,Cyclotella,planktonic
@@ -176,32 +176,32 @@ taxonid,variablename,ecologicalgroup,harmonizedname,genus,habit
 10503,Cyclotella distinguenda,DIAT,Cyclotella distinguenda,Cyclotella,planktonic
 10504,Cyclotella distinguenda var. unipunctata,DIAT,Cyclotella distinguenda,Cyclotella,planktonic
 10509,Cyclotella sp. 1?,DIAT,Cyclotella,Cyclotella,planktonic
-10511,Craticula cuspidata,DIAT,Craticula cuspidata,Craticula,benthic
-10512,Craticula halophila,DIAT,Craticula halophila,Craticula,benthic
-10514,Craticula submolesta,DIAT,Craticula submolesta,Craticula,benthic
-10524,Cymbella cistula,DIAT,Cymbella cistula,Cymbella,benthic
-10535,Cymbella naviculiformis,DIAT,Cymbella naviculiformis,Cymbella,benthic
-10537,Cymbella pusilla,DIAT,Cymbella pusilla,Cymbella,benthic
-10545,Cymbella cf. gaeumannii,DIAT,Cymbella gaeumannii,Cymbella,benthic
-10580,Cymbella tumida,DIAT,Cymbella tumida,Cymbella,benthic
-10582,Cymbella proxima,DIAT,Cymbella proxima,Cymbella,benthic
-10584,Cymbella affinis,DIAT,Cymbella affinis,Cymbella,benthic
-10600,Cymbella helvetica,DIAT,Cymbella helvetica,Cymbella,benthic
-10605,Cymbella schubartoides,DIAT,Cymbella schubartoides,Cymbella,benthic
-10609,Cymbella gracilis,DIAT,Cymbella gracilis,Cymbella,benthic
-10610,Cymbella mesiana,DIAT,Cymbella mesiana,Cymbella,benthic
-10615,Cymbella sp. 1?,DIAT,Cymbella,Cymbella,benthic
+10511,Craticula cuspidata,DIAT,Craticula cuspidata,Craticula,NA
+10512,Craticula halophila,DIAT,Craticula halophila,Craticula,NA
+10514,Craticula submolesta,DIAT,Craticula submolesta,Craticula,NA
+10524,Cymbella cistula,DIAT,Cymbella cistula,Cymbella,NA
+10535,Cymbella naviculiformis,DIAT,Cymbella naviculiformis,Cymbella,NA
+10537,Cymbella pusilla,DIAT,Cymbella pusilla,Cymbella,NA
+10545,Cymbella cf. gaeumannii,DIAT,Cymbella gaeumannii,Cymbella,NA
+10580,Cymbella tumida,DIAT,Cymbella tumida,Cymbella,NA
+10582,Cymbella proxima,DIAT,Cymbella proxima,Cymbella,NA
+10584,Cymbella affinis,DIAT,Cymbella affinis,Cymbella,NA
+10600,Cymbella helvetica,DIAT,Cymbella helvetica,Cymbella,NA
+10605,Cymbella schubartoides,DIAT,Cymbella schubartoides,Cymbella,NA
+10609,Cymbella gracilis,DIAT,Cymbella gracilis,Cymbella,NA
+10610,Cymbella mesiana,DIAT,Cymbella mesiana,Cymbella,NA
+10615,Cymbella sp. 1?,DIAT,Cymbella,Cymbella,NA
 10628,Denticula kuetzingii,DIAT,Denticula kuetzingii,Denticula,benthic
-10631,Diatoma mesodon,DIAT,Diatoma mesodon,Diatoma,tychoplanktonic
-10637,Diatoma tenuis,DIAT,Diatoma tenuis,Diatoma,tychoplanktonic
-10638,Diatoma vulgaris,DIAT,Diatoma vulgaris,Diatoma,tychoplanktonic
+10631,Diatoma mesodon,DIAT,Diatoma mesodon,Diatoma,NA
+10637,Diatoma tenuis,DIAT,Diatoma tenuis,Diatoma,NA
+10638,Diatoma vulgaris,DIAT,Diatoma vulgaris,Diatoma,NA
 10646,Diploneis oblongella,DIAT,Diploneis oblongella,Diploneis,benthic
 10651,Diploneis ovalis,DIAT,Diploneis ovalis,Diploneis,benthic
 10655,Diploneis parma,DIAT,Diploneis parma,Diploneis,benthic
-10666,Entomoneis ornata,DIAT,Entomoneis ornata,Entomoneis,benthic
-10671,Epithemia smithii,DIAT,Epithemia smithii,Epithemia,benthic
-10672,Epithemia adnata,DIAT,Epithemia adnata,Epithemia,benthic
-10673,Epithemia turgida,DIAT,Epithemia turgida,Epithemia,benthic
+10666,Entomoneis ornata,DIAT,Entomoneis ornata,Entomoneis,NA
+10671,Epithemia smithii,DIAT,Epithemia smithii,Epithemia,NA
+10672,Epithemia adnata,DIAT,Epithemia adnata,Epithemia,NA
+10673,Epithemia turgida,DIAT,Epithemia turgida,Epithemia,NA
 10687,Eunotia bidentula,DIAT,Eunotia bidentula,Eunotia,benthic
 10690,Eunotia carolina,DIAT,Eunotia carolina,Eunotia,benthic
 10695,Eunotia diodon,DIAT,Eunotia diodon,Eunotia,benthic
@@ -292,12 +292,12 @@ taxonid,variablename,ecologicalgroup,harmonizedname,genus,habit
 11104,Gomphonema spp.,DIAT,Gomphonema,Gomphonema,benthic
 11105,Gomphonema sp. 1?,DIAT,Gomphonema,Gomphonema,benthic
 11106,Gomphonema sp. 2?,DIAT,Gomphonema,Gomphonema,benthic
-11110,Gyrosigma acuminatum,DIAT,Gyrosigma acuminatum,Gyrosigma,benthic
-11113,Gyrosigma spencerii,DIAT,Gyrosigma spencerii,Gyrosigma,benthic
-11114,Gyrosigma attenuatum,DIAT,Gyrosigma attenuatum,Gyrosigma,benthic
-11115,Gyrosigma obscurum,DIAT,Gyrosigma obscurum,Gyrosigma,benthic
-11121,Gyrosigma wormleyi,DIAT,Gyrosigma wormleyi,Gyrosigma,benthic
-11129,Hantzschia amphioxys,DIAT,Hantzschia amphioxys,Hantzschia,benthic
+11110,Gyrosigma acuminatum,DIAT,Gyrosigma acuminatum,Gyrosigma,NA
+11113,Gyrosigma spencerii,DIAT,Gyrosigma spencerii,Gyrosigma,NA
+11114,Gyrosigma attenuatum,DIAT,Gyrosigma attenuatum,Gyrosigma,NA
+11115,Gyrosigma obscurum,DIAT,Gyrosigma obscurum,Gyrosigma,NA
+11121,Gyrosigma wormleyi,DIAT,Gyrosigma wormleyi,Gyrosigma,NA
+11129,Hantzschia amphioxys,DIAT,Hantzschia amphioxys,Hantzschia,NA
 11149,Melosira granulata,DIAT,Melosira granulata,Melosira,tychoplanktonic
 11150,Melosira granulata var. angustissima,DIAT,Melosira granulata,Melosira,tychoplanktonic
 11160,Melosira distans var. tenella,DIAT,Melosira distans,Melosira,tychoplanktonic
@@ -386,19 +386,19 @@ taxonid,variablename,ecologicalgroup,harmonizedname,genus,habit
 11643,Navicula sp. 2?,DIAT,Navicula,Navicula,benthic
 11644,Navicula sp. 3 ?,DIAT,Navicula,Navicula,benthic
 11645,Navicula sp. 4 ?,DIAT,Navicula,Navicula,benthic
-11652,Neidium affine,DIAT,Neidium affine,Neidium,benthic
-11657,Neidium alpinum,DIAT,Neidium alpinum,Neidium,benthic
-11661,Neidium dubium,DIAT,Neidium dubium,Neidium,benthic
-11664,Neidium iridis,DIAT,Neidium iridis,Neidium,benthic
-11665,Neidium iridis var. ampliatum,DIAT,Neidium iridis,Neidium,benthic
-11669,Neidium productum,DIAT,Neidium productum,Neidium,benthic
-11674,Neidium alpinum var. quadripunctatum,DIAT,Neidium alpinum,Neidium,benthic
-11681,Neidium apiculatum,DIAT,Neidium apiculatum,Neidium,benthic
-11694,Neidium affine var. capitatum,DIAT,Neidium affine,Neidium,benthic
-11699,Neidium hercynicum,DIAT,Neidium hercynicum,Neidium,benthic
-11701,Neidium ampliatum,DIAT,Neidium ampliatum,Neidium,benthic
-11705,Neidium densestriatum,DIAT,Neidium densestriatum,Neidium,benthic
-11707,Neidium spp.,DIAT,Neidium,Neidium,benthic
+11652,Neidium affine,DIAT,Neidium affine,Neidium,NA
+11657,Neidium alpinum,DIAT,Neidium alpinum,Neidium,NA
+11661,Neidium dubium,DIAT,Neidium dubium,Neidium,NA
+11664,Neidium iridis,DIAT,Neidium iridis,Neidium,NA
+11665,Neidium iridis var. ampliatum,DIAT,Neidium iridis,Neidium,NA
+11669,Neidium productum,DIAT,Neidium productum,Neidium,NA
+11674,Neidium alpinum var. quadripunctatum,DIAT,Neidium alpinum,Neidium,NA
+11681,Neidium apiculatum,DIAT,Neidium apiculatum,Neidium,NA
+11694,Neidium affine var. capitatum,DIAT,Neidium affine,Neidium,NA
+11699,Neidium hercynicum,DIAT,Neidium hercynicum,Neidium,NA
+11701,Neidium ampliatum,DIAT,Neidium ampliatum,Neidium,NA
+11705,Neidium densestriatum,DIAT,Neidium densestriatum,Neidium,NA
+11707,Neidium spp.,DIAT,Neidium,Neidium,NA
 11715,Nitzschia acicularioides,DIAT,Nitzschia acicularioides,Nitzschia,benthic
 11716,Nitzschia acicularis,DIAT,Nitzschia acicularis,Nitzschia,benthic
 11718,Nitzschia amphibia,DIAT,Nitzschia amphibia,Nitzschia,benthic
@@ -465,87 +465,87 @@ taxonid,variablename,ecologicalgroup,harmonizedname,genus,habit
 11947,Nitzschia sp. 1?,DIAT,Nitzschia,Nitzschia,benthic
 11948,Nitzschia sp. 2 ?,DIAT,Nitzschia,Nitzschia,benthic
 11949,Nitzschia sp. 3 ?,DIAT,Nitzschia,Nitzschia,benthic
-11959,Opephora olsenii,DIAT,Opephora olsenii,Opephora,tychoplanktonic
-11965,Pinnularia abaujensis,DIAT,Pinnularia abaujensis,Pinnularia,benthic
-11966,Pinnularia abaujensis var. linearis,DIAT,Pinnularia abaujensis,Pinnularia,benthic
-11967,Pinnularia abaujensis var. rostrata,DIAT,Pinnularia abaujensis,Pinnularia,benthic
-11970,Pinnularia hemiptera,DIAT,Pinnularia hemiptera,Pinnularia,benthic
-11974,Pinnularia biceps,DIAT,Pinnularia biceps,Pinnularia,benthic
-11975,Pinnularia biceps fo. petersenii,DIAT,Pinnularia biceps,Pinnularia,benthic
-11976,Pinnularia borealis,DIAT,Pinnularia borealis,Pinnularia,benthic
-11981,Pinnularia brebissonii,DIAT,Pinnularia brebissonii,Pinnularia,benthic
-11990,Pinnularia divergentissima,DIAT,Pinnularia divergentissima,Pinnularia,benthic
-11997,Pinnularia latevittata var. domingensis,DIAT,Pinnularia latevittata,Pinnularia,benthic
-12002,Pinnularia mesogongyla,DIAT,Pinnularia mesogongyla,Pinnularia,benthic
-12005,Pinnularia microstauron,DIAT,Pinnularia microstauron,Pinnularia,benthic
-12007,Pinnularia nodosa,DIAT,Pinnularia nodosa,Pinnularia,benthic
-12008,Pinnularia obscura,DIAT,Pinnularia obscura,Pinnularia,benthic
-12016,Pinnularia subcapitata,DIAT,Pinnularia subcapitata,Pinnularia,benthic
-12020,Pinnularia sp. 11 PIRLA,DIAT,Pinnularia,Pinnularia,benthic
-12023,Pinnularia substomatophora,DIAT,Pinnularia substomatophora,Pinnularia,benthic
-12027,Pinnularia viridis,DIAT,Pinnularia viridis,Pinnularia,benthic
-12035,Pinnularia sp. 9 PIRLA,DIAT,Pinnularia,Pinnularia,benthic
-12039,Pinnularia borealis var. rectangularis,DIAT,Pinnularia borealis,Pinnularia,benthic
-12040,Pinnularia pogoii,DIAT,Pinnularia pogoii,Pinnularia,benthic
-12043,Pinnularia polyonca,DIAT,Pinnularia polyonca,Pinnularia,benthic
-12050,Pinnularia nodosa var. constricta fo. truncata,DIAT,Pinnularia nodosa,Pinnularia,benthic
-12096,Pinnularia lundii,DIAT,Pinnularia lundii,Pinnularia,benthic
-12100,Pinnularia gibba,DIAT,Pinnularia gibba,Pinnularia,benthic
-12106,Pinnularia subgibba,DIAT,Pinnularia subgibba,Pinnularia,benthic
-12108,Pinnularia subrostrata,DIAT,Pinnularia subrostrata,Pinnularia,benthic
-12110,Pinnularia interrupta,DIAT,Pinnularia interrupta,Pinnularia,benthic
-12113,Pinnularia acoricola,DIAT,Pinnularia acoricola,Pinnularia,benthic
-12117,Pinnularia spp.,DIAT,Pinnularia,Pinnularia,benthic
-12118,Pinnularia sp. 1?,DIAT,Pinnularia,Pinnularia,benthic
-12119,Pinnularia sp. 2?,DIAT,Pinnularia,Pinnularia,benthic
+11959,Opephora olsenii,DIAT,Opephora olsenii,Opephora,NA
+11965,Pinnularia abaujensis,DIAT,Pinnularia abaujensis,Pinnularia,NA
+11966,Pinnularia abaujensis var. linearis,DIAT,Pinnularia abaujensis,Pinnularia,NA
+11967,Pinnularia abaujensis var. rostrata,DIAT,Pinnularia abaujensis,Pinnularia,NA
+11970,Pinnularia hemiptera,DIAT,Pinnularia hemiptera,Pinnularia,NA
+11974,Pinnularia biceps,DIAT,Pinnularia biceps,Pinnularia,NA
+11975,Pinnularia biceps fo. petersenii,DIAT,Pinnularia biceps,Pinnularia,NA
+11976,Pinnularia borealis,DIAT,Pinnularia borealis,Pinnularia,NA
+11981,Pinnularia brebissonii,DIAT,Pinnularia brebissonii,Pinnularia,NA
+11990,Pinnularia divergentissima,DIAT,Pinnularia divergentissima,Pinnularia,NA
+11997,Pinnularia latevittata var. domingensis,DIAT,Pinnularia latevittata,Pinnularia,NA
+12002,Pinnularia mesogongyla,DIAT,Pinnularia mesogongyla,Pinnularia,NA
+12005,Pinnularia microstauron,DIAT,Pinnularia microstauron,Pinnularia,NA
+12007,Pinnularia nodosa,DIAT,Pinnularia nodosa,Pinnularia,NA
+12008,Pinnularia obscura,DIAT,Pinnularia obscura,Pinnularia,NA
+12016,Pinnularia subcapitata,DIAT,Pinnularia subcapitata,Pinnularia,NA
+12020,Pinnularia sp. 11 PIRLA,DIAT,Pinnularia,Pinnularia,NA
+12023,Pinnularia substomatophora,DIAT,Pinnularia substomatophora,Pinnularia,NA
+12027,Pinnularia viridis,DIAT,Pinnularia viridis,Pinnularia,NA
+12035,Pinnularia sp. 9 PIRLA,DIAT,Pinnularia,Pinnularia,NA
+12039,Pinnularia borealis var. rectangularis,DIAT,Pinnularia borealis,Pinnularia,NA
+12040,Pinnularia pogoii,DIAT,Pinnularia pogoii,Pinnularia,NA
+12043,Pinnularia polyonca,DIAT,Pinnularia polyonca,Pinnularia,NA
+12050,Pinnularia nodosa var. constricta fo. truncata,DIAT,Pinnularia nodosa,Pinnularia,NA
+12096,Pinnularia lundii,DIAT,Pinnularia lundii,Pinnularia,NA
+12100,Pinnularia gibba,DIAT,Pinnularia gibba,Pinnularia,NA
+12106,Pinnularia subgibba,DIAT,Pinnularia subgibba,Pinnularia,NA
+12108,Pinnularia subrostrata,DIAT,Pinnularia subrostrata,Pinnularia,NA
+12110,Pinnularia interrupta,DIAT,Pinnularia interrupta,Pinnularia,NA
+12113,Pinnularia acoricola,DIAT,Pinnularia acoricola,Pinnularia,NA
+12117,Pinnularia spp.,DIAT,Pinnularia,Pinnularia,NA
+12118,Pinnularia sp. 1?,DIAT,Pinnularia,Pinnularia,NA
+12119,Pinnularia sp. 2?,DIAT,Pinnularia,Pinnularia,NA
 12136,Reimeria sinuata,DIAT,Reimeria sinuata,Reimeria,NA
-12142,Rhoicosphenia curvata,DIAT,Rhoicosphenia curvata,Rhoicosphenia,benthic
-12143,Rhopalodia gibba,DIAT,Rhopalodia gibba,Rhopalodia,benthic
-12145,Rhopalodia parallela,DIAT,Rhopalodia parallela,Rhopalodia,benthic
-12162,Stauroneis anceps,DIAT,Stauroneis anceps,Stauroneis,benthic
-12163,Stauroneis anceps fo. gracilis,DIAT,Stauroneis anceps,Stauroneis,benthic
-12164,Stauroneis anceps fo. linearis,DIAT,Stauroneis anceps,Stauroneis,benthic
-12167,Stauroneis smithii,DIAT,Stauroneis smithii,Stauroneis,benthic
-12170,Stauroneis livingstonii,DIAT,Stauroneis livingstonii,Stauroneis,benthic
-12171,Stauroneis nobilis var. baconiana,DIAT,Stauroneis nobilis,Stauroneis,benthic
-12173,Stauroneis phoenicenteron,DIAT,Stauroneis phoenicenteron,Stauroneis,benthic
-12175,Stauroneis producta,DIAT,Stauroneis producta,Stauroneis,benthic
-12177,Stauroneis staurolineata,DIAT,Stauroneis staurolineata,Stauroneis,benthic
-12181,Stauroneis nobilis var. gracilis,DIAT,Stauroneis nobilis,Stauroneis,benthic
-12190,Stauroneis agrestis,DIAT,Stauroneis agrestis,Stauroneis,benthic
-12192,Stauroneis acuta,DIAT,Stauroneis acuta,Stauroneis,benthic
-12194,Stauroneis thermicola,DIAT,Stauroneis thermicola,Stauroneis,benthic
-12199,Stauroneis nobilis,DIAT,Stauroneis nobilis,Stauroneis,benthic
-12204,"Stauroneis anceps fo. gracilis PLUS vars. 1, 2, and 3",DIAT,Stauroneis anceps,Stauroneis,benthic
-12205,Stauroneis spp.,DIAT,Stauroneis,Stauroneis,benthic
-12206,Stauroneis sp. 1?,DIAT,Stauroneis,Stauroneis,benthic
-12214,Stenopterobia densestriata,DIAT,Stenopterobia densestriata,Stenopterobia,benthic
-12215,Stenopterobia delicatissima,DIAT,Stenopterobia delicatissima,Stenopterobia,benthic
-12216,Stenopterobia curvula,DIAT,Stenopterobia curvula,Stenopterobia,benthic
-12217,Stenopterobia spp.,DIAT,Stenopterobia,Stenopterobia,benthic
-12218,Stephanodiscus niagarae,DIAT,Stephanodiscus niagarae,Stephanodiscus,planktonic
-12219,Stephanodiscus parvus,DIAT,Stephanodiscus parvus,Stephanodiscus,planktonic
-12226,Stephanodiscus hantzschii,DIAT,Stephanodiscus hantzschii,Stephanodiscus,planktonic
-12227,Stephanodiscus alpinus,DIAT,Stephanodiscus alpinus,Stephanodiscus,planktonic
-12228,Stephanodiscus minutulus,DIAT,Stephanodiscus minutulus,Stephanodiscus,planktonic
-12232,Stephanodiscus medius,DIAT,Stephanodiscus medius,Stephanodiscus,planktonic
-12235,Stephanodiscus hantzschii fo. tenuis,DIAT,Stephanodiscus hantzschii,Stephanodiscus,planktonic
-12239,Surirella angusta,DIAT,Surirella angusta,Surirella,benthic
-12242,Surirella biseriata,DIAT,Surirella biseriata,Surirella,benthic
-12251,Surirella linearis,DIAT,Surirella linearis,Surirella,benthic
-12256,Surirella robusta,DIAT,Surirella robusta,Surirella,benthic
-12269,Surirella delicatissima fo. tenuissima,DIAT,Surirella delicatissima,Surirella,benthic
-12283,Surirella minuta,DIAT,Surirella minuta,Surirella,benthic
-12293,Surirella brebissonii var. kuetzingii,DIAT,Surirella brebissonii,Surirella,benthic
-12297,Surirella brebissonii,DIAT,Surirella brebissonii,Surirella,benthic
-12298,Surirella amphioxys,DIAT,Surirella amphioxys,Surirella,benthic
-12301,Surirella elegans,DIAT,Surirella elegans,Surirella,benthic
-12302,Surirella bifrons,DIAT,Surirella bifrons,Surirella,benthic
-12304,Surirella splendida,DIAT,Surirella splendida,Surirella,benthic
-12307,Surirella roba,DIAT,Surirella roba,Surirella,benthic
-12309,Surirella spp.,DIAT,Surirella,Surirella,benthic
-12310,Surirella sp. 1?,DIAT,Surirella,Surirella,benthic
-12311,Surirella sp. 2 ?,DIAT,Surirella,Surirella,benthic
+12142,Rhoicosphenia curvata,DIAT,Rhoicosphenia curvata,Rhoicosphenia,NA
+12143,Rhopalodia gibba,DIAT,Rhopalodia gibba,Rhopalodia,NA
+12145,Rhopalodia parallela,DIAT,Rhopalodia parallela,Rhopalodia,NA
+12162,Stauroneis anceps,DIAT,Stauroneis anceps,Stauroneis,NA
+12163,Stauroneis anceps fo. gracilis,DIAT,Stauroneis anceps,Stauroneis,NA
+12164,Stauroneis anceps fo. linearis,DIAT,Stauroneis anceps,Stauroneis,NA
+12167,Stauroneis smithii,DIAT,Stauroneis smithii,Stauroneis,NA
+12170,Stauroneis livingstonii,DIAT,Stauroneis livingstonii,Stauroneis,NA
+12171,Stauroneis nobilis var. baconiana,DIAT,Stauroneis nobilis,Stauroneis,NA
+12173,Stauroneis phoenicenteron,DIAT,Stauroneis phoenicenteron,Stauroneis,NA
+12175,Stauroneis producta,DIAT,Stauroneis producta,Stauroneis,NA
+12177,Stauroneis staurolineata,DIAT,Stauroneis staurolineata,Stauroneis,NA
+12181,Stauroneis nobilis var. gracilis,DIAT,Stauroneis nobilis,Stauroneis,NA
+12190,Stauroneis agrestis,DIAT,Stauroneis agrestis,Stauroneis,NA
+12192,Stauroneis acuta,DIAT,Stauroneis acuta,Stauroneis,NA
+12194,Stauroneis thermicola,DIAT,Stauroneis thermicola,Stauroneis,NA
+12199,Stauroneis nobilis,DIAT,Stauroneis nobilis,Stauroneis,NA
+12204,"Stauroneis anceps fo. gracilis PLUS vars. 1, 2, and 3",DIAT,Stauroneis anceps,Stauroneis,NA
+12205,Stauroneis spp.,DIAT,Stauroneis,Stauroneis,NA
+12206,Stauroneis sp. 1?,DIAT,Stauroneis,Stauroneis,NA
+12214,Stenopterobia densestriata,DIAT,Stenopterobia densestriata,Stenopterobia,NA
+12215,Stenopterobia delicatissima,DIAT,Stenopterobia delicatissima,Stenopterobia,NA
+12216,Stenopterobia curvula,DIAT,Stenopterobia curvula,Stenopterobia,NA
+12217,Stenopterobia spp.,DIAT,Stenopterobia,Stenopterobia,NA
+12218,Stephanodiscus niagarae,DIAT,Stephanodiscus niagarae,Stephanodiscus,NA
+12219,Stephanodiscus parvus,DIAT,Stephanodiscus parvus,Stephanodiscus,NA
+12226,Stephanodiscus hantzschii,DIAT,Stephanodiscus hantzschii,Stephanodiscus,NA
+12227,Stephanodiscus alpinus,DIAT,Stephanodiscus alpinus,Stephanodiscus,NA
+12228,Stephanodiscus minutulus,DIAT,Stephanodiscus minutulus,Stephanodiscus,NA
+12232,Stephanodiscus medius,DIAT,Stephanodiscus medius,Stephanodiscus,NA
+12235,Stephanodiscus hantzschii fo. tenuis,DIAT,Stephanodiscus hantzschii,Stephanodiscus,NA
+12239,Surirella angusta,DIAT,Surirella angusta,Surirella,NA
+12242,Surirella biseriata,DIAT,Surirella biseriata,Surirella,NA
+12251,Surirella linearis,DIAT,Surirella linearis,Surirella,NA
+12256,Surirella robusta,DIAT,Surirella robusta,Surirella,NA
+12269,Surirella delicatissima fo. tenuissima,DIAT,Surirella delicatissima,Surirella,NA
+12283,Surirella minuta,DIAT,Surirella minuta,Surirella,NA
+12293,Surirella brebissonii var. kuetzingii,DIAT,Surirella brebissonii,Surirella,NA
+12297,Surirella brebissonii,DIAT,Surirella brebissonii,Surirella,NA
+12298,Surirella amphioxys,DIAT,Surirella amphioxys,Surirella,NA
+12301,Surirella elegans,DIAT,Surirella elegans,Surirella,NA
+12302,Surirella bifrons,DIAT,Surirella bifrons,Surirella,NA
+12304,Surirella splendida,DIAT,Surirella splendida,Surirella,NA
+12307,Surirella roba,DIAT,Surirella roba,Surirella,NA
+12309,Surirella spp.,DIAT,Surirella,Surirella,NA
+12310,Surirella sp. 1?,DIAT,Surirella,Surirella,NA
+12311,Surirella sp. 2 ?,DIAT,Surirella,Surirella,NA
 12316,Synedra amphicephala,DIAT,Synedra amphicephala,Synedra,tychoplanktonic
 12321,Synedra filiformis var. exilis,DIAT,Synedra filiformis,Synedra,tychoplanktonic
 12322,Synedra sp. 5 PIRLA,DIAT,Synedra,Synedra,tychoplanktonic
@@ -570,80 +570,80 @@ taxonid,variablename,ecologicalgroup,harmonizedname,genus,habit
 12384,Tabellaria flocculosa var. linearis,DIAT,Tabellaria flocculosa,Tabellaria,tychoplanktonic
 12386,"Tabellaria flocculosa (strain IIIp, sensu Koppen)",DIAT,Tabellaria flocculosa,Tabellaria,tychoplanktonic
 12390,Tabellaria ventricosa,DIAT,Tabellaria ventricosa,Tabellaria,tychoplanktonic
-12397,Thalassiosira visurgis,DIAT,Thalassiosira visurgis,Thalassiosira,planktonic
+12397,Thalassiosira visurgis,DIAT,Thalassiosira visurgis,Thalassiosira,NA
 12403,Pseudostaurosira brevistriata,DIAT,Pseudostaurosira brevistriata,Pseudostaurosira,tychoplanktonic
-12406,Bacillaria paradoxa,DIAT,Bacillaria paradoxa,Bacillaria,benthic
+12406,Bacillaria paradoxa,DIAT,Bacillaria paradoxa,Bacillaria,NA
 12418,Bacillariophyta undet. (pennate),DIAT,Bacillariophyta,Bacillariophyta,NA
 12419,Undetermined Pennate sp. 1 ?,DIAT,Undetermined,Undetermined,NA
 12420,Undetermined Pennate sp. 2 ?,DIAT,Undetermined,Undetermined,NA
 12424,Bacillariophyta undet. (centric) sp. 1?,DIAT,Bacillariophyta,Bacillariophyta,NA
 12437,Aneumastus tuscula,DIAT,Aneumastus tuscula,Aneumastus,NA
-12438,Encyonema minutum,DIAT,Encyonema minutum,Encyonema,benthic
-12439,Encyonema silesiacum,DIAT,Encyonema silesiacum,Encyonema,benthic
-12442,Encyonema gaeumannii,DIAT,Encyonema gaeumannii,Encyonema,benthic
-12449,Encyonema triangulum,DIAT,Encyonema triangulum,Encyonema,benthic
-12455,Fallacia indifferens,DIAT,Fallacia indifferens,Fallacia,benthic
-12459,Fallacia tenera,DIAT,Fallacia tenera,Fallacia,benthic
-12460,Karayevia clevei,DIAT,Karayevia clevei,Karayevia,benthic
-12462,Luticola mutica,DIAT,Luticola mutica,Luticola,benthic
-12465,Luticola goeppertiana,DIAT,Luticola goeppertiana,Luticola,benthic
+12438,Encyonema minutum,DIAT,Encyonema minutum,Encyonema,NA
+12439,Encyonema silesiacum,DIAT,Encyonema silesiacum,Encyonema,NA
+12442,Encyonema gaeumannii,DIAT,Encyonema gaeumannii,Encyonema,NA
+12449,Encyonema triangulum,DIAT,Encyonema triangulum,Encyonema,NA
+12455,Fallacia indifferens,DIAT,Fallacia indifferens,Fallacia,NA
+12459,Fallacia tenera,DIAT,Fallacia tenera,Fallacia,NA
+12460,Karayevia clevei,DIAT,Karayevia clevei,Karayevia,NA
+12462,Luticola mutica,DIAT,Luticola mutica,Luticola,NA
+12465,Luticola goeppertiana,DIAT,Luticola goeppertiana,Luticola,NA
 12471,Planothidium lanceolatum,DIAT,Planothidium lanceolatum,Planothidium,benthic
 12472,Planothidium peragalli,DIAT,Planothidium peragalli,Planothidium,benthic
-12474,Sellaphora laevissima,DIAT,Sellaphora laevissima,Sellaphora,benthic
-12475,Sellaphora pupula var. capitata,DIAT,Sellaphora pupula,Sellaphora,benthic
-12476,Sellaphora pupula,DIAT,Sellaphora pupula,Sellaphora,benthic
-12477,Sellaphora americana,DIAT,Sellaphora americana,Sellaphora,benthic
-12478,Sellaphora bacillum,DIAT,Sellaphora bacillum,Sellaphora,benthic
-12479,Sellaphora disjuncta,DIAT,Sellaphora disjuncta,Sellaphora,benthic
-12480,Sellaphora mutata,DIAT,Sellaphora mutata,Sellaphora,benthic
-12482,Sellaphora seminulum,DIAT,Sellaphora seminulum,Sellaphora,benthic
+12474,Sellaphora laevissima,DIAT,Sellaphora laevissima,Sellaphora,NA
+12475,Sellaphora pupula var. capitata,DIAT,Sellaphora pupula,Sellaphora,NA
+12476,Sellaphora pupula,DIAT,Sellaphora pupula,Sellaphora,NA
+12477,Sellaphora americana,DIAT,Sellaphora americana,Sellaphora,NA
+12478,Sellaphora bacillum,DIAT,Sellaphora bacillum,Sellaphora,NA
+12479,Sellaphora disjuncta,DIAT,Sellaphora disjuncta,Sellaphora,NA
+12480,Sellaphora mutata,DIAT,Sellaphora mutata,Sellaphora,NA
+12482,Sellaphora seminulum,DIAT,Sellaphora seminulum,Sellaphora,NA
 12483,Staurosira construens,DIAT,Staurosira construens,Staurosira,tychoplanktonic
 12484,Staurosira construens var. binodis,DIAT,Staurosira construens,Staurosira,tychoplanktonic
 12485,Staurosira construens var. venter,DIAT,Staurosira construens,Staurosira,tychoplanktonic
-12487,Staurosirella leptostauron,DIAT,Staurosirella leptostauron,Staurosirella,tychoplanktonic
-12489,Staurosirella pinnata,DIAT,Staurosirella pinnata,Staurosirella,tychoplanktonic
-12491,Staurosirella leptostauron var. dubia,DIAT,Staurosirella leptostauron,Staurosirella,tychoplanktonic
-12493,Tryblionella debilis,DIAT,Tryblionella debilis,Tryblionella,benthic
-12495,Tryblionella aerophila,DIAT,Tryblionella aerophila,Tryblionella,benthic
-12496,Tryblionella calida,DIAT,Tryblionella calida,Tryblionella,benthic
-12498,Tryblionella apiculata,DIAT,Tryblionella apiculata,Tryblionella,benthic
-12499,Tryblionella hungarica,DIAT,Tryblionella hungarica,Tryblionella,benthic
-12500,Tryblionella littoralis,DIAT,Tryblionella littoralis,Tryblionella,benthic
-12501,Tryblionella levidensis,DIAT,Tryblionella levidensis,Tryblionella,benthic
-12502,Tryblionella victoriae,DIAT,Tryblionella victoriae,Tryblionella,benthic
-12505,Psammothidium bioretii,DIAT,Psammothidium bioretii,Psammothidium,benthic
-12506,Psammothidium grischunum fo. daonensis,DIAT,Psammothidium grischunum,Psammothidium,benthic
-12507,Psammothidium helveticum,DIAT,Psammothidium helveticum,Psammothidium,benthic
-12509,Psammothidium marginulatum,DIAT,Psammothidium marginulatum,Psammothidium,benthic
-12511,Psammothidium rossii,DIAT,Psammothidium rossii,Psammothidium,benthic
-12512,Psammothidium subatomoides,DIAT,Psammothidium subatomoides,Psammothidium,benthic
-12513,Psammothidium ventralis,DIAT,Psammothidium ventralis,Psammothidium,benthic
-12514,Eucocconeis flexella,DIAT,Eucocconeis flexella,Eucocconeis,benthic
-12515,Eucocconeis laevis,DIAT,Eucocconeis laevis,Eucocconeis,benthic
+12487,Staurosirella leptostauron,DIAT,Staurosirella leptostauron,Staurosirella,NA
+12489,Staurosirella pinnata,DIAT,Staurosirella pinnata,Staurosirella,NA
+12491,Staurosirella leptostauron var. dubia,DIAT,Staurosirella leptostauron,Staurosirella,NA
+12493,Tryblionella debilis,DIAT,Tryblionella debilis,Tryblionella,NA
+12495,Tryblionella aerophila,DIAT,Tryblionella aerophila,Tryblionella,NA
+12496,Tryblionella calida,DIAT,Tryblionella calida,Tryblionella,NA
+12498,Tryblionella apiculata,DIAT,Tryblionella apiculata,Tryblionella,NA
+12499,Tryblionella hungarica,DIAT,Tryblionella hungarica,Tryblionella,NA
+12500,Tryblionella littoralis,DIAT,Tryblionella littoralis,Tryblionella,NA
+12501,Tryblionella levidensis,DIAT,Tryblionella levidensis,Tryblionella,NA
+12502,Tryblionella victoriae,DIAT,Tryblionella victoriae,Tryblionella,NA
+12505,Psammothidium bioretii,DIAT,Psammothidium bioretii,Psammothidium,NA
+12506,Psammothidium grischunum fo. daonensis,DIAT,Psammothidium grischunum,Psammothidium,NA
+12507,Psammothidium helveticum,DIAT,Psammothidium helveticum,Psammothidium,NA
+12509,Psammothidium marginulatum,DIAT,Psammothidium marginulatum,Psammothidium,NA
+12511,Psammothidium rossii,DIAT,Psammothidium rossii,Psammothidium,NA
+12512,Psammothidium subatomoides,DIAT,Psammothidium subatomoides,Psammothidium,NA
+12513,Psammothidium ventralis,DIAT,Psammothidium ventralis,Psammothidium,NA
+12514,Eucocconeis flexella,DIAT,Eucocconeis flexella,Eucocconeis,NA
+12515,Eucocconeis laevis,DIAT,Eucocconeis laevis,Eucocconeis,NA
 12516,Lemnicola hungarica,DIAT,Lemnicola hungarica,Lemnicola,NA
-12518,Fragilariforma bicapitata,DIAT,Fragilariforma bicapitata,Fragilariforma,tychoplanktonic
-12519,Fragilariforma constricta,DIAT,Fragilariforma constricta,Fragilariforma,tychoplanktonic
-12520,Fragilariforma constricta fo. stricta,DIAT,Fragilariforma constricta,Fragilariforma,tychoplanktonic
-12522,Fragilariforma hungarica var. tumida,DIAT,Fragilariforma hungarica,Fragilariforma,tychoplanktonic
-12523,Fragilariforma strangulata,DIAT,Fragilariforma strangulata,Fragilariforma,tychoplanktonic
-12524,Fragilariforma virescens,DIAT,Fragilariforma virescens,Fragilariforma,tychoplanktonic
-12528,Placoneis clementis,DIAT,Placoneis clementis,Placoneis,benthic
-12529,Placoneis elginensis,DIAT,Placoneis elginensis,Placoneis,benthic
-12532,Placoneis gastrum,DIAT,Placoneis gastrum,Placoneis,benthic
-12534,Cavinula cocconeiformis,DIAT,Cavinula cocconeiformis,Cavinula,benthic
-12537,Cavinula scutelloides,DIAT,Cavinula scutelloides,Cavinula,benthic
-12540,Diadesmis confervacea,DIAT,Diadesmis confervacea,Diadesmis,benthic
-12541,Diadesmis contenta,DIAT,Diadesmis contenta,Diadesmis,benthic
+12518,Fragilariforma bicapitata,DIAT,Fragilariforma bicapitata,Fragilariforma,NA
+12519,Fragilariforma constricta,DIAT,Fragilariforma constricta,Fragilariforma,NA
+12520,Fragilariforma constricta fo. stricta,DIAT,Fragilariforma constricta,Fragilariforma,NA
+12522,Fragilariforma hungarica var. tumida,DIAT,Fragilariforma hungarica,Fragilariforma,NA
+12523,Fragilariforma strangulata,DIAT,Fragilariforma strangulata,Fragilariforma,NA
+12524,Fragilariforma virescens,DIAT,Fragilariforma virescens,Fragilariforma,NA
+12528,Placoneis clementis,DIAT,Placoneis clementis,Placoneis,NA
+12529,Placoneis elginensis,DIAT,Placoneis elginensis,Placoneis,NA
+12532,Placoneis gastrum,DIAT,Placoneis gastrum,Placoneis,NA
+12534,Cavinula cocconeiformis,DIAT,Cavinula cocconeiformis,Cavinula,NA
+12537,Cavinula scutelloides,DIAT,Cavinula scutelloides,Cavinula,NA
+12540,Diadesmis confervacea,DIAT,Diadesmis confervacea,Diadesmis,NA
+12541,Diadesmis contenta,DIAT,Diadesmis contenta,Diadesmis,NA
 12546,Kobayasiella subtilissima,DIAT,Kobayasiella subtilissima,Kobayasiella,NA
 12548,Tabularia fasciculata,DIAT,Tabularia fasciculata,Tabularia,NA
-12550,Encyonopsis cesatii,DIAT,Encyonopsis cesatii,Encyonopsis,benthic
-12551,Encyonopsis microcephala,DIAT,Encyonopsis microcephala,Encyonopsis,benthic
+12550,Encyonopsis cesatii,DIAT,Encyonopsis cesatii,Encyonopsis,NA
+12551,Encyonopsis microcephala,DIAT,Encyonopsis microcephala,Encyonopsis,NA
 12563,Synedra dilatata,DIAT,Synedra dilatata,Synedra,tychoplanktonic
-12569,Stephanodiscus vestibulis,DIAT,Stephanodiscus vestibulis,Stephanodiscus,planktonic
+12569,Stephanodiscus vestibulis,DIAT,Stephanodiscus vestibulis,Stephanodiscus,NA
 12571,Gomphonema patricki,DIAT,Gomphonema patricki,Gomphonema,benthic
 12572,Gomphonema kobayasii,DIAT,Gomphonema kobayasii,Gomphonema,benthic
-12573,Staurosirella berolinensis,DIAT,Staurosirella berolinensis,Staurosirella,tychoplanktonic
-12579,Encyonema pergracile,DIAT,Encyonema pergracile,Encyonema,benthic
+12573,Staurosirella berolinensis,DIAT,Staurosirella berolinensis,Staurosirella,NA
+12579,Encyonema pergracile,DIAT,Encyonema pergracile,Encyonema,NA
 12585,Nitzschia archibaldii,DIAT,Nitzschia archibaldii,Nitzschia,benthic
 12587,Gomphonema pumilum var. rigidum,DIAT,Gomphonema pumilum,Gomphonema,benthic
 12590,Navicula lanceolata,DIAT,Navicula lanceolata,Navicula,benthic
@@ -653,87 +653,87 @@ taxonid,variablename,ecologicalgroup,harmonizedname,genus,habit
 12601,Gomphonema pumilum var. elegans,DIAT,Gomphonema pumilum,Gomphonema,benthic
 12616,Aulacoseira herzogii,DIAT,Aulacoseira herzogii,Aulacoseira,planktonic
 12617,Aulacoseira nygaardii,DIAT,Aulacoseira nygaardii,Aulacoseira,planktonic
-12625,Caloneis leptosoma,DIAT,Caloneis leptosoma,Caloneis,benthic
+12625,Caloneis leptosoma,DIAT,Caloneis leptosoma,Caloneis,NA
 12634,Nitzschia gessneri,DIAT,Nitzschia gessneri,Nitzschia,benthic
-12640,Craticula ambigua,DIAT,Craticula ambigua,Craticula,benthic
-12645,Paralia sulcata,DIAT,Paralia sulcata,Paralia,tychoplanktonic
+12640,Craticula ambigua,DIAT,Craticula ambigua,Craticula,NA
+12645,Paralia sulcata,DIAT,Paralia sulcata,Paralia,NA
 12647,Cyclotella cryptica,DIAT,Cyclotella cryptica,Cyclotella,planktonic
-12649,Brachysira garrensis,DIAT,Brachysira garrensis,Brachysira,benthic
+12649,Brachysira garrensis,DIAT,Brachysira garrensis,Brachysira,NA
 12652,Amphiprora spp.,DIAT,Amphiprora,Amphiprora,NA
-12657,Cymbella naviculacea,DIAT,Cymbella naviculacea,Cymbella,benthic
+12657,Cymbella naviculacea,DIAT,Cymbella naviculacea,Cymbella,NA
 12663,Eunotia nymanniana,DIAT,Eunotia nymanniana,Eunotia,benthic
 12683,Gomphonema drutelingense,DIAT,Gomphonema drutelingense,Gomphonema,benthic
 12686,Gomphonema parvulum fo. saprophilum,DIAT,Gomphonema parvulum,Gomphonema,benthic
 12687,Gomphonema italicum,DIAT,Gomphonema italicum,Gomphonema,benthic
-12747,Pinnularia pulchra,DIAT,Pinnularia pulchra,Pinnularia,benthic
+12747,Pinnularia pulchra,DIAT,Pinnularia pulchra,Pinnularia,NA
 12748,Achnanthidium pyrenaicum,DIAT,Achnanthidium pyrenaicum,Achnanthidium,benthic
 12749,Achnanthidium exiguum,DIAT,Achnanthidium exiguum,Achnanthidium,benthic
 12755,Amphora copulata,DIAT,Amphora copulata,Amphora,benthic
-12757,Adlafia bryophila,DIAT,Adlafia bryophila,Adlafia,benthic
-12758,Adlafia minuscula,DIAT,Adlafia minuscula,Adlafia,benthic
-12763,Psammothidium altaicum,DIAT,Psammothidium altaicum,Psammothidium,benthic
-12766,Psammothidium chlidanos,DIAT,Psammothidium chlidanos,Psammothidium,benthic
+12757,Adlafia bryophila,DIAT,Adlafia bryophila,Adlafia,NA
+12758,Adlafia minuscula,DIAT,Adlafia minuscula,Adlafia,NA
+12763,Psammothidium altaicum,DIAT,Psammothidium altaicum,Psammothidium,NA
+12766,Psammothidium chlidanos,DIAT,Psammothidium chlidanos,Psammothidium,NA
 12769,Planothidium delicatulum,DIAT,Planothidium delicatulum,Planothidium,benthic
-12775,Eucocconeis alpestris,DIAT,Eucocconeis alpestris,Eucocconeis,benthic
+12775,Eucocconeis alpestris,DIAT,Eucocconeis alpestris,Eucocconeis,NA
 12776,Planothidium granum,DIAT,Planothidium granum,Planothidium,benthic
 12777,Planothidium hauckianum,DIAT,Planothidium hauckianum,Planothidium,benthic
 12778,Planothidium joursacense,DIAT,Planothidium joursacense,Planothidium,benthic
 12781,Planothidium frequentissimum,DIAT,Planothidium frequentissimum,Planothidium,benthic
 12782,Planothidium rostratum,DIAT,Planothidium rostratum,Planothidium,benthic
-12789,Rossithidium linearis,DIAT,Rossithidium linearis,Rossithidium,benthic
-12790,Rossithidium pusillum,DIAT,Rossithidium pusillum,Rossithidium,benthic
-12794,Rossithidium petersenii,DIAT,Rossithidium petersenii,Rossithidium,benthic
-12796,Psammothidium scoticum,DIAT,Psammothidium scoticum,Psammothidium,benthic
+12789,Rossithidium linearis,DIAT,Rossithidium linearis,Rossithidium,NA
+12790,Rossithidium pusillum,DIAT,Rossithidium pusillum,Rossithidium,NA
+12794,Rossithidium petersenii,DIAT,Rossithidium petersenii,Rossithidium,NA
+12796,Psammothidium scoticum,DIAT,Psammothidium scoticum,Psammothidium,NA
 12804,Stauroforma exiguiformis,DIAT,Stauroforma exiguiformis,Stauroforma,NA
-12805,Fragilariforma lata,DIAT,Fragilariforma lata,Fragilariforma,tychoplanktonic
-12806,Fragilariforma polygonata,DIAT,Fragilariforma polygonata,Fragilariforma,tychoplanktonic
+12805,Fragilariforma lata,DIAT,Fragilariforma lata,Fragilariforma,NA
+12806,Fragilariforma polygonata,DIAT,Fragilariforma polygonata,Fragilariforma,NA
 12807,Pseudostaurosira robusta,DIAT,Pseudostaurosira robusta,Pseudostaurosira,tychoplanktonic
 12815,Gomphonema exilissimum,DIAT,Gomphonema exilissimum,Gomphonema,benthic
 12816,Gomphonema parvulius,DIAT,Gomphonema parvulius,Gomphonema,benthic
 12817,Gomphosphenia tackei,DIAT,Gomphosphenia tackei,Gomphosphenia,NA
-12818,Geissleria acceptata,DIAT,Geissleria acceptata,Geissleria,benthic
+12818,Geissleria acceptata,DIAT,Geissleria acceptata,Geissleria,NA
 12819,Mayamaea agrestis,DIAT,Mayamaea agrestis,Mayamaea,NA
-12824,Hippodonta capitata,DIAT,Hippodonta capitata,Hippodonta,benthic
-12825,Hippodonta hungarica,DIAT,Hippodonta hungarica,Hippodonta,benthic
-12839,Microcostatus kuelbsii,DIAT,Microcostatus kuelbsii,Microcostatus,benthic
-12840,Microcostatus krasskei,DIAT,Microcostatus krasskei,Microcostatus,benthic
-12842,Chamaepinnularia krookii,DIAT,Chamaepinnularia krookii,Chamaepinnularia,benthic
+12824,Hippodonta capitata,DIAT,Hippodonta capitata,Hippodonta,NA
+12825,Hippodonta hungarica,DIAT,Hippodonta hungarica,Hippodonta,NA
+12839,Microcostatus kuelbsii,DIAT,Microcostatus kuelbsii,Microcostatus,NA
+12840,Microcostatus krasskei,DIAT,Microcostatus krasskei,Microcostatus,NA
+12842,Chamaepinnularia krookii,DIAT,Chamaepinnularia krookii,Chamaepinnularia,NA
 12846,Navicula vilaplanii,DIAT,Navicula vilaplanii,Navicula,benthic
-12848,Chamaepinnularia mediocris,DIAT,Chamaepinnularia mediocris,Chamaepinnularia,benthic
+12848,Chamaepinnularia mediocris,DIAT,Chamaepinnularia mediocris,Chamaepinnularia,NA
 12849,Navicula antonii,DIAT,Navicula antonii,Navicula,benthic
-12852,Craticula molestiformis,DIAT,Craticula molestiformis,Craticula,benthic
+12852,Craticula molestiformis,DIAT,Craticula molestiformis,Craticula,NA
 12856,Fistulifera pelliculosa,DIAT,Fistulifera pelliculosa,Fistulifera,NA
 12857,Decussata placenta,DIAT,Decussata placenta,Decussata,NA
 12858,Parlibellus protracta,DIAT,Parlibellus protracta,Parlibellus,NA
-12862,Geissleria schoenfeldii,DIAT,Geissleria schoenfeldii,Geissleria,benthic
-12864,Chamaepinnularia soehrensis var. hassiaca,DIAT,Chamaepinnularia soehrensis,Chamaepinnularia,benthic
+12862,Geissleria schoenfeldii,DIAT,Geissleria schoenfeldii,Geissleria,NA
+12864,Chamaepinnularia soehrensis var. hassiaca,DIAT,Chamaepinnularia soehrensis,Chamaepinnularia,NA
 12868,Navicula rostellata,DIAT,Navicula rostellata,Navicula,benthic
-12870,Tryblionella acuminata,DIAT,Tryblionella acuminata,Tryblionella,benthic
+12870,Tryblionella acuminata,DIAT,Tryblionella acuminata,Tryblionella,NA
 12877,Hygropetra balfouriana,DIAT,Hygropetra balfouriana,Hygropetra,NA
-12880,Rhoicosphenia abbreviata,DIAT,Rhoicosphenia abbreviata,Rhoicosphenia,benthic
-12886,Brachysira microcephala,DIAT,Brachysira microcephala,Brachysira,benthic
-12901,Encyonopsis krammeri,DIAT,Encyonopsis krammeri,Encyonopsis,benthic
+12880,Rhoicosphenia abbreviata,DIAT,Rhoicosphenia abbreviata,Rhoicosphenia,NA
+12886,Brachysira microcephala,DIAT,Brachysira microcephala,Brachysira,NA
+12901,Encyonopsis krammeri,DIAT,Encyonopsis krammeri,Encyonopsis,NA
 12902,Eunotia subarcuatoides,DIAT,Eunotia subarcuatoides,Eunotia,benthic
 12903,Gomphonema innocens,DIAT,Gomphonema innocens,Gomphonema,benthic
 12911,Achnanthidium latecephalum,DIAT,Achnanthidium latecephalum,Achnanthidium,benthic
 12929,Pseudostaurosira parasitica,DIAT,Pseudostaurosira parasitica,Pseudostaurosira,tychoplanktonic
-12932,Karayevia carissima,DIAT,Karayevia carissima,Karayevia,benthic
-12934,Karayevia suchlandtii,DIAT,Karayevia suchlandtii,Karayevia,benthic
-12935,Karayevia ploenensis,DIAT,Karayevia ploenensis,Karayevia,benthic
+12932,Karayevia carissima,DIAT,Karayevia carissima,Karayevia,NA
+12934,Karayevia suchlandtii,DIAT,Karayevia suchlandtii,Karayevia,NA
+12935,Karayevia ploenensis,DIAT,Karayevia ploenensis,Karayevia,NA
 12937,Achnanthidium rivulare,DIAT,Achnanthidium rivulare,Achnanthidium,benthic
-12943,Cymbella subturgidula,DIAT,Cymbella subturgidula,Cymbella,benthic
+12943,Cymbella subturgidula,DIAT,Cymbella subturgidula,Cymbella,NA
 12948,Navicula oligotraphenta,DIAT,Navicula oligotraphenta,Navicula,benthic
 13015,Aulacoseira lacustris,DIAT,Aulacoseira lacustris,Aulacoseira,planktonic
 13020,Aulacoseira lirata var. biseriata,DIAT,Aulacoseira lirata,Aulacoseira,planktonic
 13030,Achnanthidium deflexum,DIAT,Achnanthidium deflexum,Achnanthidium,benthic
-13031,Encyonema hebridicum,DIAT,Encyonema hebridicum,Encyonema,benthic
-13033,Ulnaria ulna,DIAT,Ulnaria ulna,Ulnaria,tychoplanktonic
-13037,Tryblionella scalaris,DIAT,Tryblionella scalaris,Tryblionella,benthic
+13031,Encyonema hebridicum,DIAT,Encyonema hebridicum,Encyonema,NA
+13033,Ulnaria ulna,DIAT,Ulnaria ulna,Ulnaria,NA
+13037,Tryblionella scalaris,DIAT,Tryblionella scalaris,Tryblionella,NA
 13038,Nupela vitiosa,DIAT,Nupela vitiosa,Nupela,NA
 13052,Fragilaria distans,DIAT,Fragilaria distans,Fragilaria,tychoplanktonic
 13056,Frustulia krammeri,DIAT,Frustulia krammeri,Frustulia,benthic
 13058,Aulacoseira tenella,DIAT,Aulacoseira tenella,Aulacoseira,planktonic
-13062,Sellaphora hustedtii,DIAT,Sellaphora hustedtii,Sellaphora,benthic
+13062,Sellaphora hustedtii,DIAT,Sellaphora hustedtii,Sellaphora,NA
 13075,Fragilaria capucina var. fragilarioides,DIAT,Fragilaria capucina,Fragilaria,tychoplanktonic
 13076,Pseudostaurosira subsalina,DIAT,Pseudostaurosira subsalina,Pseudostaurosira,tychoplanktonic
 13078,Achnanthidium caledonicum,DIAT,Achnanthidium caledonicum,Achnanthidium,benthic
@@ -747,11 +747,11 @@ taxonid,variablename,ecologicalgroup,harmonizedname,genus,habit
 13091,Pseudostaurosiropsis geocollegarum,DIAT,Pseudostaurosiropsis geocollegarum,Pseudostaurosiropsis,NA
 13092,Pseudostaurosira trainorii,DIAT,Pseudostaurosira trainorii,Pseudostaurosira,tychoplanktonic
 13094,Fragilaria sepes,DIAT,Fragilaria sepes,Fragilaria,tychoplanktonic
-13103,Eolimna minima,DIAT,Eolimna minima,Eolimna,benthic
+13103,Eolimna minima,DIAT,Eolimna minima,Eolimna,NA
 13107,Achnanthidium eutrophilum,DIAT,Achnanthidium eutrophilum,Achnanthidium,benthic
 13109,Delphineis minutissima,DIAT,Delphineis minutissima,Delphineis,NA
 13110,Navicula hanseatica,DIAT,Navicula hanseatica,Navicula,benthic
-13115,Urosolenia eriensis,DIAT,Urosolenia eriensis,Urosolenia,planktonic
+13115,Urosolenia eriensis,DIAT,Urosolenia eriensis,Urosolenia,NA
 13121,Frustulia bahlsii,DIAT,Frustulia bahlsii,Frustulia,benthic
 13125,Nitzschia hybrida,DIAT,Nitzschia hybrida,Nitzschia,benthic
 13126,Discostella asterocostata,DIAT,Discostella asterocostata,Discostella,planktonic
@@ -759,94 +759,94 @@ taxonid,variablename,ecologicalgroup,harmonizedname,genus,habit
 13142,Achnanthidium reimeri,DIAT,Achnanthidium reimeri,Achnanthidium,benthic
 13144,Cyclotella gordonensis,DIAT,Cyclotella gordonensis,Cyclotella,planktonic
 13166,Proschkinia bulnheimii,DIAT,Proschkinia bulnheimii,Proschkinia,NA
-13169,Pinnularia brauniana,DIAT,Pinnularia brauniana,Pinnularia,benthic
+13169,Pinnularia brauniana,DIAT,Pinnularia brauniana,Pinnularia,NA
 13174,Aulacoseira distans var. nivaloides,DIAT,Aulacoseira distans,Aulacoseira,planktonic
-13189,Cymbopleura subcuspidata,DIAT,Cymbopleura subcuspidata,Cymbopleura,benthic
-13193,Cymbopleura naviculiformis,DIAT,Cymbopleura naviculiformis,Cymbopleura,benthic
-13212,Psammothidium curtissimum,DIAT,Psammothidium curtissimum,Psammothidium,benthic
-13217,Karayevia oblongella,DIAT,Karayevia oblongella,Karayevia,benthic
-13224,Halamphora montana,DIAT,Halamphora montana,Halamphora,benthic
-13234,Halamphora veneta,DIAT,Halamphora veneta,Halamphora,benthic
+13189,Cymbopleura subcuspidata,DIAT,Cymbopleura subcuspidata,Cymbopleura,NA
+13193,Cymbopleura naviculiformis,DIAT,Cymbopleura naviculiformis,Cymbopleura,NA
+13212,Psammothidium curtissimum,DIAT,Psammothidium curtissimum,Psammothidium,NA
+13217,Karayevia oblongella,DIAT,Karayevia oblongella,Karayevia,NA
+13224,Halamphora montana,DIAT,Halamphora montana,Halamphora,NA
+13234,Halamphora veneta,DIAT,Halamphora veneta,Halamphora,NA
 13238,Aulacoseira pusilla,DIAT,Aulacoseira pusilla,Aulacoseira,planktonic
-13245,Encyonema neogracile,DIAT,Encyonema neogracile,Encyonema,benthic
+13245,Encyonema neogracile,DIAT,Encyonema neogracile,Encyonema,NA
 13251,Eunotia mucophila,DIAT,Eunotia mucophila,Eunotia,benthic
 13255,Semiorbis hemicyclus,DIAT,Semiorbis hemicyclus,Semiorbis,NA
 13259,Fragilaria mesolepta,DIAT,Fragilaria mesolepta,Fragilaria,tychoplanktonic
-13268,Fallacia maceria,DIAT,Fallacia maceria,Fallacia,benthic
+13268,Fallacia maceria,DIAT,Fallacia maceria,Fallacia,NA
 13288,Navicula escambia,DIAT,Navicula escambia,Navicula,benthic
-13292,Eolimna subminuscula,DIAT,Eolimna subminuscula,Eolimna,benthic
-13298,Tryblionella salinarum,DIAT,Tryblionella salinarum,Tryblionella,benthic
-13299,Staurosirella martyi,DIAT,Staurosirella martyi,Staurosirella,tychoplanktonic
-13306,Ulnaria acus,DIAT,Ulnaria acus,Ulnaria,tychoplanktonic
-13355,Urosolenia longiseta,DIAT,Urosolenia longiseta,Urosolenia,planktonic
+13292,Eolimna subminuscula,DIAT,Eolimna subminuscula,Eolimna,NA
+13298,Tryblionella salinarum,DIAT,Tryblionella salinarum,Tryblionella,NA
+13299,Staurosirella martyi,DIAT,Staurosirella martyi,Staurosirella,NA
+13306,Ulnaria acus,DIAT,Ulnaria acus,Ulnaria,NA
+13355,Urosolenia longiseta,DIAT,Urosolenia longiseta,Urosolenia,NA
 24374,Nitzschia linearis var. subtilis,DIAT,Nitzschia linearis,Nitzschia,benthic
-24381,Cymbella caespitosa,DIAT,Cymbella caespitosa,Cymbella,benthic
+24381,Cymbella caespitosa,DIAT,Cymbella caespitosa,Cymbella,NA
 24412,Ctenophora pulchella,DIAT,Ctenophora pulchella,Ctenophora,NA
 24586,Synedra acus,DIAT,Synedra acus,Synedra,tychoplanktonic
-24736,Achnanthes catenata,DIAT,Achnanthes catenata,Achnanthes,benthic
+24736,Achnanthes catenata,DIAT,Achnanthes catenata,Achnanthes,NA
 24904,Fragilaria cf. crotonensis,DIAT,Fragilaria crotonensis,Fragilaria,tychoplanktonic
 24919,Navicula integra,DIAT,Navicula integra,Navicula,benthic
-25070,Cymbella neocistula,DIAT,Cymbella neocistula,Cymbella,benthic
-25073,Cymbella subleptoceros,DIAT,Cymbella subleptoceros,Cymbella,benthic
-25161,Encyonema spp.,DIAT,Encyonema,Encyonema,benthic
-25163,Placoneis spp.,DIAT,Placoneis,Placoneis,benthic
+25070,Cymbella neocistula,DIAT,Cymbella neocistula,Cymbella,NA
+25073,Cymbella subleptoceros,DIAT,Cymbella subleptoceros,Cymbella,NA
+25161,Encyonema spp.,DIAT,Encyonema,Encyonema,NA
+25163,Placoneis spp.,DIAT,Placoneis,Placoneis,NA
 25166,Staurosira elliptica,DIAT,Staurosira elliptica,Staurosira,tychoplanktonic
 25178,Oxyneis binalis var. elliptica,DIAT,Oxyneis binalis,Oxyneis,NA
-25180,Pinnularia gibbiformis,DIAT,Pinnularia gibbiformis,Pinnularia,benthic
-25182,Pinnularia silvatica,DIAT,Pinnularia silvatica,Pinnularia,benthic
+25180,Pinnularia gibbiformis,DIAT,Pinnularia gibbiformis,Pinnularia,NA
+25182,Pinnularia silvatica,DIAT,Pinnularia silvatica,Pinnularia,NA
 25239,Staurosira venter,DIAT,Staurosira venter,Staurosira,tychoplanktonic
 25306,Aulacoseira sp. 1?,DIAT,Aulacoseira,Aulacoseira,planktonic
-25307,Chamaepinnularia sp. 1?,DIAT,Chamaepinnularia,Chamaepinnularia,benthic
-25545,Pinnularia pluvianiformis,DIAT,Pinnularia pluvianiformis,Pinnularia,benthic
+25307,Chamaepinnularia sp. 1?,DIAT,Chamaepinnularia,Chamaepinnularia,NA
+25545,Pinnularia pluvianiformis,DIAT,Pinnularia pluvianiformis,Pinnularia,NA
 26940,Eunotia macroglossa,DIAT,Eunotia macroglossa,Eunotia,benthic
 26974,Cyclotella meneghiniana var. 5 ANSP,DIAT,Cyclotella meneghiniana,Cyclotella,planktonic
 26975,Nitzschia cf. inconspicua UMICH,DIAT,Nitzschia inconspicua,Nitzschia,benthic
 26976,Cocconeis placentula var. lineata + euglypta,DIAT,Cocconeis placentula,Cocconeis,benthic
 26980,Rhaphoneis sp. 1 ?,DIAT,Rhaphoneis,Rhaphoneis,NA
-26981,Cyclostephanos cf. invisitatus UMICH,DIAT,Cyclostephanos invisitatus,Cyclostephanos,planktonic
-26982,Skeletonema sp. 1 ?,DIAT,Skeletonema,Skeletonema,planktonic
-26983,Geissleria aikenensis,DIAT,Geissleria aikenensis,Geissleria,benthic
+26981,Cyclostephanos cf. invisitatus UMICH,DIAT,Cyclostephanos invisitatus,Cyclostephanos,NA
+26982,Skeletonema sp. 1 ?,DIAT,Skeletonema,Skeletonema,NA
+26983,Geissleria aikenensis,DIAT,Geissleria aikenensis,Geissleria,NA
 26984,Synedra delicatissima var. angustissima,DIAT,Synedra delicatissima,Synedra,tychoplanktonic
 26985,Eunotia sp. 1 NJSS DME,DIAT,Eunotia,Eunotia,benthic
 26986,Eunotia sp. 2 NJSS DME,DIAT,Eunotia,Eunotia,benthic
 26987,Eunotia sp. 3 NJSS DME,DIAT,Eunotia,Eunotia,benthic
 26988,Fragilaria amphicephala,DIAT,Fragilaria amphicephala,Fragilaria,tychoplanktonic
 26990,Synedra biceps,DIAT,Synedra biceps,Synedra,tychoplanktonic
-27000,Sellaphora sp. 1?,DIAT,Sellaphora,Sellaphora,benthic
-27001,Achnanthes reimeri,DIAT,Achnanthes reimeri,Achnanthes,benthic
+27000,Sellaphora sp. 1?,DIAT,Sellaphora,Sellaphora,NA
+27001,Achnanthes reimeri,DIAT,Achnanthes reimeri,Achnanthes,NA
 27007,Aulacoseira subborealis,DIAT,Aulacoseira subborealis,Aulacoseira,planktonic
 27008,Achnanthidium minutissimum capitate morph,DIAT,Achnanthidium minutissimum,Achnanthidium,benthic
-27009,Craticula sp. 1 NJSS DME,DIAT,Craticula,Craticula,benthic
+27009,Craticula sp. 1 NJSS DME,DIAT,Craticula,Craticula,NA
 27010,Gomphonema augur var. turris,DIAT,Gomphonema augur,Gomphonema,benthic
 27016,Aulacoseira coroniformis,DIAT,Aulacoseira coroniformis,Aulacoseira,planktonic
 27098,Cyclotella sp. 2?,DIAT,Cyclotella,Cyclotella,planktonic
-27107,Eucocconeis sp. 1,DIAT,Eucocconeis,Eucocconeis,benthic
-27108,Microcostatus maceria,DIAT,Microcostatus maceria,Microcostatus,benthic
+27107,Eucocconeis sp. 1,DIAT,Eucocconeis,Eucocconeis,NA
+27108,Microcostatus maceria,DIAT,Microcostatus maceria,Microcostatus,NA
 27139,Eunotia papilioforma,DIAT,Eunotia papilioforma,Eunotia,benthic
-27141,Encyonema sp.,DIAT,Encyonema,Encyonema,benthic
+27141,Encyonema sp.,DIAT,Encyonema,Encyonema,NA
 27142,Navicula sp.,DIAT,Navicula,Navicula,benthic
 27159,Achnanthidium minutissimum var. gracillima,DIAT,Achnanthidium minutissimum,Achnanthidium,benthic
 27161,Navicula sp. 1 MUR DME,DIAT,Navicula,Navicula,benthic
 27162,Gomphonema sp. 2 ANS NEW JERSEY KCP,DIAT,Gomphonema,Gomphonema,benthic
 27163,Nitzschia balcanica,DIAT,Nitzschia balcanica,Nitzschia,benthic
-27164,Brachysira gravida,DIAT,Brachysira gravida,Brachysira,benthic
-27165,Brachysira ocalanensis,DIAT,Brachysira ocalanensis,Brachysira,benthic
+27164,Brachysira gravida,DIAT,Brachysira gravida,Brachysira,NA
+27165,Brachysira ocalanensis,DIAT,Brachysira ocalanensis,Brachysira,NA
 27166,Eunotia canicula,DIAT,Eunotia canicula,Eunotia,benthic
 27167,Frustulia rexii,DIAT,Frustulia rexii,Frustulia,benthic
-27168,Encyonopsis sp.,DIAT,Encyonopsis,Encyonopsis,benthic
-27171,Fragilariforma sp.,DIAT,Fragilariforma,Fragilariforma,tychoplanktonic
-27172,Psammothidium sp.,DIAT,Psammothidium,Psammothidium,benthic
+27168,Encyonopsis sp.,DIAT,Encyonopsis,Encyonopsis,NA
+27171,Fragilariforma sp.,DIAT,Fragilariforma,Fragilariforma,NA
+27172,Psammothidium sp.,DIAT,Psammothidium,Psammothidium,NA
 27174,Aulacoseira sp.,DIAT,Aulacoseira,Aulacoseira,planktonic
 27175,Nitzschia sp.,DIAT,Nitzschia,Nitzschia,benthic
-27176,Pinnularia sp.,DIAT,Pinnularia,Pinnularia,benthic
+27176,Pinnularia sp.,DIAT,Pinnularia,Pinnularia,NA
 27178,Undetermined Pennate,DIAT,Undetermined,Undetermined,NA
 27179,Gomphonema sp.,DIAT,Gomphonema,Gomphonema,benthic
 27180,Eunotia sp.,DIAT,Eunotia,Eunotia,benthic
-27182,Neidium sp.,DIAT,Neidium,Neidium,benthic
-27183,Stenopterobia sp.,DIAT,Stenopterobia,Stenopterobia,benthic
+27182,Neidium sp.,DIAT,Neidium,Neidium,NA
+27183,Stenopterobia sp.,DIAT,Stenopterobia,Stenopterobia,NA
 27185,Diploneis sp. 1 ?,DIAT,Diploneis,Diploneis,benthic
 27186,Gomphonema pala,DIAT,Gomphonema pala,Gomphonema,benthic
-27187,Surirella sp.,DIAT,Surirella,Surirella,benthic
+27187,Surirella sp.,DIAT,Surirella,Surirella,NA
 27436,Synedra pulchella var. lacerata,DIAT,Synedra pulchella,Synedra,tychoplanktonic
 27437,Eunotia fallax var. groenlandica,DIAT,Eunotia fallax,Eunotia,benthic
 27438,Navicula elginensis var. neglecta,DIAT,Navicula elginensis,Navicula,benthic
@@ -855,53 +855,53 @@ taxonid,variablename,ecologicalgroup,harmonizedname,genus,habit
 27441,Staurosira aff. construens,DIAT,Staurosira construens,Staurosira,tychoplanktonic
 27442,Synedra parasitica var. subconstricta,DIAT,Synedra parasitica,Synedra,tychoplanktonic
 27443,Gomphonema sp. 27,DIAT,Gomphonema,Gomphonema,benthic
-28730,Pinnularia subanglica,DIAT,Pinnularia subanglica,Pinnularia,benthic
-30794,Brachysira intermedia,DIAT,Brachysira intermedia,Brachysira,benthic
+28730,Pinnularia subanglica,DIAT,Pinnularia subanglica,Pinnularia,NA
+30794,Brachysira intermedia,DIAT,Brachysira intermedia,Brachysira,NA
 35376,Eunotia ambivalens,DIAT,Eunotia ambivalens,Eunotia,benthic
 36282,Gomphonema cf. clevei UMICH,DIAT,Gomphonema clevei,Gomphonema,benthic
 38730,Aulacoseira sp. 2 NE Lakes,DIAT,Aulacoseira,Aulacoseira,planktonic
-38742,Brachysira sp. 4 NE Lakes,DIAT,Brachysira,Brachysira,benthic
-38746,Caloneis sp. 11 NE Lakes,DIAT,Caloneis,Caloneis,benthic
-38776,Encyonema sp. 2 NE Lakes,DIAT,Encyonema,Encyonema,benthic
-38779,Encyonopsis sp. 2 NE Lakes,DIAT,Encyonopsis,Encyonopsis,benthic
+38742,Brachysira sp. 4 NE Lakes,DIAT,Brachysira,Brachysira,NA
+38746,Caloneis sp. 11 NE Lakes,DIAT,Caloneis,Caloneis,NA
+38776,Encyonema sp. 2 NE Lakes,DIAT,Encyonema,Encyonema,NA
+38779,Encyonopsis sp. 2 NE Lakes,DIAT,Encyonopsis,Encyonopsis,NA
 38787,Eunotia sp. 10 NE Lakes,DIAT,Eunotia,Eunotia,benthic
 38788,Eunotia sp. 11 NE Lakes,DIAT,Eunotia,Eunotia,benthic
 38793,Eunotia sp. 5 NE Lakes,DIAT,Eunotia,Eunotia,benthic
 38795,Eunotia sp. 8 NE Lakes,DIAT,Eunotia,Eunotia,benthic
-38800,Fragilariforma sp. 1 NE Lakes,DIAT,Fragilariforma,Fragilariforma,tychoplanktonic
-38801,Fragilariforma sp. 2 NE Lakes,DIAT,Fragilariforma,Fragilariforma,tychoplanktonic
-38803,Fragilariforma sp. 4 NE Lakes,DIAT,Fragilariforma,Fragilariforma,tychoplanktonic
+38800,Fragilariforma sp. 1 NE Lakes,DIAT,Fragilariforma,Fragilariforma,NA
+38801,Fragilariforma sp. 2 NE Lakes,DIAT,Fragilariforma,Fragilariforma,NA
+38803,Fragilariforma sp. 4 NE Lakes,DIAT,Fragilariforma,Fragilariforma,NA
 38804,Frustulia sp. 1 NE Lakes,DIAT,Frustulia,Frustulia,benthic
 38813,Gomphonema sp. 16 NE Lakes,DIAT,Gomphonema,Gomphonema,benthic
 38823,Gomphonema sp. 8 NE Lakes,DIAT,Gomphonema,Gomphonema,benthic
 38831,Navicula sp. 7 NE Lakes,DIAT,Navicula,Navicula,benthic
-38835,Neidium hercynicum/Neidium sp. 4 NE Lakes,DIAT,Neidium,Neidium,benthic
-38837,Neidium sp. 10 NE Lakes,DIAT,Neidium,Neidium,benthic
-38840,Neidium sp. 14 NE Lakes,DIAT,Neidium,Neidium,benthic
-38844,Fragilariforma constricta/Fragilariforma sp. 1 NE Lakes,DIAT,Fragilariforma,Fragilariforma,tychoplanktonic
-38861,Pinnularia sp. 25 NE Lakes,DIAT,Pinnularia,Pinnularia,benthic
-38868,Pinnularia sp. 32 NE Lakes,DIAT,Pinnularia,Pinnularia,benthic
-38873,Pinnularia sp. 37 NE Lakes,DIAT,Pinnularia,Pinnularia,benthic
-38875,Pinnularia sp. 39 NE Lakes,DIAT,Pinnularia,Pinnularia,benthic
-38878,Pinnularia sp. 42 NE Lakes,DIAT,Pinnularia,Pinnularia,benthic
-38881,Pinnularia sp. 48 NE Lakes,DIAT,Pinnularia,Pinnularia,benthic
-38882,Pinnularia sp. 49 NE Lakes,DIAT,Pinnularia,Pinnularia,benthic
-38891,Pinnularia sp. 6 NE Lakes,DIAT,Pinnularia,Pinnularia,benthic
-38892,Pinnularia sp. 60 NE Lakes/Pinnularia sp. 61 NE Lakes,DIAT,Pinnularia,Pinnularia,benthic
-38894,Pinnularia sp. 8 NE Lakes,DIAT,Pinnularia,Pinnularia,benthic
+38835,Neidium hercynicum/Neidium sp. 4 NE Lakes,DIAT,Neidium,Neidium,NA
+38837,Neidium sp. 10 NE Lakes,DIAT,Neidium,Neidium,NA
+38840,Neidium sp. 14 NE Lakes,DIAT,Neidium,Neidium,NA
+38844,Fragilariforma constricta/Fragilariforma sp. 1 NE Lakes,DIAT,Fragilariforma,Fragilariforma,NA
+38861,Pinnularia sp. 25 NE Lakes,DIAT,Pinnularia,Pinnularia,NA
+38868,Pinnularia sp. 32 NE Lakes,DIAT,Pinnularia,Pinnularia,NA
+38873,Pinnularia sp. 37 NE Lakes,DIAT,Pinnularia,Pinnularia,NA
+38875,Pinnularia sp. 39 NE Lakes,DIAT,Pinnularia,Pinnularia,NA
+38878,Pinnularia sp. 42 NE Lakes,DIAT,Pinnularia,Pinnularia,NA
+38881,Pinnularia sp. 48 NE Lakes,DIAT,Pinnularia,Pinnularia,NA
+38882,Pinnularia sp. 49 NE Lakes,DIAT,Pinnularia,Pinnularia,NA
+38891,Pinnularia sp. 6 NE Lakes,DIAT,Pinnularia,Pinnularia,NA
+38892,Pinnularia sp. 60 NE Lakes/Pinnularia sp. 61 NE Lakes,DIAT,Pinnularia,Pinnularia,NA
+38894,Pinnularia sp. 8 NE Lakes,DIAT,Pinnularia,Pinnularia,NA
 38902,Pseudostaurosira brevistriata/Pseudostaurosira sp. 1 NE Lakes,DIAT,Pseudostaurosira,Pseudostaurosira,tychoplanktonic
 38903,Pseudostaurosira sp. 2 NE Lakes,DIAT,Pseudostaurosira,Pseudostaurosira,tychoplanktonic
-38907,Sellaphora sp. 11 NE Lakes,DIAT,Sellaphora,Sellaphora,benthic
-38938,Sellaphora sp. 5 NE Lakes,DIAT,Sellaphora,Sellaphora,benthic
-38941,Sellaphora sp. 8 NE Lakes,DIAT,Sellaphora,Sellaphora,benthic
-38955,Staurosirella sp. 2 NE Lakes,DIAT,Staurosirella,Staurosirella,tychoplanktonic
-38962,Surirella sp. 1 NE Lakes,DIAT,Surirella,Surirella,benthic
-38967,Surirella sp. 8 NE Lakes,DIAT,Surirella,Surirella,benthic
-38968,Ulnaria sp. 1 NE Lakes,DIAT,Ulnaria,Ulnaria,tychoplanktonic
-38969,Ulnaria sp. 2 NE Lakes,DIAT,Ulnaria,Ulnaria,tychoplanktonic
-38974,Brachysira hannae,DIAT,Brachysira hannae,Brachysira,benthic
+38907,Sellaphora sp. 11 NE Lakes,DIAT,Sellaphora,Sellaphora,NA
+38938,Sellaphora sp. 5 NE Lakes,DIAT,Sellaphora,Sellaphora,NA
+38941,Sellaphora sp. 8 NE Lakes,DIAT,Sellaphora,Sellaphora,NA
+38955,Staurosirella sp. 2 NE Lakes,DIAT,Staurosirella,Staurosirella,NA
+38962,Surirella sp. 1 NE Lakes,DIAT,Surirella,Surirella,NA
+38967,Surirella sp. 8 NE Lakes,DIAT,Surirella,Surirella,NA
+38968,Ulnaria sp. 1 NE Lakes,DIAT,Ulnaria,Ulnaria,NA
+38969,Ulnaria sp. 2 NE Lakes,DIAT,Ulnaria,Ulnaria,NA
+38974,Brachysira hannae,DIAT,Brachysira hannae,Brachysira,NA
 38975,Cocconeis placentula sensu lato,DIAT,Cocconeis placentula,Cocconeis,benthic
-38987,Encyonopsis montana,DIAT,Encyonopsis montana,Encyonopsis,benthic
+38987,Encyonopsis montana,DIAT,Encyonopsis montana,Encyonopsis,NA
 38995,Eunotia botuliformis,DIAT,Eunotia botuliformis,Eunotia,benthic
 38997,Eunotia chelonia,DIAT,Eunotia chelonia,Eunotia,benthic
 38998,Eunotia cisalpina,DIAT,Eunotia cisalpina,Eunotia,benthic
@@ -915,14 +915,14 @@ taxonid,variablename,ecologicalgroup,harmonizedname,genus,habit
 39020,Fragilaria pectinalis,DIAT,Fragilaria pectinalis,Fragilaria,tychoplanktonic
 39021,Fragilaria perdelicatissima,DIAT,Fragilaria perdelicatissima,Fragilaria,tychoplanktonic
 39022,Fragilaria saxoplanctonica,DIAT,Fragilaria saxoplanctonica,Fragilaria,tychoplanktonic
-39023,Fragilariforma marylandica,DIAT,Fragilariforma marylandica,Fragilariforma,tychoplanktonic
+39023,Fragilariforma marylandica,DIAT,Fragilariforma marylandica,Fragilariforma,NA
 39024,Gomphonema blandiculum,DIAT,Gomphonema blandiculum,Gomphonema,benthic
 39029,Gomphonema caperatum,DIAT,Gomphonema caperatum,Gomphonema,benthic
 39031,Gomphonema gregarium,DIAT,Gomphonema gregarium,Gomphonema,benthic
 39033,Gomphonema louisiananum,DIAT,Gomphonema louisiananum,Gomphonema,benthic
 39036,Gomphonema sp.42 SESQA,DIAT,Gomphonema,Gomphonema,benthic
 39037,Gomphosphenia holmquistii,DIAT,Gomphosphenia holmquistii,Gomphosphenia,NA
-39039,Hantzschia abundans,DIAT,Hantzschia abundans,Hantzschia,benthic
+39039,Hantzschia abundans,DIAT,Hantzschia abundans,Hantzschia,NA
 39051,Kurtkrammeria recta,DIAT,Kurtkrammeria recta,Kurtkrammeria,NA
 39054,Lindavia intermedia,DIAT,Lindavia intermedia,Lindavia,NA
 39059,Navicula freesei,DIAT,Navicula freesei,Navicula,benthic
@@ -930,19 +930,19 @@ taxonid,variablename,ecologicalgroup,harmonizedname,genus,habit
 39067,Nitzschia exilis,DIAT,Nitzschia exilis,Nitzschia,benthic
 39068,Nitzschia montanestris,DIAT,Nitzschia montanestris,Nitzschia,benthic
 39069,Nitzschia soratensis,DIAT,Nitzschia soratensis,Nitzschia,benthic
-39085,Pinnularia subfalaiseana,DIAT,Pinnularia subfalaiseana,Pinnularia,benthic
-39087,Pinnularia tirolensis,DIAT,Pinnularia tirolensis,Pinnularia,benthic
-39088,Placoneis anglica,DIAT,Placoneis anglica,Placoneis,benthic
-39094,Psammothidium daonense,DIAT,Psammothidium daonense,Psammothidium,benthic
-39095,Psammothidium frigidum,DIAT,Psammothidium frigidum,Psammothidium,benthic
+39085,Pinnularia subfalaiseana,DIAT,Pinnularia subfalaiseana,Pinnularia,NA
+39087,Pinnularia tirolensis,DIAT,Pinnularia tirolensis,Pinnularia,NA
+39088,Placoneis anglica,DIAT,Placoneis anglica,Placoneis,NA
+39094,Psammothidium daonense,DIAT,Psammothidium daonense,Psammothidium,NA
+39095,Psammothidium frigidum,DIAT,Psammothidium frigidum,Psammothidium,NA
 39097,Pseudostaurosira americana,DIAT,Pseudostaurosira americana,Pseudostaurosira,tychoplanktonic
-39100,Sellaphora atomoides,DIAT,Sellaphora atomoides,Sellaphora,benthic
-39101,Sellaphora auldreekie,DIAT,Sellaphora auldreekie,Sellaphora,benthic
-39102,Sellaphora blackfordensis,DIAT,Sellaphora blackfordensis,Sellaphora,benthic
-39103,Sellaphora crassulexigua,DIAT,Sellaphora crassulexigua,Sellaphora,benthic
-39112,Stauroneis heinii,DIAT,Stauroneis heinii,Stauroneis,benthic
-39115,Tryblionella plana var. fennica,DIAT,Tryblionella plana,Tryblionella,benthic
-39116,Ulnaria grunowii,DIAT,Ulnaria grunowii,Ulnaria,tychoplanktonic
+39100,Sellaphora atomoides,DIAT,Sellaphora atomoides,Sellaphora,NA
+39101,Sellaphora auldreekie,DIAT,Sellaphora auldreekie,Sellaphora,NA
+39102,Sellaphora blackfordensis,DIAT,Sellaphora blackfordensis,Sellaphora,NA
+39103,Sellaphora crassulexigua,DIAT,Sellaphora crassulexigua,Sellaphora,NA
+39112,Stauroneis heinii,DIAT,Stauroneis heinii,Stauroneis,NA
+39115,Tryblionella plana var. fennica,DIAT,Tryblionella plana,Tryblionella,NA
+39116,Ulnaria grunowii,DIAT,Ulnaria grunowii,Ulnaria,NA
 39117,Aulacoseira alpigena/Aulacoseira subborealis/Aulacoseira sp. 3 NE Lakes,DIAT,Aulacoseira,Aulacoseira,planktonic
 39118,Aulacoseira nygaardii/A. occulta/A. imparis,DIAT,Aulacoseira,Aulacoseira,planktonic
 39119,Discostella stelligera/D. asterocostata,DIAT,Discostella,Discostella,planktonic
@@ -950,24 +950,24 @@ taxonid,variablename,ecologicalgroup,harmonizedname,genus,habit
 39121,Fragilaria crotonensis/F. amphicephala,DIAT,Fragilaria,Fragilaria,tychoplanktonic
 39122,Fragilaria mesolepta/F. subconstricta,DIAT,Fragilaria,Fragilaria,tychoplanktonic
 39123,Frustulia latita/Fr. vulgaris,DIAT,Frustulia,Frustulia,benthic
-39125,Staurosirella lapponica/S. pinnata,DIAT,Staurosirella,Staurosirella,tychoplanktonic
+39125,Staurosirella lapponica/S. pinnata,DIAT,Staurosirella,Staurosirella,NA
 39126,Nitzschia perminuta/N. alpina,DIAT,Nitzschia,Nitzschia,benthic
 39127,Tabellaria fenestrata/T. flocculosa/T. sp. 1 NE Lakes,DIAT,Tabellaria,Tabellaria,tychoplanktonic
-39128,Encyonema ponteanum,DIAT,Encyonema ponteanum,Encyonema,benthic
+39128,Encyonema ponteanum,DIAT,Encyonema ponteanum,Encyonema,NA
 39131,Eunotia neocompacta var. vixcompacta,DIAT,Eunotia neocompacta,Eunotia,benthic
 39132,Eunotia romanowii,DIAT,Eunotia romanowii,Eunotia,benthic
-39165,Brachysira microcephala morphotype 1,DIAT,Brachysira microcephala,Brachysira,benthic
-39166,Brachysira microcephala morphotype 2,DIAT,Brachysira microcephala,Brachysira,benthic
-10266,Achnanthes brevipes,DIAT,Achnanthes brevipes,Achnanthes,benthic
-10292,Achnanthes submarina,DIAT,Achnanthes submarina,Achnanthes,benthic
+39165,Brachysira microcephala morphotype 1,DIAT,Brachysira microcephala,Brachysira,NA
+39166,Brachysira microcephala morphotype 2,DIAT,Brachysira microcephala,Brachysira,NA
+10266,Achnanthes brevipes,DIAT,Achnanthes brevipes,Achnanthes,NA
+10292,Achnanthes submarina,DIAT,Achnanthes submarina,Achnanthes,NA
 10332,Amphora acutiuscula,DIAT,Amphora acutiuscula,Amphora,benthic
 10341,Amphora montana,DIAT,Amphora montana,Amphora,benthic
 10345,Amphora delicatissima,DIAT,Amphora delicatissima,Amphora,benthic
 10348,Amphora sp. 1?,DIAT,Amphora,Amphora,benthic
 10349,Amphora sp. 2 ?,DIAT,Amphora,Amphora,benthic
-10369,Anomoeoneis sphaerophora,DIAT,Anomoeoneis sphaerophora,Anomoeoneis,benthic
-10425,Caloneis molaris,DIAT,Caloneis molaris,Caloneis,benthic
-10437,Caloneis sp. 1?,DIAT,Caloneis,Caloneis,benthic
+10369,Anomoeoneis sphaerophora,DIAT,Anomoeoneis sphaerophora,Anomoeoneis,NA
+10425,Caloneis molaris,DIAT,Caloneis molaris,Caloneis,NA
+10437,Caloneis sp. 1?,DIAT,Caloneis,Caloneis,NA
 10455,Cocconeis scutellum,DIAT,Cocconeis scutellum,Cocconeis,benthic
 10459,Cocconeis neodiminuta,DIAT,Cocconeis neodiminuta,Cocconeis,benthic
 10463,Cocconeis sp. 1?,DIAT,Cocconeis,Cocconeis,benthic
@@ -980,15 +980,15 @@ taxonid,variablename,ecologicalgroup,harmonizedname,genus,habit
 10654,Diploneis interrupta,DIAT,Diploneis interrupta,Diploneis,benthic
 10656,Diploneis smithii,DIAT,Diploneis smithii,Diploneis,benthic
 10658,Diploneis puella,DIAT,Diploneis puella,Diploneis,benthic
-10667,Entomoneis alata,DIAT,Entomoneis alata,Entomoneis,benthic
-10669,Entomoneis sp. 1 ?,DIAT,Entomoneis,Entomoneis,benthic
+10667,Entomoneis alata,DIAT,Entomoneis alata,Entomoneis,NA
+10669,Entomoneis sp. 1 ?,DIAT,Entomoneis,Entomoneis,NA
 10725,Eunotia perpusilla,DIAT,Eunotia perpusilla,Eunotia,benthic
 10965,Fragilaria zeilleri var. elliptica,DIAT,Fragilaria zeilleri,Fragilaria,tychoplanktonic
 10993,Frustulia creuzburgensis,DIAT,Frustulia creuzburgensis,Frustulia,benthic
 10997,Frustulia sp. 1?,DIAT,Frustulia,Frustulia,benthic
-11125,Gyrosigma sp. 1 ?,DIAT,Gyrosigma,Gyrosigma,benthic
-11139,Mastogloia smithii,DIAT,Mastogloia smithii,Mastogloia,benthic
-11144,Mastogloia pumila,DIAT,Mastogloia pumila,Mastogloia,benthic
+11125,Gyrosigma sp. 1 ?,DIAT,Gyrosigma,Gyrosigma,NA
+11139,Mastogloia smithii,DIAT,Mastogloia smithii,Mastogloia,NA
+11144,Mastogloia pumila,DIAT,Mastogloia pumila,Mastogloia,NA
 11202,Melosira nummuloides,DIAT,Melosira nummuloides,Melosira,tychoplanktonic
 11370,Navicula cari,DIAT,Navicula cari,Navicula,benthic
 11462,Navicula ordinaria,DIAT,Navicula ordinaria,Navicula,benthic
@@ -1004,82 +1004,82 @@ taxonid,variablename,ecologicalgroup,harmonizedname,genus,habit
 11922,Nitzschia pellucida,DIAT,Nitzschia pellucida,Nitzschia,benthic
 11937,Nitzschia thermaloides,DIAT,Nitzschia thermaloides,Nitzschia,benthic
 11939,Nitzschia lorenziana,DIAT,Nitzschia lorenziana,Nitzschia,benthic
-11957,Opephora martyi,DIAT,Opephora martyi,Opephora,tychoplanktonic
-11961,Opephora sp. 1 ?,DIAT,Opephora,Opephora,tychoplanktonic
-11995,Pinnularia intermedia,DIAT,Pinnularia intermedia,Pinnularia,benthic
-12098,Pinnularia ignobilis,DIAT,Pinnularia ignobilis,Pinnularia,benthic
+11957,Opephora martyi,DIAT,Opephora martyi,Opephora,NA
+11961,Opephora sp. 1 ?,DIAT,Opephora,Opephora,NA
+11995,Pinnularia intermedia,DIAT,Pinnularia intermedia,Pinnularia,NA
+12098,Pinnularia ignobilis,DIAT,Pinnularia ignobilis,Pinnularia,NA
 12133,Pleurosigma salinarum,DIAT,Pleurosigma salinarum,Pleurosigma,NA
-12149,Rhopalodia brebissonii,DIAT,Rhopalodia brebissonii,Rhopalodia,benthic
-12150,Rhopalodia acuminata,DIAT,Rhopalodia acuminata,Rhopalodia,benthic
-12202,Stauroneis pseudosubobtusoides,DIAT,Stauroneis pseudosubobtusoides,Stauroneis,benthic
-12395,Thalassionema nitzschioides,DIAT,Thalassionema nitzschioides,Thalassionema,planktonic
+12149,Rhopalodia brebissonii,DIAT,Rhopalodia brebissonii,Rhopalodia,NA
+12150,Rhopalodia acuminata,DIAT,Rhopalodia acuminata,Rhopalodia,NA
+12202,Stauroneis pseudosubobtusoides,DIAT,Stauroneis pseudosubobtusoides,Stauroneis,NA
+12395,Thalassionema nitzschioides,DIAT,Thalassionema nitzschioides,Thalassionema,NA
 12410,Cymatosira belgica,DIAT,Cymatosira belgica,Cymatosira,NA
 12411,Didymosphenia geminata,DIAT,Didymosphenia geminata,Didymosphenia,NA
 12413,Rhaphoneis amphiceros,DIAT,Rhaphoneis amphiceros,Rhaphoneis,NA
-12414,Actinocyclus normanii fo. subsalsus,DIAT,Actinocyclus normanii,Actinocyclus,planktonic
+12414,Actinocyclus normanii fo. subsalsus,DIAT,Actinocyclus normanii,Actinocyclus,NA
 12421,Undetermined Pennate sp. 3 ?,DIAT,Undetermined,Undetermined,NA
 12422,Undetermined Pennate sp. 4 ?,DIAT,Undetermined,Undetermined,NA
-12445,Encyonema perpusillum,DIAT,Encyonema perpusillum,Encyonema,benthic
-12452,Fallacia pygmaea,DIAT,Fallacia pygmaea,Fallacia,benthic
-12454,Fallacia cryptolyra,DIAT,Fallacia cryptolyra,Fallacia,benthic
-12456,Fallacia monoculata,DIAT,Fallacia monoculata,Fallacia,benthic
-12457,Fallacia omissa,DIAT,Fallacia omissa,Fallacia,benthic
-12458,Fallacia subhamulata,DIAT,Fallacia subhamulata,Fallacia,benthic
-12545,Cosmioneis pusilla,DIAT,Cosmioneis pusilla,Cosmioneis,benthic
+12445,Encyonema perpusillum,DIAT,Encyonema perpusillum,Encyonema,NA
+12452,Fallacia pygmaea,DIAT,Fallacia pygmaea,Fallacia,NA
+12454,Fallacia cryptolyra,DIAT,Fallacia cryptolyra,Fallacia,NA
+12456,Fallacia monoculata,DIAT,Fallacia monoculata,Fallacia,NA
+12457,Fallacia omissa,DIAT,Fallacia omissa,Fallacia,NA
+12458,Fallacia subhamulata,DIAT,Fallacia subhamulata,Fallacia,NA
+12545,Cosmioneis pusilla,DIAT,Cosmioneis pusilla,Cosmioneis,NA
 12547,Tabularia tabulata,DIAT,Tabularia tabulata,Tabularia,NA
 12561,Navicula stankovici,DIAT,Navicula stankovici,Navicula,benthic
 12633,Nitzschia compressa var. elongata,DIAT,Nitzschia compressa,Nitzschia,benthic
 12675,Nitzschia rosenstockii,DIAT,Nitzschia rosenstockii,Nitzschia,benthic
 12762,Biremis circumtexta,DIAT,Biremis circumtexta,Biremis,NA
 12774,Planothidium engelbrechtii,DIAT,Planothidium engelbrechtii,Planothidium,benthic
-12823,Chamaepinnularia bremensis,DIAT,Chamaepinnularia bremensis,Chamaepinnularia,benthic
-12829,Hippodonta costulata,DIAT,Hippodonta costulata,Hippodonta,benthic
-12833,Chamaepinnularia evanida,DIAT,Chamaepinnularia evanida,Chamaepinnularia,benthic
+12823,Chamaepinnularia bremensis,DIAT,Chamaepinnularia bremensis,Chamaepinnularia,NA
+12829,Hippodonta costulata,DIAT,Hippodonta costulata,Hippodonta,NA
+12833,Chamaepinnularia evanida,DIAT,Chamaepinnularia evanida,Chamaepinnularia,NA
 12847,Lyrella lyra,DIAT,Lyrella lyra,Lyrella,NA
-12871,Tryblionella coarctata,DIAT,Tryblionella coarctata,Tryblionella,benthic
-12872,Tryblionella compressa,DIAT,Tryblionella compressa,Tryblionella,benthic
-12906,Rhopalodia constricta,DIAT,Rhopalodia constricta,Rhopalodia,benthic
+12871,Tryblionella coarctata,DIAT,Tryblionella coarctata,Tryblionella,NA
+12872,Tryblionella compressa,DIAT,Tryblionella compressa,Tryblionella,NA
+12906,Rhopalodia constricta,DIAT,Rhopalodia constricta,Rhopalodia,NA
 12907,Pseudostaurosira neoelliptica,DIAT,Pseudostaurosira neoelliptica,Pseudostaurosira,tychoplanktonic
-12914,Thalassiosira eccentrica,DIAT,Thalassiosira eccentrica,Thalassiosira,planktonic
+12914,Thalassiosira eccentrica,DIAT,Thalassiosira eccentrica,Thalassiosira,NA
 12916,Delphineis surirella,DIAT,Delphineis surirella,Delphineis,NA
-12920,Caloneis westii,DIAT,Caloneis westii,Caloneis,benthic
-12931,Karayevia amoena,DIAT,Karayevia amoena,Karayevia,benthic
-13063,Fallacia lenzii,DIAT,Fallacia lenzii,Fallacia,benthic
-13068,Cavinula variostriata,DIAT,Cavinula variostriata,Cavinula,benthic
+12920,Caloneis westii,DIAT,Caloneis westii,Caloneis,NA
+12931,Karayevia amoena,DIAT,Karayevia amoena,Karayevia,NA
+13063,Fallacia lenzii,DIAT,Fallacia lenzii,Fallacia,NA
+13068,Cavinula variostriata,DIAT,Cavinula variostriata,Cavinula,NA
 13070,Psammodictyon panduriforme,DIAT,Psammodictyon panduriforme,Psammodictyon,NA
 13097,Navicula phylleptosoma,DIAT,Navicula phylleptosoma,Navicula,benthic
-13106,Tryblionella granulata,DIAT,Tryblionella granulata,Tryblionella,benthic
+13106,Tryblionella granulata,DIAT,Tryblionella granulata,Tryblionella,NA
 13111,Pinnunavis elegans,DIAT,Pinnunavis elegans,Pinnunavis,NA
 13148,Amphora subtropica,DIAT,Amphora subtropica,Amphora,benthic
-13154,Thalassiosira proschkinae,DIAT,Thalassiosira proschkinae,Thalassiosira,planktonic
+13154,Thalassiosira proschkinae,DIAT,Thalassiosira proschkinae,Thalassiosira,NA
 13158,Fragilaria atomus,DIAT,Fragilaria atomus,Fragilaria,tychoplanktonic
-13171,Cosmioneis grossepunctata,DIAT,Cosmioneis grossepunctata,Cosmioneis,benthic
+13171,Cosmioneis grossepunctata,DIAT,Cosmioneis grossepunctata,Cosmioneis,NA
 13202,Navicula digitoradiata,DIAT,Navicula digitoradiata,Navicula,benthic
 13324,Grammatophora marina,DIAT,Grammatophora marina,Grammatophora,NA
 13325,Petroneis marina,DIAT,Petroneis marina,Petroneis,NA
 24648,Fragilaria zeilleri,DIAT,Fragilaria zeilleri,Fragilaria,tychoplanktonic
 25065,Amphora holsatica,DIAT,Amphora holsatica,Amphora,benthic
-26979,Mastogloia sp. 1?,DIAT,Mastogloia,Mastogloia,benthic
+26979,Mastogloia sp. 1?,DIAT,Mastogloia,Mastogloia,NA
 27005,Navicula sublucidula,DIAT,Navicula sublucidula,Navicula,benthic
-28118,Fallacia sp. 1 ?,DIAT,Fallacia,Fallacia,benthic
+28118,Fallacia sp. 1 ?,DIAT,Fallacia,Fallacia,NA
 28122,Planothidium sp. 1?,DIAT,Planothidium,Planothidium,benthic
 28427,Diploneis bombus,DIAT,Diploneis bombus,Diploneis,benthic
-28430,Hippodonta subcostulata,DIAT,Hippodonta subcostulata,Hippodonta,benthic
-28431,Thalassiosira sp. 1 ?,DIAT,Thalassiosira,Thalassiosira,planktonic
-28432,Tryblionella sp. 1 ?,DIAT,Tryblionella,Tryblionella,benthic
+28430,Hippodonta subcostulata,DIAT,Hippodonta subcostulata,Hippodonta,NA
+28431,Thalassiosira sp. 1 ?,DIAT,Thalassiosira,Thalassiosira,NA
+28432,Tryblionella sp. 1 ?,DIAT,Tryblionella,Tryblionella,NA
 28433,Undetermined Centric sp. 1 ?,DIAT,Undetermined,Undetermined,NA
 28434,Undetermined Centric sp. 2 ?,DIAT,Undetermined,Undetermined,NA
-28436,Fallacia sp. 1 MUR DME,DIAT,Fallacia,Fallacia,benthic
+28436,Fallacia sp. 1 MUR DME,DIAT,Fallacia,Fallacia,NA
 28438,Navicula sp. 3 MUR DME,DIAT,Navicula,Navicula,benthic
 28439,Navicula sp. 5 MUR DME,DIAT,Navicula,Navicula,benthic
 28440,Navicula sp. 6 MUR DME,DIAT,Navicula,Navicula,benthic
-28441,Seminavis sp. 1 MUR DME,DIAT,Seminavis,Seminavis,benthic
-28444,Rhopalodia sp. 1 ?,DIAT,Rhopalodia,Rhopalodia,benthic
+28441,Seminavis sp. 1 MUR DME,DIAT,Seminavis,Seminavis,NA
+28444,Rhopalodia sp. 1 ?,DIAT,Rhopalodia,Rhopalodia,NA
 28446,Navicula sp. 2 MUR DME,DIAT,Navicula,Navicula,benthic
 28447,Navicula sp. 4 MUR DME,DIAT,Navicula,Navicula,benthic
 28448,Navicula sp. 7 MUR DME,DIAT,Navicula,Navicula,benthic
 32148,Catenula adhaerens,DIAT,Catenula adhaerens,Catenula,NA
-32150,Envekadea pseudocrassirostris,DIAT,Envekadea pseudocrassirostris,Envekadea,benthic
+32150,Envekadea pseudocrassirostris,DIAT,Envekadea pseudocrassirostris,Envekadea,NA
 32151,Diploneis sp. 1 BARNEGAT EAM,DIAT,Diploneis,Diploneis,benthic
 32152,Navicula cf. microcari BB DME,DIAT,Navicula microcari,Navicula,benthic
 32153,Navicula sp. 1 DRBC DME,DIAT,Navicula,Navicula,benthic
@@ -1088,13 +1088,13 @@ taxonid,variablename,ecologicalgroup,harmonizedname,genus,habit
 32156,Navicula sp. 4 BB DME,DIAT,Navicula,Navicula,benthic
 32157,Navicula vaneei,DIAT,Navicula vaneei,Navicula,benthic
 32158,Nitzschia pseudocommunis,DIAT,Nitzschia pseudocommunis,Nitzschia,benthic
-32159,Opephora sp. 2 ?,DIAT,Opephora,Opephora,tychoplanktonic
+32159,Opephora sp. 2 ?,DIAT,Opephora,Opephora,NA
 32160,Planothidium sp. 1 BARNEGAT EAM,DIAT,Planothidium,Planothidium,benthic
-32161,Seminavis sp. 1 ?,DIAT,Seminavis,Seminavis,benthic
+32161,Seminavis sp. 1 ?,DIAT,Seminavis,Seminavis,NA
 32251,Dimeregramma minor,DIAT,Dimeregramma minor,Dimeregramma,NA
-32252,Fallacia forcipata,DIAT,Fallacia forcipata,Fallacia,benthic
+32252,Fallacia forcipata,DIAT,Fallacia forcipata,Fallacia,NA
 32253,Fragilaria improbula,DIAT,Fragilaria improbula,Fragilaria,tychoplanktonic
-32254,Gyrosigma sp. 1 DRBC DME,DIAT,Gyrosigma,Gyrosigma,benthic
+32254,Gyrosigma sp. 1 DRBC DME,DIAT,Gyrosigma,Gyrosigma,NA
 32255,Odontella rostrata,DIAT,Odontella rostrata,Odontella,NA
 32256,Pseudostaurosira sp. 1 ?,DIAT,Pseudostaurosira,Pseudostaurosira,tychoplanktonic
 32259,Rhabdonema sp. 1 ?,DIAT,Rhabdonema,Rhabdonema,NA

@@ -4,7 +4,7 @@
 
 # Neotoma Current R Workshop
 
-[Simple Workflow: North American Diatoms](https://open.neotomadb.org/Current_Workshop/simple_workflow.html) | [Connecting to GBIF](https://open.neotomadb.org/Current_Workshop/connecting_to_GBIF.html)
+[Simple Workflow: North American Diatoms](https://open.neotomadb.org/Current_Workshop/simple_workflow.html)
 
 A repository to host the interactive `neotoma2` R workshops. This repository will always be set up for the most recent/current Neotoma Workshop. All past workshops will be archived in the [Neotoma Workshops](https://github.com/NeotomaDB/Workshops) repository.
 
@@ -15,7 +15,6 @@ This repository is built with the structure required to serve the content throug
 The workshop material is:
 
 * `simple_workflow.Rmd`: *A Simple Workflow: North American Diatoms*. Search for diatom and water chemistry sites, compare them, download a diatom record, draw a stratigraphic diagram, and start from a spreadsheet of site IDs (an "aggregate dataset").
-* `connecting_to_GBIF.Rmd`: *Connecting to GBIF*. Connect to the free [GBIF](https://www.gbif.org) API with the `rgbif` package and compare Neotoma diatom records with GBIF diatom occurrences.
 
 To access the content for this Workshop, click the badge below:
 
@@ -39,8 +38,8 @@ This repository contains a simple workflow that shows how to access data and per
 
 Users may clone this workshop and modify the content, but be aware that the Binder links are specific to this repository, and must be modified through the users' own Binder setup.
 
-* `Dockerfile` defines the Binder/Docker image. It copies only the files the two workflows read.
+* `Dockerfile` defines the Binder/Docker image. It copies only the files the workflow reads.
 * `install.r` defines the R packages that are installed in the Binder environment. The workshop uses the development version of `neotoma2` from GitHub (`NeotomaDB/neotoma2`, branch `dev`). After the new release reaches CRAN, `install.r` can go back to `install.packages("neotoma2")`.
-* `data/` holds pre-downloaded Neotoma and GBIF results, so the workflows do not depend on live API calls during the workshop. `data/aggregate_sites_NorthAmerica.xlsx` lists the Neotoma site IDs of the North American diatom aggregate dataset (derived from the Drexel aggregate-dataset inventory).
+* `data/` holds pre-downloaded Neotoma results, so the workflow does not depend on live API calls during the workshop. `data/aggregate_sites_NorthAmerica.xlsx` lists the Neotoma site IDs of the North American diatom aggregate dataset (derived from the Drexel aggregate-dataset inventory).
 
 To run the workflows locally, install the packages listed in `install.r` and open the `.Rmd` files in RStudio.

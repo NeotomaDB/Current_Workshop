@@ -1,6 +1,6 @@
 ---
 title: "A Simple Workflow for Diatoms in Neotoma"
-author: "Simon Goring, Socorro Dominguez Vidaña"
+author: "Socorro Dominguez Vidaña, Simon J. Goring"
 date: "`r Sys.Date()`"
 output:
   html_document:
@@ -168,29 +168,31 @@ Here we look for sites using a location. We're using a rough rectangle around th
 
 ```{r boundingBox}
 geojson_str <- '{"coordinates":
-  [[
-      [-76.5,39.4],
-      [-73.8,39.4],
-      [-73.8,40.9],
-      [-76.5,40.9],
-      [-76.5,39.4]]],
+  [[[-80.52, 42.27],
+    [-79.76, 42.27],
+    [-75.36, 42.00],
+    [-74.69, 41.36],
+    [-74.77, 40.22],
+    [-75.79, 39.72],
+    [-80.52, 39.72],
+    [-80.52, 42.27]]],
   "type":"Polygon"}'
 
-philly_sf <- geojsonsf::geojson_sf(geojson_str)
+penn_sf <- geojsonsf::geojson_sf(geojson_str)
 
 # Note here we use the `all_data` flag to capture all the sites.
-philly_sites <- neotoma2::get_sites(loc = philly_sf, all_data = TRUE)
+penn_sites <- neotoma2::get_sites(loc = penn_sf, all_data = TRUE)
 ```
 
-You can always simply `plot()` the `sites` objects, but you will lose some of the geographic context.  The `plotLeaflet()` function returns a `leaflet()` map, and allows you to further customize it, or add additional spatial data (like our original bounding polygon, `philly_sf`, which works directly with the R `leaflet` package):
+You can always simply `plot()` the `sites` objects, but you will lose some of the geographic context.  The `plotLeaflet()` function returns a `leaflet()` map, and allows you to further customize it, or add additional spatial data (like our original bounding polygon, `penn_sf`, which works directly with the R `leaflet` package):
 
 ##### 3.1.2.1. Code
 
 ```{r plotL, eval=FALSE}
-neotoma2::plotLeaflet(philly_sites) %>%
+neotoma2::plotLeaflet(penn_sites) %>%
   leaflet::addPolygons(
     map = .,
-    data = philly_sf,
+    data = penn_sf,
     color = "green"
   )
 ```
@@ -198,10 +200,10 @@ neotoma2::plotLeaflet(philly_sites) %>%
 ##### 3.1.2.2. Result
 
 ```{r plotLeaf, echo=FALSE}
-neotoma2::plotLeaflet(philly_sites) %>%
+neotoma2::plotLeaflet(penn_sites) %>%
   leaflet::addPolygons(
     map = .,
-    data = philly_sf,
+    data = penn_sf,
     color = "green"
   )
 ```
@@ -210,52 +212,52 @@ neotoma2::plotLeaflet(philly_sites) %>%
 
 If we look at the [data structure diagram](#222-data-structures-in-neotoma2) for the objects in the `neotoma2` R package we can see that there are a set of functions that can operate on `sites`.  As we add to `sites` objects, using `get_datasets()` or `get_downloads()`, we are able to use more of these helper functions.
 
-As it is, we can take advantage of functions like `summary()` to get a more complete sense of the types of data we have in `philly_sites`.  The following code gives the summary table. We do some R magic here to change the way the data is displayed (turning it into a `datatable()` object), but the main piece is the `summary()` call.
+As it is, we can take advantage of functions like `summary()` to get a more complete sense of the types of data we have in `penn_sites`.  The following code gives the summary table. We do some R magic here to change the way the data is displayed (turning it into a `datatable()` object), but the main piece is the `summary()` call.
 
 ##### 3.1.3.1. Code
 
 ```{r summary_sites, eval=FALSE}
 # Give information about the sites themselves, site names &cetera.
-neotoma2::summary(philly_sites)
+neotoma2::summary(penn_sites)
 # Give the unique identifiers for sites, collection units and datasets found at
 # those sites.
-neotoma2::getids(philly_sites)
+neotoma2::getids(penn_sites)
 ```
 
 ##### 3.1.3.2. Result
 
 ```{r summarySitesTable, eval=TRUE, echo=FALSE}
-neotoma2::summary(philly_sites) %>%
+neotoma2::summary(penn_sites) %>%
   DT::datatable(
     data = ., rownames = FALSE,
     options = list(scrollX = "100%", dom = "t")
   )
 ```
 
-In this document we list only the first 10 records (there are more, you can use `length(philly_sites)` to see how many sites you've got). The `dataset_types` column shows what each site holds: mostly diatoms and water chemistry, but also pollen, geochronologic data and other types. We can see that there are no chronologies associated with the `site` objects (`n_chronologies` is 0). This is because, at present, we have not pulled in the `dataset` information we need. In Neotoma, a chronology is associated with a collection unit (and that metadata is pulled by `get_datasets()` or `get_downloads()`). All we know from `get_sites()` are the kinds of datasets we have and the location of the sites that contain the datasets.
+In this document we list only the first 10 records (there are more, you can use `length(penn_sites)` to see how many sites you've got). The `dataset_types` column shows what each site holds: mostly diatoms and water chemistry, but also pollen, geochronologic data and other types. We can see that there are no chronologies associated with the `site` objects (`n_chronologies` is 0). This is because, at present, we have not pulled in the `dataset` information we need. In Neotoma, a chronology is associated with a collection unit (and that metadata is pulled by `get_datasets()` or `get_downloads()`). All we know from `get_sites()` are the kinds of datasets we have and the location of the sites that contain the datasets.
 
 ### 3.2. Searching for datasets: {.tabset}
 
-We know that within Neotoma, collection units and datasets are contained within sites.  Similarly, a `sites` object contains `collectionunits` which contain `datasets`. From the table above we can see that the sites we've looked at contain a mix of dataset types. We could write something like this: `table(unlist(strsplit(summary(philly_sites)$dataset_types, ",")))` to see the different datasettypes and their counts.
+We know that within Neotoma, collection units and datasets are contained within sites.  Similarly, a `sites` object contains `collectionunits` which contain `datasets`. From the table above we can see that the sites we've looked at contain a mix of dataset types. We could write something like this: `table(unlist(strsplit(summary(penn_sites)$dataset_types, ",")))` to see the different datasettypes and their counts.
 
-With a `sites` object we can directly call `get_datasets()`, to pull in more metadata about the datasets.  The `get_datasets()` method also supports any of the search terms listed above in the [Site Search](#3-site-searches) section. At any time we can use `datasets()` to get more information about any datasets that a `sites` object may contain.  Compare the output of `datasets(philly_sites)` to the output of a similar call using the following:
+With a `sites` object we can directly call `get_datasets()`, to pull in more metadata about the datasets.  The `get_datasets()` method also supports any of the search terms listed above in the [Site Search](#3-site-searches) section. At any time we can use `datasets()` to get more information about any datasets that a `sites` object may contain.  Compare the output of `datasets(penn_sites)` to the output of a similar call using the following:
 
 #### 3.2.1. Code
 
 ```{r datasetsFromSites, eval=FALSE}
-philly_datasets <- neotoma2::get_datasets(philly_sites)
+penn_datasets <- neotoma2::get_datasets(penn_sites)
 
-datasets(philly_datasets)
+datasets(penn_datasets)
 
 # How many datasets of each type are there?
-table(datasets(philly_datasets)$datasettype)
+table(datasets(penn_datasets)$datasettype)
 ```
 
 #### 3.2.2. Result
 
 ```{r datasetsFromSitesResult, echo=FALSE, message=FALSE}
-philly_datasets <- neotoma2::get_datasets(philly_sites)
-datasets(philly_datasets) %>%
+penn_datasets <- neotoma2::get_datasets(penn_sites)
+datasets(penn_datasets) %>%
   as.data.frame() %>%
   DT::datatable(
     data = .,
@@ -274,17 +276,17 @@ If we choose to pull in information about only certain dataset types, or if ther
 ```{r downloads, eval=FALSE}
 diatom_types <- c("diatom", "diatom surface sample", "water chemistry")
 
-philly_diatoms <- philly_datasets %>%
+penn_diatoms <- penn_datasets %>%
   neotoma2::filter(datasettype %in% diatom_types)
 
-philly_cores <- philly_datasets %>%
+penn_cores <- penn_datasets %>%
   neotoma2::filter(datasettype == "diatom", !is.na(age_range_young))
 
-neotoma2::summary(philly_cores)
+neotoma2::summary(penn_cores)
 
 # We've removed records, so the new objects should be shorter than the original.
-length(philly_diatoms) < length(philly_datasets)
-length(philly_cores) < length(philly_diatoms)
+length(penn_diatoms) < length(penn_datasets)
+length(penn_cores) < length(penn_diatoms)
 ```
 
 #### 3.3.2. Result
@@ -292,13 +294,13 @@ length(philly_cores) < length(philly_diatoms)
 ```{r downloadsCode, echo = FALSE}
 diatom_types <- c("diatom", "diatom surface sample", "water chemistry")
 
-philly_diatoms <- philly_datasets %>%
+penn_diatoms <- penn_datasets %>%
   neotoma2::filter(datasettype %in% diatom_types)
 
-philly_cores <- philly_datasets %>%
+penn_cores <- penn_datasets %>%
   neotoma2::filter(datasettype == "diatom", !is.na(age_range_young))
 
-neotoma2::summary(philly_cores) %>% DT::datatable(
+neotoma2::summary(penn_cores) %>% DT::datatable(
   data = .,
   options = list(scrollX = "100%", dom = "t")
 )
@@ -312,10 +314,10 @@ Many diatom questions, such as reconstructing lake pH or nutrients, need diatom 
 
 ```{r coverageMap}
 # One row per site, flagging which kinds of data it has.
-coverage <- getids(philly_diatoms) %>%
+coverage <- getids(penn_diatoms) %>%
   mutate(across(c(siteid, datasetid), as.numeric)) %>%
   inner_join(
-    datasets(philly_diatoms) %>%
+    datasets(penn_diatoms) %>%
       as.data.frame() %>%
       mutate(datasetid = as.numeric(datasetid)) %>%
       select(datasetid, datasettype),
@@ -339,7 +341,7 @@ coverage <- getids(philly_diatoms) %>%
   ))
 
 # Add the site names and coordinates, then map.
-coverage_sites <- as.data.frame(philly_diatoms) %>%
+coverage_sites <- as.data.frame(penn_diatoms) %>%
   mutate(siteid = as.numeric(siteid)) %>%
   distinct(siteid, sitename, lat, long) %>%
   inner_join(coverage, by = "siteid")
@@ -466,7 +468,7 @@ aggregate_points <- aggregate_sites %>%
 
 # Keep the sites that fall inside the Philadelphia polygon.
 slice_ids <- aggregate_points$siteid[
-  lengths(sf::st_within(aggregate_points, philly_sf)) > 0
+  lengths(sf::st_within(aggregate_points, penn_sf)) > 0
 ]
 
 aggregate_slice <- neotoma2::get_sites(slice_ids)
@@ -479,7 +481,7 @@ This leaves us with `r length(slice_ids)` sites from the list. These are mostly 
 
 ```{r aggregateSliceMap}
 plotLeaflet(aggregate_slice) %>%
-  leaflet::addPolygons(map = ., data = philly_sf, color = "green")
+  leaflet::addPolygons(map = ., data = penn_sf, color = "green")
 ```
 
 ### 3.5. Pulling in `sample()` data
@@ -643,13 +645,13 @@ ggplot(data = taxaplots, aes(x = sites, y = samples)) +
 
 The plot (above) is mostly for illustration, but we can see, as a sanity check, that the relationship is as we'd expect. There are a large number of taxa that are rarely present, and then several that are quite common.
 
-Exporting the taxon table to a `csv` file allows us to edit the table, filtering and selecting taxa based on contextual information to help you out. In pollen records the `ecologicalgroup` column is very useful for this, but for diatoms every taxon is just `DIAT`, so the information we need has to come from the **name**. Diatom names carry varieties (`var.`), subspecies (`subsp.`), uncertain identifications (`cf.`), and project codes (`PIRLA`), so we will build a translation table with a handful of rules:
+Exporting the taxon table to a `csv` file allows us to edit the table, filtering and selecting taxa based on contextual information to help you out. In pollen records the `ecologicalgroup` column is very useful for this, but for diatoms every taxon is just `DIAT`, so the information we need has to come from the **name**. Diatom names carry varieties (`var.`), subspecies (`subsp.`), uncertain identifications (`cf.`), and project codes (`PIRLA`), so we will build a translation table with three simple rules:
 
 1. Remove `cf.` and `aff.` (so *Cymbella* cf. *gaeumannii* becomes *Cymbella gaeumannii*).
-2. Drop varieties, subspecies and forms (this lumps varieties together, so adjust it if your question needs them).
-3. Drop anything in brackets.
-4. Keep the genus and species when the second word is a real species name. Otherwise (for *sp.*, *spp.*, or numbered codes) keep only the genus.
-5. Add a `habit` column (planktonic, tychoplanktonic or benthic) from a short genus lookup. **This lookup is a teaching approximation**: check it against your own references and change it as you need. Genera that are not in the lookup (for example *Stauroforma* or *Delphineis*, where we were not sure) are left empty.
+2. Drop varieties and subspecies (this lumps varieties together, so adjust it if your question needs them).
+3. Keep the genus and species when the second word looks like a species name. Otherwise (for *sp.*, *spp.*, or numbered codes) keep only the genus.
+
+We also add a `habit` column (planktonic, tychoplanktonic or benthic) from a short lookup of the most common genera in our data. **The rules and the lookup are deliberately simple, and they are not perfect.** They are here to show you *how* to build and use a translation table, not to tell you the right diatom taxonomy. Diatom specialists will have better rules, so change the lists to match your own references. Genera that are not in the lookup are left empty.
 
 ```{r translationRules, eval=FALSE}
 # 1. Every diatom taxon in the downloads, one row per taxon. We include the
@@ -663,43 +665,29 @@ diatom_taxa <- bind_rows(
   dplyr::filter(ecologicalgroup == "DIAT") %>%
   dplyr::distinct(taxonid, variablename, ecologicalgroup)
 
-# 2. An editable lookup of growth habit by genus (teaching approximation).
-planktonic <- c(
-  "Aulacoseira", "Cyclotella", "Cyclostephanos", "Discostella",
-  "Stephanodiscus", "Asterionella", "Urosolenia", "Thalassiosira",
-  "Skeletonema", "Chaetoceros", "Coscinodiscus", "Actinocyclus",
-  "Thalassionema"
-)
+# 2. A short, editable lookup of growth habit for the most common genera.
+#    Simplified for teaching: use your own references.
+planktonic <- c("Aulacoseira", "Asterionella", "Cyclotella", "Discostella")
 tychoplanktonic <- c(
-  "Fragilaria", "Fragilariforma", "Staurosira", "Staurosirella",
-  "Pseudostaurosira", "Tabellaria", "Synedra", "Ulnaria", "Melosira",
-  "Diatoma", "Opephora", "Paralia"
+  "Fragilaria", "Staurosira", "Pseudostaurosira", "Tabellaria", "Synedra",
+  "Melosira"
 )
 benthic <- c(
-  "Achnanthes", "Achnanthidium", "Amphora", "Anomoeoneis", "Brachysira",
-  "Caloneis", "Cavinula", "Chamaepinnularia", "Cocconeis", "Craticula",
-  "Cymbella", "Diploneis", "Encyonema", "Encyonopsis", "Entomoneis",
-  "Epithemia", "Eucocconeis", "Eunotia", "Fallacia", "Frustulia",
-  "Geissleria", "Gomphonema", "Gyrosigma", "Hippodonta", "Karayevia",
-  "Mastogloia", "Microcostatus", "Navicula", "Neidium", "Nitzschia",
-  "Pinnularia", "Placoneis", "Planothidium", "Psammothidium", "Rhopalodia",
-  "Rossithidium", "Sellaphora", "Stauroneis", "Stenopterobia", "Surirella",
-  "Tryblionella", "Denticula", "Luticola", "Seminavis", "Cosmioneis",
-  "Bacillaria", "Envekadea", "Hantzschia", "Halamphora", "Eolimna",
-  "Adlafia", "Rhoicosphenia", "Cymbopleura", "Amphipleura", "Actinella",
-  "Diadesmis"
+  "Navicula", "Nitzschia", "Eunotia", "Achnanthidium", "Denticula",
+  "Planothidium", "Frustulia", "Gomphonema", "Cocconeis", "Diploneis",
+  "Amphora"
 )
 
 # 3. Apply the rules.
 diatom_taxontable <- diatom_taxa %>%
   mutate(
     clean = variablename %>%
-      str_remove_all("\\b(cf|aff)\\.\\s*") %>%
-      str_remove("\\s+(var|subsp|ssp|fo|f)\\..*$") %>%
-      str_remove("\\s*\\(.*$") %>%
+      str_remove_all("\\b(cf|aff)\\.\\s*") %>% # rule 1
+      str_remove("\\s+(var|subsp)\\..*$") %>% # rule 2
       str_squish(),
     genus = word(clean, 1),
     epithet = word(clean, 2),
+    # rule 3: keep genus + species only if the second word looks like a species
     harmonizedname = if_else(
       !is.na(epithet) & str_detect(epithet, "^[a-z]+(-[a-z]+)?$"),
       paste(genus, epithet), genus
@@ -792,12 +780,12 @@ ggplot(data = taxaplots, aes(x = sites, y = samples)) +
 
 ### 4.1. Stratigraphic Plotting
 
-The aggregate sites above are mostly *surface samples*: one modern sample per lake, which is exactly what you want for a training set. To see change through time we need a **sediment core**, with many samples at different depths and ages. In section 3.3 we already found the diatom cores in the Philadelphia area with a known chronology (`philly_cores`). Four of them come from Barnegat Bay, on the New Jersey coast. We downloaded these ahead of time as well:
+The aggregate sites above are mostly *surface samples*: one modern sample per lake, which is exactly what you want for a training set. To see change through time we need a **sediment core**, with many samples at different depths and ages. In section 3.3 we already found the diatom cores in the Philadelphia area with a known chronology (`penn_cores`). Four of them come from Barnegat Bay, on the New Jersey coast. We downloaded these ahead of time as well:
 
 ```{r coreDownload}
 ## This line is commented out because we've already run it for you.
 # nolint start
-## core_dl <- philly_cores %>% get_downloads(all_data = TRUE)
+## core_dl <- penn_cores %>% get_downloads(all_data = TRUE)
 ## saveRDS(core_dl, "data/diatom_core_download.RDS")
 # nolint end
 core_dl <- readRDS("data/diatom_core_download.RDS")
