@@ -27,7 +27,7 @@ This RMarkdown document will walk you through the process of:
 4. Adding the chronology to the record
 5. Switching between default chronologies
 
-We will use the diatom core from **Barnegat Bay, West Creek** (New Jersey), the same core we drew as a stratigraphic diagram at the end of the [simple workflow](https://open.neotomadb.org/Current_Workshop/simple_workflow.html). This approach is focused on a single record, but much of what is done here can be extended to multiple records using functions.
+We will use the diatom core from **Heart Lake** (Adirondack Mountains, New York). The Barnegat Bay cores we used in the [simple workflow](https://open.neotomadb.org/Current_Workshop/simple_workflow.html) are dated with lead-210, which only reaches back about 150 years. Heart Lake is dated with **radiocarbon**, which is the usual way to date a core that spans thousands of years, and it is what `Bchron` was designed for. This approach is focused on a single record, but much of what is done here can be extended to multiple records using functions.
 
 ## Load Libraries
 
@@ -42,13 +42,13 @@ pacman::p_load(neotoma2, dplyr, ggplot2, Bchron, DT)
 
 ## Loading the Record
 
-We worked through the process for finding and downloading records using `neotoma2` in the [simple workflow](https://open.neotomadb.org/Current_Workshop/simple_workflow.html). There, we found the Barnegat Bay, West Creek core among the Philadelphia-area diatom cores. It is [site 14270](https://data.neotomadb.org/14270) in Neotoma, so we can go straight back to it.
+We worked through the process for finding and downloading records using `neotoma2` in the [simple workflow](https://open.neotomadb.org/Current_Workshop/simple_workflow.html). Heart Lake is [site 728](https://data.neotomadb.org/728) in Neotoma, so we can go straight to it by its site ID.
 
-We follow the same steps as before: `get_sites()`, then `get_datasets()`, then `get_downloads()`. In between we keep only the `diatom` dataset. This site's collection unit also has a loss-on-ignition dataset, and we only want the diatoms.
+We follow the same steps as before: `get_sites()`, then `get_datasets()`, then `get_downloads()`. In between we keep only the `diatom` dataset. This site also holds pollen, water chemistry and other datasets, and we only want the diatoms.
 
 
 ``` r
-barnegat <- get_sites(14270) %>%
+heart_lake <- get_sites(728) %>%
   get_datasets() %>%
   neotoma2::filter(datasettype == "diatom") %>%
   get_downloads()
@@ -58,9 +58,9 @@ Now we use the `chronologies()` helper function to look at the chronologies asso
 
 
 ``` r
-barnegat_chron <- chronologies(barnegat)
+heart_chron <- chronologies(heart_lake)
 
-barnegat_chron %>%
+heart_chron %>%
   as.data.frame() %>%
   dplyr::select(chronologyid, chronologyname, agemodel, modelagetype, isdefault) %>%
   DT::datatable(
@@ -70,23 +70,23 @@ barnegat_chron %>%
 ```
 
 ```{=html}
-<div class="datatables html-widget html-fill-item" id="htmlwidget-491bbc33cc6e7d079b78" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-491bbc33cc6e7d079b78">{"x":{"filter":"none","vertical":false,"data":[["12786"],["Velinsky 2011"],["Constant Initial Concentration (CIC)"],["Calendar years BP"],[true]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>chronologyid<\/th>\n      <th>chronologyname<\/th>\n      <th>agemodel<\/th>\n      <th>modelagetype<\/th>\n      <th>isdefault<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"scrollX":"100%","dom":"t","columnDefs":[{"name":"chronologyid","targets":0},{"name":"chronologyname","targets":1},{"name":"agemodel","targets":2},{"name":"modelagetype","targets":3},{"name":"isdefault","targets":4}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-4be62eb39d1a49d21773" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-4be62eb39d1a49d21773">{"x":{"filter":"none","vertical":false,"data":[["1405","34673"],["COHMAP chron 3","Neotoma 2021"],["weighted cubic regression","Bacon"],["Radiocarbon years BP","Calibrated radiocarbon years BP"],[true,true]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>chronologyid<\/th>\n      <th>chronologyname<\/th>\n      <th>agemodel<\/th>\n      <th>modelagetype<\/th>\n      <th>isdefault<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"scrollX":"100%","dom":"t","columnDefs":[{"name":"chronologyid","targets":0},{"name":"chronologyname","targets":1},{"name":"agemodel","targets":2},{"name":"modelagetype","targets":3},{"name":"isdefault","targets":4}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 ```
 
-This core has one chronology, `12786`, published by Velinsky (2011). It is a lead-210 (<sup>210</sup>Pb) age model, using the *Constant Initial Concentration* (CIC) method. We want to build a new one with the function `Bchronology()` from the [`Bchron` package](https://cran.r-project.org/web/packages/Bchron/vignettes/Bchron.html), and then compare the two.
+This core has two chronologies. Chronology `1405` is an older model (*COHMAP chron 3*, a weighted cubic regression) in radiocarbon years BP. Chronology `34673` (*Neotoma 2021*) is a Bacon age model in calibrated radiocarbon years BP. We want to build a new one with the function `Bchronology()` from the [`Bchron` package](https://cran.r-project.org/web/packages/Bchron/vignettes/Bchron.html), and then compare the two.
 
-It's worth pointing out the `isdefault` column here. Neotoma provides the opportunity to link multiple chronologies to a single record. This lets researchers add their chronologies when they publish new studies. For each age type (Radiocarbon years BP, Calendar years BP, &cetera) there is a default chronology that defines the model for the date interpolation. There is also a hierarchy for the default chronologies. By default Neotoma assigns the age model using _calendar years_ the highest priority, then _calibrated radiocarbon years_, then _radiocarbon years_. You can see the order in practice if we look at the content of `get_table("age types")`.
+It's worth pointing out the `isdefault` column here. Both of these chronologies are marked as default, because each is the default for its own age type. Neotoma provides the opportunity to link multiple chronologies to a single record. This lets researchers add their chronologies when they publish new studies. For each age type (Radiocarbon years BP, Calendar years BP, &cetera) there is a default chronology that defines the model for the date interpolation. There is also a hierarchy for the default chronologies. By default Neotoma assigns the age model using _calendar years_ the highest priority, then _calibrated radiocarbon years_, then _radiocarbon years_. You can see the order in practice if we look at the content of `get_table("age types")`.
 
 ### Extract `chroncontrols`
 
-We're going to use chronology `12786` as our template. To generate a new chronology for this record we want to see which chronological control points were used for the record. We will extract all the chroncontrols, filter by the `chronologyid`, and then arrange them by depth:
+We're going to use chronology `34673` as our template, because its controls are the ones used for the calibrated ages that `samples()` returns. To generate a new chronology for this record we want to see which chronological control points were used for the record. We will extract all the chroncontrols, filter by the `chronologyid`, and then arrange them by depth:
 
 
 ``` r
 # Extract the chronological controls used in the original chronology:
-controls <- chroncontrols(barnegat) %>%
-  dplyr::filter(chronologyid == 12786) %>%
+controls <- chroncontrols(heart_lake) %>%
+  dplyr::filter(chronologyid == 34673) %>%
   arrange(depth)
 
 controls %>%
@@ -97,21 +97,21 @@ controls %>%
 ```
 
 ```{=html}
-<div class="datatables html-widget html-fill-item" id="htmlwidget-676aa8ea5f6611327e97" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-676aa8ea5f6611327e97">{"x":{"filter":"none","vertical":false,"data":[[14270,14270,14270,14270,14270,14270,14270,14270,14270,14270,14270,14270,14270],[12786,12786,12786,12786,12786,12786,12786,12786,12786,12786,12786,12786,12786],["Velinsky 2011","Velinsky 2011","Velinsky 2011","Velinsky 2011","Velinsky 2011","Velinsky 2011","Velinsky 2011","Velinsky 2011","Velinsky 2011","Velinsky 2011","Velinsky 2011","Velinsky 2011","Velinsky 2011"],[1,3,5,7,9,11,13,15,17,19,21,25,31],[2,2,2,2,2,2,2,2,2,2,2,2,2],[-57.3049817,-50.42737472,-43.56455495,-36.7185528,-28.91816128,-22.11654243,-15.34038917,-8.593393512,-1.879837615,4.795304135,11.42624414,25.45369069,44.52711338],[-54.6950183,-47.57262528,-40.43544505,-33.2814472,-25.08183872,-17.88345757,-10.65961083,-3.406606488,3.879837615,11.20469587,18.57375586,34.54630931,57.47288662],[47195,47196,47197,47198,47199,47200,47201,47202,47203,47204,47205,47206,47207],[-56,-49,-42,-35,-27,-20,-13,-6,1,8,16,30,51],["Lead-210","Lead-210","Lead-210","Lead-210","Lead-210","Lead-210","Lead-210","Lead-210","Lead-210","Lead-210","Lead-210","Lead-210","Lead-210"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>siteid<\/th>\n      <th>chronologyid<\/th>\n      <th>chronologyname<\/th>\n      <th>depth<\/th>\n      <th>thickness<\/th>\n      <th>agelimityounger<\/th>\n      <th>agelimitolder<\/th>\n      <th>chroncontrolid<\/th>\n      <th>chroncontrolage<\/th>\n      <th>chroncontroltype<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"scrollX":"100%","columnDefs":[{"className":"dt-right","targets":[0,1,3,4,5,6,7,8]},{"name":"siteid","targets":0},{"name":"chronologyid","targets":1},{"name":"chronologyname","targets":2},{"name":"depth","targets":3},{"name":"thickness","targets":4},{"name":"agelimityounger","targets":5},{"name":"agelimitolder","targets":6},{"name":"chroncontrolid","targets":7},{"name":"chroncontrolage","targets":8},{"name":"chroncontroltype","targets":9}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-ae95fedf1368051fc26c" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-ae95fedf1368051fc26c">{"x":{"filter":"none","vertical":false,"data":[[728,728,728,728,728,728,728,728,728],[34673,34673,34673,34673,34673,34673,34673,34673,34673],["Neotoma 2021","Neotoma 2021","Neotoma 2021","Neotoma 2021","Neotoma 2021","Neotoma 2021","Neotoma 2021","Neotoma 2021","Neotoma 2021"],[0,3.5,115.5,208.5,285.5,390.5,405.5,545.5,629.5],[1,7,5,5,5,5,5,5,5],[-28,1010,1520,1730,3275,3770,4960,7500,10245],[-24,1310,1820,1970,3605,4100,5390,7890,10705],[108149,108150,108151,108152,108153,108155,108157,108154,108156],[-26,1160,1670,1850,3440,3935,5175,7695,10475],["Core top","Radiocarbon","Radiocarbon","Radiocarbon","Radiocarbon","Radiocarbon","Radiocarbon","Radiocarbon","Radiocarbon"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>siteid<\/th>\n      <th>chronologyid<\/th>\n      <th>chronologyname<\/th>\n      <th>depth<\/th>\n      <th>thickness<\/th>\n      <th>agelimityounger<\/th>\n      <th>agelimitolder<\/th>\n      <th>chroncontrolid<\/th>\n      <th>chroncontrolage<\/th>\n      <th>chroncontroltype<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"scrollX":"100%","columnDefs":[{"className":"dt-right","targets":[0,1,3,4,5,6,7,8]},{"name":"siteid","targets":0},{"name":"chronologyid","targets":1},{"name":"chronologyname","targets":2},{"name":"depth","targets":3},{"name":"thickness","targets":4},{"name":"agelimityounger","targets":5},{"name":"agelimitolder","targets":6},{"name":"chroncontrolid","targets":7},{"name":"chroncontrolage","targets":8},{"name":"chroncontroltype","targets":9}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 ```
 
-There are 13 controls, all of type `Lead-210`, between 1 and 31 cm. Ages are in calendar years BP, so the negative ages are samples younger than 1950. We could also save this table, edit it in Excel or another spreadsheet program (for example, to add a new date by adding a new row), and read it back in. Here we will use the controls exactly as they were published.
+There are 9 controls: a `Core top` and 8 `Radiocarbon` dates, between 3.5 and 629.5 cm. The core top age is in calendar years BP, so its negative age means it is younger than 1950 (the core was collected in 1976). The radiocarbon ages are in *radiocarbon* years BP, so they still need to be calibrated. We could also save this table, edit it in Excel or another spreadsheet program (for example, to add a new date by adding a new row), and read it back in. Here we will use the controls exactly as they were published.
 
 ### Extract Depth & Analysis Unit IDs
 
-Next, we extract the `depth`s and `analysisunitid`s from the dataset `samples()`. Pulling in both `depth`s and `analysisunitid`s is important because a single collection unit may have multiple datasets, which may have non-overlapping depth sequences. (Here, the loss-on-ignition dataset that we left out was measured at some depths where no diatoms were counted.) So, when adding sample ages back to a record we use the `analysisunitid` to make sure we are providing the correct assignment since depth may be specific to a single dataset.
+Next, we extract the `depth`s and `analysisunitid`s from the dataset `samples()`. Pulling in both `depth`s and `analysisunitid`s is important because a single collection unit may have multiple datasets, which may have non-overlapping depth sequences. (Here, the pollen dataset that we left out has its own set of depths.) So, when adding sample ages back to a record we use the `analysisunitid` to make sure we are providing the correct assignment since depth may be specific to a single dataset.
 
 
 ``` r
 # Get a two column data.frame with columns depth and analysisunitid.
 # Sort the table by depth from top to bottom for "Bchronology"
-predict_depths <- samples(barnegat) %>%
+predict_depths <- samples(heart_lake) %>%
   select(depth, analysisunitid) %>%
   unique() %>%
   arrange(depth)
@@ -122,10 +122,10 @@ predict_depths <- samples(barnegat) %>%
 Now we can pass the controls and the sample depths to `Bchronology()`. A few notes on the arguments:
 
 * `ages` and `ageSds`: we assume the distance between `chroncontrolage` and `agelimityounger` is 1 standard deviation. `Bchronology()` wants whole numbers for the standard deviations, so we round them, with a minimum of 1.
-* `calCurves`: the usual use of `Bchron` is for radiocarbon dates, which need a calibration curve (such as `"intcal20"`). Our lead-210 ages are already in calendar years, so we give each one a `"normal"` distribution instead. We are doing this to show the mechanics of the workflow, not as a recommendation for how to date a lead-210 core.
-* `predictPositions`: the depths where we want ages. The three deepest samples (35, 45 and 69 cm) are below the deepest control (31 cm), so `allowOutside = TRUE` is needed, and their ages will be extrapolated, with growing uncertainty.
+* `calCurves`: radiocarbon dates need a calibration curve, here `"intcal20"` (the Northern Hemisphere curve). The core top is already in calendar years, so it gets a `"normal"` distribution instead.
+* `predictPositions`: the depths where we want ages. Any sample below the deepest control (629.5 cm) needs `allowOutside = TRUE`, and its age will be extrapolated, with growing uncertainty.
 
-This step takes about 20 seconds. We set the random seed so that everyone gets (nearly) the same answer.
+This step takes about 15 seconds. We set the random seed so that everyone gets (nearly) the same answer.
 
 
 ``` r
@@ -134,7 +134,7 @@ set.seed(1234)
 new_chron <- Bchron::Bchronology(
   ages = controls$chroncontrolage,
   ageSds = pmax(round(abs(controls$agelimityounger - controls$chroncontrolage)), 1),
-  calCurves = rep("normal", nrow(controls)),
+  calCurves = ifelse(controls$chroncontroltype == "Radiocarbon", "intcal20", "normal"),
   positionThicknesses = controls$thickness,
   positions = controls$depth,
   predictPositions = predict_depths$depth,
@@ -155,11 +155,11 @@ plot(new_chron) +
   )
 ```
 
-![Age-depth model for Barnegat Bay, West Creek, with probability distributions superimposed on the figure at each chronology control depth.](complex_workflow_files/figure-html/chronologyPlot-1.png)
+![Age-depth model for Heart Lake, with probability distributions superimposed on the figure at each chronology control depth.](complex_workflow_files/figure-html/chronologyPlot-1.png)
 
 ### Creating the New `chronology` and `contact` objects
 
-Given the new chronology, we want to add it to the `sites` object so that it becomes the default for any calls to `samples()`. To create the metadata for the new chronology, we use `set_chronology()` using the properties from the [`chronology` table in Neotoma](https://open.neotomadb.org/dbschema/tables/chronologies.html):
+Given the new chronology, we want to add it to the `sites` object so that it becomes the default for any calls to `samples()`. Our model is built from calibrated radiocarbon dates, so we give it the same age type as the Neotoma 2021 chronology (`Calibrated radiocarbon years BP`). That matters later: `set_default()` switches between chronologies *of the same age type*. To create the metadata for the new chronology, we use `set_chronology()` using the properties from the [`chronology` table in Neotoma](https://open.neotomadb.org/dbschema/tables/chronologies.html):
 
 
 ``` r
@@ -178,20 +178,20 @@ creators <- c(
 )
 
 # Add information about the chronology:
-new_chron_barnegat <- set_chronology(
+new_chron_heart <- set_chronology(
   agemodel = "Bchron model",
   contact = creators,
   isdefault = TRUE,
   ageboundolder = max(newpredictions),
   ageboundyounger = min(newpredictions),
   dateprepared = Sys.Date(),
-  modelagetype = "Calendar years BP",
+  modelagetype = "Calibrated radiocarbon years BP",
   chronologyname = "Workshop example chronology",
   chroncontrols = controls
 )
 
 # A short note on how the model was built:
-new_chron_barnegat$notes <- "Bchron::Bchronology() with the published lead-210 ages as normal distributions (workshop example)."
+new_chron_heart$notes <- "Bchron::Bchronology() with the radiocarbon controls of chronology 34673, calibrated with IntCal20 (workshop example)."
 ```
 
 ### Adding the `chronology` to the `collectionunit`
@@ -200,7 +200,7 @@ Once we've created the chronology we need to apply it back to the collectionunit
 
 So:
 
-1. we have a collectionunit in `barnegat` that is accessible at `barnegat[[1]]$collunits`.
+1. we have a collectionunit in `heart_lake` that is accessible at `heart_lake[[1]]$collunits`.
 2. We can use the function `add_chronology()`, which takes the chronology object and a `data.frame()` of sample ages.
 3. The predicted dates associated with the new chronology need to be transferred to each `samples` object within the `collectionunit`.
 
@@ -214,23 +214,23 @@ new_sample_ages <- data.frame(predict_depths,
     apply(newpredictions, 2, sd),
   ageyounger = colMeans(newpredictions) -
     apply(newpredictions, 2, sd),
-  agetype = "Calendar years"
+  agetype = "Calibrated radiocarbon years BP"
 )
 
-barnegat[[1]]$collunits[[1]] <- add_chronology(
-  barnegat[[1]]$collunits[[1]],
-  new_chron_barnegat,
+heart_lake[[1]]$collunits[[1]] <- add_chronology(
+  heart_lake[[1]]$collunits[[1]],
+  new_chron_heart,
   new_sample_ages
 )
 ```
 
-With this, we now have the updated collectionunit, and two chronologies in the record:
+With this, we now have the updated collectionunit, and three chronologies in the record:
 
 
 ``` r
-chronologies(barnegat) %>%
+chronologies(heart_lake) %>%
   as.data.frame() %>%
-  dplyr::select(chronologyid, chronologyname, isdefault) %>%
+  dplyr::select(chronologyid, chronologyname, agemodel, isdefault) %>%
   DT::datatable(
     rownames = FALSE,
     options = list(scrollX = "100%", dom = "t")
@@ -238,8 +238,8 @@ chronologies(barnegat) %>%
 ```
 
 ```{=html}
-<div class="datatables html-widget html-fill-item" id="htmlwidget-984bdee69abb3a6824b4" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-984bdee69abb3a6824b4">{"x":{"filter":"none","vertical":false,"data":[["12786","162654094"],["Velinsky 2011","Workshop example chronology"],[false,true]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>chronologyid<\/th>\n      <th>chronologyname<\/th>\n      <th>isdefault<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"scrollX":"100%","dom":"t","columnDefs":[{"name":"chronologyid","targets":0},{"name":"chronologyname","targets":1},{"name":"isdefault","targets":2}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-239fc06c71db79b7fbd1" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-239fc06c71db79b7fbd1">{"x":{"filter":"none","vertical":false,"data":[["1405","34673","40622563"],["COHMAP chron 3","Neotoma 2021","Workshop example chronology"],["weighted cubic regression","Bacon","Bchron model"],[true,false,true]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>chronologyid<\/th>\n      <th>chronologyname<\/th>\n      <th>agemodel<\/th>\n      <th>isdefault<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"scrollX":"100%","dom":"t","columnDefs":[{"name":"chronologyid","targets":0},{"name":"chronologyname","targets":1},{"name":"agemodel","targets":2},{"name":"isdefault","targets":3}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 ```
 
 Let's take a look at how this affects the age model overall. To pull the ages from the prior chronology, we use the `set_default()` function to change the default chronology, and then extract ages, depths & analysis units:
@@ -247,19 +247,19 @@ Let's take a look at how this affects the age model overall. To pull the ages fr
 
 ``` r
 # The new chronology is currently the default chronology.
-newages <- samples(barnegat) %>%
+newages <- samples(heart_lake) %>%
   select(depth, analysisunitid, age) %>%
   unique() %>%
   arrange(depth) %>%
   mutate(agecat = "new")
 
-# Switch back to the published (Velinsky 2011) chronology:
-barnegat[[1]]$collunits[[1]]$chronologies <- set_default(
-  barnegat[[1]]$collunits[[1]]$chronologies,
-  12786
+# Switch back to the Neotoma 2021 (Bacon) chronology:
+heart_lake[[1]]$collunits[[1]]$chronologies <- set_default(
+  heart_lake[[1]]$collunits[[1]]$chronologies,
+  34673
 )
 
-plotforages <- samples(barnegat) %>%
+plotforages <- samples(heart_lake) %>%
   select(depth, analysisunitid, age) %>%
   unique() %>%
   arrange(depth) %>%
@@ -279,9 +279,11 @@ ggplot(plotforages, aes(x = depth, y = age)) +
   ylab("Calendar Years BP (negative = after 1950)")
 ```
 
-![Differences in age representation between the published lead-210 chronology (old) and the new Bchron chronology (new).](complex_workflow_files/figure-html/plotAgeDifferences-1.png)
+![Differences in age representation between the Neotoma 2021 Bacon chronology (old) and the new Bchron chronology (new).](complex_workflow_files/figure-html/plotAgeDifferences-1.png)
 
-The two models agree closely within the dated part of the core (1-31 cm), as we would expect, since they use the same controls. Below 31 cm there is no control, so the two models extrapolate differently and the ages drift apart.
+The two models use the same controls, but they do not agree exactly: the ages differ by a few hundred years through most of the core. The biggest difference is in the top 100 cm. The radiocarbon date at 3.5 cm (1160 radiocarbon years BP) is far older than the core top (the core was collected in 1976), and the two age-modelling methods resolve that conflict differently. Below 629.5 cm there is no control, so both models extrapolate and their ages drift apart.
+
+Notice that `set_default()` worked here because the new chronology and the Neotoma 2021 chronology have the same age type. If we had given the new chronology the age type `Calendar years BP`, `samples()` would have kept using it, because Neotoma ranks calendar years above calibrated radiocarbon years.
 
 So we can see the impact of the new chronology on the age model for the record, and we can make choices as to which model we want to use going forward. We can use this approach to create multiple new chronologies for a single record, tuning parameters within `Bchronology()`, or using Bacon and different parameters. Because the `chronology` is an R object we can save the objects for use in future sessions, and associate them with existing records, or we can re-run the models again.
 
@@ -289,7 +291,7 @@ So we can see the impact of the new chronology on the age model for the record, 
 
 From this notebook we have learned how to:
 
-1. Download a single record (the Barnegat Bay, West Creek diatom core, using `get_sites()`, `get_datasets()` and `get_downloads()`)
+1. Download a single record (the Heart Lake diatom core, using `get_sites()`, `get_datasets()` and `get_downloads()`)
 2. Examine the chronologies for the record (using `chronologies()`) and associated chronological controls (using `chroncontrols()`)
 3. Create a new chronology for the record (using `Bchronology()` and `set_chronology()`)
 4. Add the chronology to the record (using `add_chronology()`)
