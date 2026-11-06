@@ -14,7 +14,7 @@ This repository is built with the structure required to serve the content throug
 
 The workshop material is:
 
-* `simple_workflow.Rmd`: *A Simple Workflow: North American Diatoms*. Search for diatom sites by name and location, filter by dataset type, download the samples of one Pennsylvania diatom record and harmonize its taxonomy, then draw a stratigraphic diagram and follow the change in diatom habit through time in Barnegat Bay.
+* `simple_workflow.Rmd`: *A Simple Workflow: North American Diatoms*. Search for diatom sites by name and location, filter by dataset type, download the samples of one Pennsylvania diatom record, then draw a stratigraphic diagram, look up the diatom names in GBIF with one call (and harmonize them yourself in a spreadsheet), and follow the change in diatom families through time in Barnegat Bay.
 
 To access the content for this Workshop, click the badge below:
 

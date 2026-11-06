@@ -19,8 +19,10 @@ output:
 options(warn = -1)
 pacman::p_load(
   neotoma2, dplyr, ggplot2, sf, geojsonsf, leaflet, DT, readr,
-  stringr, rioja
+  rioja
 )
+# rgbif is only used with `rgbif::` (attaching it would mask neotoma2::datasets()).
+if (!requireNamespace("rgbif", quietly = TRUE)) install.packages("rgbif")
 ```
 
 ```{r leafletTabs, echo=FALSE, results='asis'}
@@ -75,8 +77,8 @@ In this tutorial you will learn how to:
 
 * Search for sites using site names and geographic parameters -- [Site Searches](#3-site-searches)
 * Filter results by dataset type (diatoms, diatom surface samples, water chemistry) and by whether a record has a chronology -- [Filter Results](#33-filter-records-tabset)
-* Obtain sample information for one of the selected sites and harmonize diatom taxonomy -- [Sample Information](#34-pulling-in-sample-data)
-* Perform basic analysis including a stratigraphic diagram and the change in diatom habit through time -- [Basic Analysis](#4-simple-analytics)
+* Obtain sample information for one of the selected sites -- [Sample Information](#34-pulling-in-sample-data)
+* Perform basic analysis including a stratigraphic diagram, connecting your taxon names to GBIF, and the change in diatom families through time -- [Basic Analysis](#4-simple-analytics)
 
 ### 2.1. Getting Help with Neotoma
 
@@ -404,174 +406,11 @@ neotomatx %>%
 
 #### 3.4.2. Understanding Taxonomies in Neotoma
 
-Taxonomies in Neotoma are not as straightforward as we might expect. Diatom identification can be difficult: it depends on the orientation of the valve, the condition of the frustule, the optical quality of the microscope, the analyst's training and the taxonomic reference they used. Diatom names have also changed a great deal over time (many *Achnanthes* are now *Achnanthidium* or *Psammothidium*, for example), and different labs have identified the same valves at different taxonomic levels, from species to genus, or to a varietal level. Many records also carry project-specific codes, such as the `PIRLA` numbers you will see in names like *Eunotia* sp. 31 PIRLA. You can read more about concepts of taxonomy within Neotoma in the Neotoma Manual's [section on Taxonomic concepts](https://open.neotomadb.org/manual/database-design-concepts.html#taxonomy-and-synonymy).
+Taxonomies in Neotoma are not as straightforward as we might expect. Diatom identification can be difficult: it depends on the orientation of the valve, the condition of the frustule, the optical quality of the microscope, the analyst's training and the taxonomic reference they used. Diatom names have also changed a great deal over time (many *Achnanthes* are now *Achnanthidium* or *Psammothidium*, for example), and different labs have identified the same valves at different taxonomic levels, from species to genus, or to a varietal level. Many records also carry project-specific codes, such as the `PIRLA` numbers you will see in names like *Eunotia* sp. 31 PIRLA. Taxonomy is therefore part of the analysis, and we come back to it in [section 4.2](#42-taxonomy-connecting-to-gbif). You can read more about concepts of taxonomy within Neotoma in the Neotoma Manual's [section on Taxonomic concepts](https://open.neotomadb.org/manual/database-design-concepts.html#taxonomy-and-synonymy).
 
-We use the unique identifiers (*e.g.*, `taxonid`, `siteid`, `analysisunitid`) throughout the package, since they help us to link between records. The `taxonid` values returned by the `taxa()` call can be linked to the `taxonid` column in the `samples()` table.  This allows us to build taxon harmonization tables if we choose to. You may also note that the `taxonname` is in the field `variablename`.  Individual sample counts are reported in Neotoma as [`variables`](https://open.neotomadb.org/manual/taxonomy-related-tables-1.html#Variables). A "variable" may be either a species, something like laboratory measurements, or a non-organic proxy, like water chemistry measurements, and includes the units of measurement and the value.
-
-#### 3.4.3. Simple Harmonization
-
-Lets say we want all samples from which *Navicula* taxa have been reported to be grouped together into one pseudo-taxon called *Navicula-undiff*. **NOTE**, this is not an ecologically useful grouping, but used for illustration.
-
-There are several ways of grouping taxa, either directly by exporting the file and editing each individual cell, or by creating an external "harmonization" table (which we did in the prior `neotoma` package).  First, lets look for how many different ways *Navicula* appears in these records. We can use the function `str_detect()` from the `stringr` package to look for patterns, and then return either `TRUE` or `FALSE` when the string is detected:
-
-```{r navicula, echo = FALSE}
-# How many different "Navicula" taxa have been identified?
-neotomatx %>%
-  dplyr::ungroup() %>%
-  dplyr::filter(stringr::str_detect(variablename, "Navicula")) %>%
-  dplyr::select(variablename, sites, samples) %>%
-  DT::datatable(
-    rownames = FALSE,
-    options = list(scrollX = "100%", dom = "tp", pageLength = 5)
-  )
-```
-
-We can harmonize taxon by taxon a number of different ways. One way would be to get every instance of a *Navicula* taxon and just change them directly. Here we are taking the column `variablename` from the `all_samp` object (this is where the count data is). The square brackets are telling us which rows we're changing, here only rows where we detect `"Navicula"` in the variable name. For each of those rows, in that column, we assign the value `"Navicula undiff."`:
-
-```{r echo = FALSE, eval=FALSE}
-# Don't run this!
-is_navicula <- stringr::str_detect(all_samp$variablename, "Navicula")
-all_samp$variablename[is_navicula] <- "Navicula undiff."
-```
-
-There were originally `r sum(stringr::str_detect(neotomatx$variablename, "Navicula.*"))` different taxa identified as being within the genus *Navicula* (including *Navicula cryptocephala*, *Navicula minima* and *Navicula elginensis* var. *neglecta*). The above code reduces them all to a single taxonomic group *Navicula undiff*.
-
-Note that this changes *Navicula* _only_ in the `all_samp` object, not in any of the downloaded objects. If we were to call `samples()` again, the taxonomy would return to its original form.
-
-If we want to have an artifact of our choices, we can use an external table. For example, a table of pairs (what we want changed, and the name we want it replaced with) can be generated, and it can include regular expressions (if we choose):
-
-| original | replacement |
-| -------- | ----------- |
-| Navicula.* | Navicula-undiff |
-| Nitzschia.* | Nitzschia-undiff |
-| Eunotia.* | Eunotia-undiff |
-| Fragilaria.* | Fragilaria-undiff |
-| ... | ... |
-
-We can get the list of original names directly from the `taxa()` call, applied to a `sites` object that contains samples, and then export it using `write.csv()`.
-
-```{r countbySitesSamples, eval=FALSE}
-taxaplots <- taxa(crow_dl)
-# Save the taxon list to file so we can edit it subsequently.
-readr::write_csv(taxaplots, "data/mytaxontable.csv")
-```
-
-#### 3.4.4. Editing the Taxonomy Table
-
-Exporting the taxon table to a `csv` file allows us to edit the table, filtering and selecting taxa based on contextual information to help you out. In pollen records the `ecologicalgroup` column is very useful for this, but for diatoms every taxon is just `DIAT`, so the information we need has to come from the **name**. Diatom names carry varieties (`var.`), subspecies (`subsp.`), uncertain identifications (`cf.`), and project codes (`PIRLA`), so we will build a translation table with three simple rules:
-
-1. Remove `cf.` and `aff.` (so *Cymbella* cf. *gaeumannii* becomes *Cymbella gaeumannii*).
-2. Drop varieties and subspecies (this lumps varieties together, so adjust it if your question needs them).
-3. Keep the genus and species when the second word looks like a species name. Otherwise (for *sp.*, *spp.*, or numbered codes) keep only the genus.
-
-We also add a `habit` column (planktonic, tychoplanktonic or benthic) from a short lookup of the most common genera in our data. **The rules and the lookup are deliberately simple, and they are not perfect.** They are here to show you *how* to build and use a translation table, not to tell you the right diatom taxonomy. Diatom specialists will have better rules, so change the lists to match your own references. Genera that are not in the lookup are left empty.
-
-```{r translationRules, eval=FALSE}
-# 1. Every diatom taxon in the downloads, one row per taxon. We include the
-#    sediment cores that we use in section 4 and a set of diatom surface
-#    samples that we downloaded ahead of time, so one table covers them all.
-core_dl <- readRDS("data/diatom_core_download.RDS")
-surface_dl <- readRDS("data/aggregate_slice_download.RDS")
-
-diatom_taxa <- bind_rows(
-  as.data.frame(taxa(surface_dl)),
-  as.data.frame(taxa(core_dl))
-) %>%
-  dplyr::filter(ecologicalgroup == "DIAT") %>%
-  dplyr::distinct(taxonid, variablename, ecologicalgroup)
-
-# 2. A short, editable lookup of growth habit for the most common genera.
-#    Simplified for teaching: use your own references.
-planktonic <- c("Aulacoseira", "Asterionella", "Cyclotella", "Discostella")
-tychoplanktonic <- c(
-  "Fragilaria", "Staurosira", "Pseudostaurosira", "Tabellaria", "Synedra",
-  "Melosira"
-)
-benthic <- c(
-  "Navicula", "Nitzschia", "Eunotia", "Achnanthidium", "Denticula",
-  "Planothidium", "Frustulia", "Gomphonema", "Cocconeis", "Diploneis",
-  "Amphora"
-)
-
-# 3. Apply the rules.
-diatom_taxontable <- diatom_taxa %>%
-  mutate(
-    clean = variablename %>%
-      str_remove_all("\\b(cf|aff)\\.\\s*") %>% # rule 1
-      str_remove("\\s+(var|subsp)\\..*$") %>% # rule 2
-      str_squish(),
-    genus = word(clean, 1),
-    epithet = word(clean, 2),
-    # rule 3: keep genus + species only if the second word looks like a species
-    harmonizedname = if_else(
-      !is.na(epithet) & str_detect(epithet, "^[a-z]+(-[a-z]+)?$"),
-      paste(genus, epithet), genus
-    ),
-    habit = case_when(
-      genus %in% planktonic ~ "planktonic",
-      genus %in% tychoplanktonic ~ "tychoplanktonic",
-      genus %in% benthic ~ "benthic",
-      TRUE ~ NA_character_
-    )
-  ) %>%
-  select(taxonid, variablename, ecologicalgroup, harmonizedname, genus, habit)
-
-readr::write_csv(diatom_taxontable, "data/diatom_taxontable.csv")
-```
-
-I did that work ahead of time, so we can read the table in. You can open it, change the rules or the `habit` column, and save it under a different file name to make it your own:
-
-```{r translationDisplay, message=FALSE, echo = FALSE}
-translation <- readr::read_csv("data/diatom_taxontable.csv", show_col_types = FALSE)
-DT::datatable(translation,
-  rownames = FALSE,
-  options = list(scrollX = "100%", dom = "tp", pageLength = 8)
-)
-```
-
-The `r nrow(translation)` original diatom names became `r dplyr::n_distinct(translation$harmonizedname)` harmonized names, in `r dplyr::n_distinct(translation$genus)` genera.
-
-You can see we've changed some of the taxon names in the taxon table.  To replace the names in the `samples()` output, we'll join the two tables using an `inner_join()` (meaning the `variablename` must appear in both tables for the result to be included), and then we're going to select only those elements of the sample tables that are relevant to our later analysis, using the `harmonizedname` column as our new name for the taxa:
-
-```{r joinTranslation, eval = FALSE}
-all_samp <- samples(crow_dl)
-
-all_samp <- all_samp %>%
-  inner_join(translation, by = c("variablename" = "variablename")) %>%
-  dplyr::select(!c("variablename")) %>%
-  group_by(
-    siteid, sitename, harmonizedname, genus, habit,
-    sampleid, units, age,
-    agetype, depth, datasetid,
-    long, lat
-  ) %>%
-  summarise(value = sum(value), .groups = "keep")
-```
-
-```{r harmonizationTableOut, message = FALSE, echo=FALSE}
-clean_samp <- samples(crow_dl) %>%
-  inner_join(translation, by = c("variablename" = "variablename")) %>%
-  dplyr::select(!c("variablename")) %>%
-  group_by(
-    siteid, sitename, harmonizedname, genus, habit,
-    sampleid, units, age,
-    agetype, depth, datasetid,
-    long, lat
-  ) %>%
-  summarise(value = sum(value), .groups = "keep") %>%
-  arrange(sitename, age, harmonizedname)
-
-DT::datatable(head(clean_samp, n = 50),
-  rownames = FALSE,
-  options = list(scrollX = "100%", dom = "t")
-)
-```
-
-We now have a cleaner set of taxon names compared to the original table, because of harmonization (varieties and uncertain identifications are folded into their species). At Crow Hill the `r dplyr::n_distinct(samples(crow_dl)$variablename)` original diatom names became `r dplyr::n_distinct(clean_samp$harmonizedname)` harmonized names, and the counts of the names that were merged were added together.
+We use the unique identifiers (*e.g.*, `taxonid`, `siteid`, `analysisunitid`) throughout the package, since they help us to link between records. The `taxonid` values returned by the `taxa()` call can be linked to the `taxonid` column in the `samples()` table.  This allows us to link the taxa to other tables, as we will do in [section 4.2](#42-taxonomy-connecting-to-gbif). You may also note that the `taxonname` is in the field `variablename`.  Individual sample counts are reported in Neotoma as [`variables`](https://open.neotomadb.org/manual/taxonomy-related-tables-1.html#Variables). A "variable" may be either a species, something like laboratory measurements, or a non-organic proxy, like water chemistry measurements, and includes the units of measurement and the value.
 
 ## 4. Simple Analytics
-
-### 4.1. Stratigraphic Plotting
 
 Crow Hill has only two modern samples, and so do most of the Pennsylvania diatom records, which is what you want for a snapshot of the lakes today. To see change through time we need a **sediment core**, with many samples at different depths and ages. Among the diatom cores with a known chronology that we found in [section 3.3](#33-filter-records-tabset) (`penn_cores`), four come from Barnegat Bay, on the New Jersey coast, and they have between 11 and 16 samples each. Downloading all of `penn_cores` takes a while, so we did it ahead of time:
 
@@ -584,7 +423,7 @@ Crow Hill has only two modern samples, and so do most of the Pennsylvania diatom
 core_dl <- readRDS("data/diatom_core_download.RDS")
 ```
 
-Before choosing a core, it helps to know that each chronology belongs to a collection unit. `chronologies()` gives us the chronology used by each dataset, so we can see how each core was dated:
+Each chronology belongs to a collection unit. `chronologies()` gives us the chronology used by each dataset, so we can see how each core was dated:
 
 ```{r coreChronologies}
 chronologies(core_dl) %>%
@@ -593,16 +432,17 @@ chronologies(core_dl) %>%
   DT::datatable(rownames = FALSE, options = list(scrollX = "100%", dom = "t"))
 ```
 
-We can use packages like `rioja` to do stratigraphic plotting for a single record, but first we need to do some different data management.  Although we could do harmonization again we're going to simply take the most common taxa at a single site and plot them in a stratigraphic diagram. We pick the Barnegat Bay core at West Creek (`siteid` 14270).
+### 4.1. Stratigraphic Plotting
 
-```{r stratiplot, message = FALSE}
-# Get a particular site, in this case we are simply subsetting the
-# `core_dl` object:
+We can use packages like `rioja` to do stratigraphic plotting for a single record. We pick the Barnegat Bay core at West Creek (`siteid` 14270), and subset the `core_dl` object to that site:
+
+```{r pickSite}
 plotting_site <- neotoma2::filter(core_dl, siteid == 14270)
+```
 
-# Select only diatoms counted as valves (NISP) and convert to a "wide"
-# table, using proportions. The first column will be "age".
-# This turns our "long" table into a "wide" table:
+`rioja` needs a "wide" table (one row per sample, one column per taxon), but `samples()` gives a "long" one. The `toWide()` function does the conversion, and it lets us choose the taxa, units and elements first. Here we keep only diatoms counted as valves (`NISP`), we group the samples by `age`, and we turn the counts into proportions. The first column of the result is `age`:
+
+```{r stratiWide}
 counts <- plotting_site %>%
   samples() %>%
   toWide(
@@ -612,25 +452,24 @@ counts <- plotting_site %>%
     groupby = "age",
     operation = "prop"
   )
+```
 
-# Keep the age column, plus the taxa that make up at least 3% of three or more
-# samples (the ages here include negative values, after 1950, so we do not
-# test the age column itself):
+There are hundreds of taxa in this core, and most of them are rare. We keep the age column, plus the taxa that make up at least 3% of the valves in three or more samples. (The ages here include negative values, after 1950, so we do not test the age column itself.)
+
+```{r stratiCommon}
 common <- colSums(counts[, -1] > 0.03, na.rm = TRUE) >= 3
 counts <- counts[, c(TRUE, common)]
 ```
 
-Hopefully the code is pretty straightforward. The `toWide()` function provides you with significant control over the taxa, units and other elements of your data before you get them into the wide matrix (`age` by `taxon`) that most statistical tools such as the `vegan` package or `rioja` use.
+I've also added a CONISS plot to the edge of the plot, to show how the new *wide* data frame works with distance metric functions. First we run the constrained clustering:
 
-To plot the data we can use `rioja`'s `strat.plot()`, sorting the taxa using weighted averaging scores (`wa.order`). I've also added a CONISS plot to the edge of the the plot, to show how the new *wide* data frame works with distance metric funcitons.
+```{r stratiCluster}
+clust <- rioja::chclust(dist(sqrt(counts[, -1])), method = "coniss")
+```
+
+To plot the data we use `rioja`'s `strat.plot()`, converting proportions to percentages and sorting the taxa using weighted averaging scores (`wa.order`). Base R plots are drawn one layer on top of the other, so the zone lines and the site name are added in the same chunk:
 
 ```{r plotStrigraph, message=FALSE, warning=FALSE, fig.width=11, fig.height=6.5}
-# Perform constrained clustering:
-clust <- rioja::chclust(dist(sqrt(counts[, -1])),
-  method = "coniss"
-)
-
-# Plot the stratigraphic plot, converting proportions to percentages:
 plot <- rioja::strat.plot(counts[, -1] * 100,
   yvar = counts$age,
   title = "",
@@ -644,41 +483,171 @@ plot <- rioja::strat.plot(counts[, -1] * 100,
   cex.xlabel = 0.8
 )
 
+# Mark the two main zones of the clustering and name the site:
 rioja::addClustZone(plot, clust, 2, col = "red")
 mtext(plotting_site[[1]]$sitename,
   side = 3, line = -1.5, adj = 0.02, font = 2, outer = TRUE
 )
 ```
 
-### 4.2. Change in Time Across Sites
+### 4.2. Taxonomy: Connecting to GBIF
 
-We now have several cores from the same bay with samples and with taxon names. I'm interested in looking at how the **kind of diatoms** changes across time: the share of the assemblage made up of benthic, tychoplanktonic and planktonic forms. This is where the `habit` column of our harmonization table is useful, since it lets us look at a change in the assemblage without having to read through hundreds of species. We keep only the cores that have at least five samples.
+The taxon names in a Neotoma download are the names that each analyst used, at the level they could identify (a species, a variety, a genus, or a project code such as *Navicula* sp. 3 BB DME). Diatom taxonomy is a topic on which specialists often **do not agree**, and names change over time, so there is no single "right" table of names. Making a table is not the hard part. Deciding what to merge is, and that decision is yours and depends on your question.
 
-```{r summarizeByTime, message = FALSE, fig.width=9, fig.height=5}
-# Join the habit from the translation table, then sum the counts of each habit
-# within every sample:
-habit_by_sample <- samples(core_dl) %>%
-  inner_join(translation, by = c("variablename" = "variablename")) %>%
-  mutate(habit = dplyr::coalesce(habit, "not classified")) %>%
-  group_by(siteid, sitename, datasetid, sampleid, age, habit) %>%
-  summarise(value = sum(value), .groups = "drop_last") %>%
-  mutate(proportion = value / sum(value)) %>%
-  ungroup()
+What we can do is ask another database what it knows about our names, and merge the answer into our table. We use [**GBIF**](https://www.gbif.org), the Global Biodiversity Information Facility, because it is free, needs no key, and has an R package (`rgbif`) on CRAN. The same pattern works for other authorities, such as [DiatomBase](https://www.diatombase.org).
 
-# Keep the cores that have at least five samples:
-long_cores <- habit_by_sample %>%
+We do not send every taxon. Most of the 317 names in these four cores are rare. We use the **common** taxa of the four Barnegat Bay cores (the same 3% in three samples rule as in the plot above), so the list stays small and we are gentle with the GBIF service. First, the valve counts of the cores that have at least five samples, as a proportion of each sample:
+
+```{r longCores}
+long_cores <- samples(core_dl) %>%
+  dplyr::filter(ecologicalgroup == "DIAT", elementtype == "valve") %>%
   group_by(datasetid) %>%
   dplyr::filter(n_distinct(sampleid) >= 5) %>%
+  group_by(siteid, sitename, datasetid, sampleid, age) %>%
+  mutate(proportion = value / sum(value)) %>%
   ungroup()
+```
 
-# And then plot! One panel per habit, one line per core:
+And then the common taxa, one row per name:
+
+```{r commonTaxa}
+common_taxa <- long_cores %>%
+  dplyr::filter(proportion > 0.03) %>%
+  group_by(siteid, variablename) %>%
+  summarise(samples = n_distinct(sampleid), .groups = "drop") %>%
+  dplyr::filter(samples >= 3) %>%
+  dplyr::distinct(variablename) %>%
+  arrange(variablename)
+```
+
+That is **`r nrow(common_taxa)` names**, which account for `r round(100 * sum(long_cores$value[long_cores$variablename %in% common_taxa$variablename]) / sum(long_cores$value))`% of all the valves counted in these cores.
+
+#### 4.2.1. One call to GBIF {.tabset}
+
+`rgbif` can match a whole table of names against the GBIF taxonomy in one go with `name_backbone_checklist()`. We also give it the **class**, *Bacillariophyceae* (the diatoms). This matters, because the same genus name can be used for an animal or a plant, and with the class GBIF knows we mean the diatom. We make **one** call and save the answer with `saveRDS()`, so we never need to ask again. Please do not put this call in a loop.
+
+##### 4.2.1.1. Code
+
+```{r gbifCode, eval=FALSE}
+# The column has to be called `scientificName`, which is what rgbif looks for.
+gbif_match <- rgbif::name_backbone_checklist(
+  data.frame(
+    scientificName = common_taxa$variablename,
+    class = "Bacillariophyceae"
+  )
+)
+
+# Save the answer so we do not need to ask GBIF again.
+saveRDS(
+  list(retrieved = Sys.time(), match = gbif_match),
+  "data/gbif_match_barnegat.RDS"
+)
+```
+
+##### 4.2.1.2. Result
+
+We did this ahead of time, on `r format(readRDS("data/gbif_match_barnegat.RDS")$retrieved, "%B %d, %Y")`. Here is the saved answer:
+
+```{r gbifResult, echo=FALSE}
+gbif_match <- readRDS("data/gbif_match_barnegat.RDS")$match
+
+gbif_match %>%
+  dplyr::select(
+    `Neotoma name` = verbatim_name, `GBIF name` = canonicalName,
+    rank, status, `match type` = matchType, confidence, family, order
+  ) %>%
+  DT::datatable(
+    rownames = FALSE,
+    options = list(scrollX = "100%", dom = "tp", pageLength = 8)
+  )
+```
+
+#### 4.2.2. Merging the two
+
+For each name GBIF tells us the taxon it matched (`canonicalName`) and at what `rank`; whether that name is `ACCEPTED` or a `SYNONYM`; how it matched (`matchType`: `EXACT`, `FUZZY` when the spelling was slightly different, or `HIGHERRANK` when it could only find a higher group); a `confidence` score; and the classification (`family`, `order`). The name that we sent comes back in `verbatim_name`, so we can use it to join the answer to our table with `left_join()`, which keeps every Neotoma taxon, with or without a match:
+
+```{r gbifJoin}
+gbif_small <- gbif_match %>%
+  dplyr::select(
+    variablename = verbatim_name,
+    gbif_name = canonicalName, rank, status,
+    match_type = matchType, accepted_name = acceptedScientificName,
+    family, order
+  )
+
+taxa_gbif <- common_taxa %>%
+  left_join(gbif_small, by = "variablename")
+
+# A good check after any join: we should have the same number of rows.
+nrow(taxa_gbif) == nrow(common_taxa)
+```
+
+Of the `r nrow(taxa_gbif)` names, `r sum(taxa_gbif$match_type == "EXACT", na.rm = TRUE)` matched exactly, and `r sum(taxa_gbif$match_type == "HIGHERRANK", na.rm = TRUE)` could only be matched to a higher group. GBIF considers `r sum(taxa_gbif$status == "SYNONYM", na.rm = TRUE)` of the names to be synonyms. Neither of these is an error, but both are worth looking at before you use the result. This is where the taxonomic decisions begin.
+
+**Synonyms.** The name in Neotoma is not the one that GBIF treats as accepted today. Neither is wrong, and the accepted name is how you would link to other sources:
+
+```{r gbifSynonyms}
+taxa_gbif %>%
+  dplyr::filter(status == "SYNONYM") %>%
+  dplyr::select(variablename, accepted_name, family) %>%
+  DT::datatable(rownames = FALSE, options = list(scrollX = "100%", dom = "t"))
+```
+
+**Matched only at a higher rank.** GBIF could not find the species, so it gave us the genus instead. This is what happens with project codes. Be careful: a row that says *Navicula* is not a species match.
+
+```{r gbifHigher}
+taxa_gbif %>%
+  dplyr::filter(match_type == "HIGHERRANK") %>%
+  dplyr::select(variablename, gbif_name, rank) %>%
+  DT::datatable(rownames = FALSE, options = list(scrollX = "100%", dom = "t"))
+```
+
+#### 4.2.3. Harmonizing is up to you
+
+Do you want to merge the synonyms into their accepted names? Fold the varieties into their species? Lump every *Navicula* with a project code into one group? Different researchers will answer differently, and that is fine. The easiest way to do it is not code: save the merged table as a `csv`, open it in a spreadsheet, and add a column with the name **you** want for each taxon.
+
+```{r gbifCsv, eval=FALSE}
+# Save the table, edit it in a spreadsheet, then read it back in.
+readr::write_csv(taxa_gbif, "data/my_diatom_taxa.csv")
+my_taxa <- readr::read_csv("data/my_diatom_taxa.csv")
+```
+
+The new column can then be joined to the `samples()` table by `variablename`, in the same way that we joined the GBIF answer, and you can group and sum the counts by your own names.
+
+### 4.3. Change in Time Across Sites
+
+We now have several cores from the same bay, with samples and with taxon names, and GBIF gave us something that Neotoma's download does not: the **family** of each taxon. I'm interested in looking at how the **kind of diatoms** changes across time, using the share of the assemblage made up of each family. This lets us look at a change in the assemblage without having to read through hundreds of species.
+
+First we add the family to the valve counts, and add up the proportions of each family within every sample. We only have a family for the common taxa, so the other taxa are left out:
+
+```{r familyShares}
+family_by_sample <- long_cores %>%
+  inner_join(dplyr::select(taxa_gbif, variablename, family), by = "variablename") %>%
+  dplyr::filter(!is.na(family)) %>%
+  group_by(siteid, sitename, datasetid, sampleid, age, family) %>%
+  summarise(proportion = sum(proportion), .groups = "drop")
+```
+
+There are many families, so we keep the six with the largest share of the valves:
+
+```{r topFamilies}
+top_families <- family_by_sample %>%
+  group_by(family) %>%
+  summarise(total = sum(proportion), .groups = "drop") %>%
+  slice_max(total, n = 6) %>%
+  pull(family)
+```
+
+And then plot! One panel per family, one line per core:
+
+```{r summarizeByTime, message = FALSE, fig.width=9, fig.height=5}
 ggplot(
-  dplyr::filter(long_cores, habit != "not classified"),
+  dplyr::filter(family_by_sample, family %in% top_families),
   aes(x = age, y = proportion, color = sitename)
 ) +
   geom_line() +
   geom_point() +
-  facet_wrap(~habit, scales = "free_y") +
+  facet_wrap(~family, scales = "free_y") +
   scale_x_reverse() +
   scale_y_continuous(labels = scales::percent) +
   xlab("Calibrated Years BP (negative = after 1950)") +
@@ -689,11 +658,11 @@ ggplot(
   theme(legend.position = "bottom")
 ```
 
-Benthic diatoms make up most of these estuarine assemblages, and planktonic forms are rare. We can see whether the four cores change in a similar way, and which habit drives the changes. Note that the shares are out of all the valves counted, and the taxa that are not in our habit lookup are left out of the plot, so the three panels do not add up to 100%. Depending on how we divide the data we can also look at other dimensions, such as distance from the inlet, to better understand how the bay changed.
+We can see whether the four cores change in a similar way, and which family drives the changes. Note that the shares are out of all the valves counted, and only the common taxa have a family, so the panels do not add up to 100%. Depending on how we divide the data we can also look at other dimensions, such as distance from the inlet, to better understand how the bay changed. And if you made your own harmonization in section 4.2, this is the place to use it instead of the GBIF family.
 
 ## 5. Conclusion
 
-So, we've done a lot in this example.  We've (1) searched for sites using site names and geographic parameters, (2) filtered results by dataset type and by whether a record has a chronology, (3) downloaded the sample information for one of the sites we found and cleaned up its diatom taxonomy, and (4) performed basic analysis including a stratigraphic diagram and a look at the change in diatom habit through time. Hopefully you can use these examples as templates for your own future work, or as a building block for something new and cool!
+So, we've done a lot in this example.  We've (1) searched for sites using site names and geographic parameters, (2) filtered results by dataset type and by whether a record has a chronology, (3) downloaded the sample information for one of the sites we found, and (4) performed basic analysis including a stratigraphic diagram, a connection to GBIF to look up our diatom names (and a way to harmonize them yourself), and a look at the change in diatom families through time. Hopefully you can use these examples as templates for your own future work, or as a building block for something new and cool!
 
 ## 6. Installing packages on your own {#localinstall}
 
@@ -703,8 +672,10 @@ We use several packages in this document, including `leaflet`, `sf` and others. 
 options(warn = -1)
 pacman::p_load(
   neotoma2, dplyr, ggplot2, sf, geojsonsf, leaflet, DT, readr,
-  stringr, rioja
+  rioja
 )
+# rgbif is not attached, because it masks neotoma2::datasets().
+if (!requireNamespace("rgbif", quietly = TRUE)) install.packages("rgbif")
 ```
 
 This workflow uses the development version of `neotoma2` (version 1.1.1.9000 or later), which can search for several dataset types at once. You can install it with:
