@@ -960,6 +960,7 @@ taxonid,variablename,ecologicalgroup,harmonizedname,genus,habit
 39166,Brachysira microcephala morphotype 2,DIAT,Brachysira microcephala,Brachysira,NA
 10266,Achnanthes brevipes,DIAT,Achnanthes brevipes,Achnanthes,NA
 10292,Achnanthes submarina,DIAT,Achnanthes submarina,Achnanthes,NA
+10307,Achnanthes sp. 1?,DIAT,Achnanthes,Achnanthes,NA
 10332,Amphora acutiuscula,DIAT,Amphora acutiuscula,Amphora,benthic
 10341,Amphora montana,DIAT,Amphora montana,Amphora,benthic
 10345,Amphora delicatissima,DIAT,Amphora delicatissima,Amphora,benthic
@@ -973,6 +974,8 @@ taxonid,variablename,ecologicalgroup,harmonizedname,genus,habit
 10463,Cocconeis sp. 1?,DIAT,Cocconeis,Cocconeis,benthic
 10464,Cocconeis sp. 2?,DIAT,Cocconeis,Cocconeis,benthic
 10494,Cyclotella caspia,DIAT,Cyclotella caspia,Cyclotella,planktonic
+10599,Cymbella ehrenbergii,DIAT,Cymbella ehrenbergii,Cymbella,NA
+10611,Cymbella subcuspidata,DIAT,Cymbella subcuspidata,Cymbella,NA
 10625,Denticula subtilis,DIAT,Denticula subtilis,Denticula,benthic
 10643,Diploneis elliptica,DIAT,Diploneis elliptica,Diploneis,benthic
 10644,Diploneis finnica,DIAT,Diploneis finnica,Diploneis,benthic
@@ -991,11 +994,14 @@ taxonid,variablename,ecologicalgroup,harmonizedname,genus,habit
 11144,Mastogloia pumila,DIAT,Mastogloia pumila,Mastogloia,NA
 11202,Melosira nummuloides,DIAT,Melosira nummuloides,Melosira,tychoplanktonic
 11370,Navicula cari,DIAT,Navicula cari,Navicula,benthic
+11459,Navicula diluviana,DIAT,Navicula diluviana,Navicula,benthic
 11462,Navicula ordinaria,DIAT,Navicula ordinaria,Navicula,benthic
 11471,Navicula digitulus,DIAT,Navicula digitulus,Navicula,benthic
 11593,Navicula erifuga,DIAT,Navicula erifuga,Navicula,benthic
 11594,Navicula recens,DIAT,Navicula recens,Navicula,benthic
 11595,Navicula phyllepta,DIAT,Navicula phyllepta,Navicula,benthic
+11615,Navicula cryptofallax,DIAT,Navicula cryptofallax,Navicula,benthic
+11626,Navicula oblonga,DIAT,Navicula oblonga,Navicula,benthic
 11646,Navicula sp. 5 ?,DIAT,Navicula,Navicula,benthic
 11647,Navicula sp. 6 ?,DIAT,Navicula,Navicula,benthic
 11850,Nitzschia obtusa,DIAT,Nitzschia obtusa,Nitzschia,benthic
@@ -1011,6 +1017,7 @@ taxonid,variablename,ecologicalgroup,harmonizedname,genus,habit
 12133,Pleurosigma salinarum,DIAT,Pleurosigma salinarum,Pleurosigma,NA
 12149,Rhopalodia brebissonii,DIAT,Rhopalodia brebissonii,Rhopalodia,NA
 12150,Rhopalodia acuminata,DIAT,Rhopalodia acuminata,Rhopalodia,NA
+12178,Stauroneis stodderi,DIAT,Stauroneis stodderi,Stauroneis,NA
 12202,Stauroneis pseudosubobtusoides,DIAT,Stauroneis pseudosubobtusoides,Stauroneis,NA
 12395,Thalassionema nitzschioides,DIAT,Thalassionema nitzschioides,Thalassionema,NA
 12410,Cymatosira belgica,DIAT,Cymatosira belgica,Cymatosira,NA
@@ -1025,10 +1032,14 @@ taxonid,variablename,ecologicalgroup,harmonizedname,genus,habit
 12456,Fallacia monoculata,DIAT,Fallacia monoculata,Fallacia,NA
 12457,Fallacia omissa,DIAT,Fallacia omissa,Fallacia,NA
 12458,Fallacia subhamulata,DIAT,Fallacia subhamulata,Fallacia,NA
+12536,Cavinula pseudoscutiformis,DIAT,Cavinula pseudoscutiformis,Cavinula,NA
 12545,Cosmioneis pusilla,DIAT,Cosmioneis pusilla,Cosmioneis,NA
 12547,Tabularia tabulata,DIAT,Tabularia tabulata,Tabularia,NA
 12561,Navicula stankovici,DIAT,Navicula stankovici,Navicula,benthic
+12588,Gomphonema pygmaeum,DIAT,Gomphonema pygmaeum,Gomphonema,benthic
 12633,Nitzschia compressa var. elongata,DIAT,Nitzschia compressa,Nitzschia,benthic
+12654,Cyclotella krammeri,DIAT,Cyclotella krammeri,Cyclotella,planktonic
+12655,Cyclotella schumanni,DIAT,Cyclotella schumanni,Cyclotella,planktonic
 12675,Nitzschia rosenstockii,DIAT,Nitzschia rosenstockii,Nitzschia,benthic
 12762,Biremis circumtexta,DIAT,Biremis circumtexta,Biremis,NA
 12774,Planothidium engelbrechtii,DIAT,Planothidium engelbrechtii,Planothidium,benthic
@@ -1057,10 +1068,12 @@ taxonid,variablename,ecologicalgroup,harmonizedname,genus,habit
 13202,Navicula digitoradiata,DIAT,Navicula digitoradiata,Navicula,benthic
 13324,Grammatophora marina,DIAT,Grammatophora marina,Grammatophora,NA
 13325,Petroneis marina,DIAT,Petroneis marina,Petroneis,NA
+24418,Cymbella subaequalis,DIAT,Cymbella subaequalis,Cymbella,NA
 24648,Fragilaria zeilleri,DIAT,Fragilaria zeilleri,Fragilaria,tychoplanktonic
 25065,Amphora holsatica,DIAT,Amphora holsatica,Amphora,benthic
 26979,Mastogloia sp. 1?,DIAT,Mastogloia,Mastogloia,NA
 27005,Navicula sublucidula,DIAT,Navicula sublucidula,Navicula,benthic
+27181,Stauroneis subborealis,DIAT,Stauroneis subborealis,Stauroneis,NA
 28118,Fallacia sp. 1 ?,DIAT,Fallacia,Fallacia,NA
 28122,Planothidium sp. 1?,DIAT,Planothidium,Planothidium,benthic
 28427,Diploneis bombus,DIAT,Diploneis bombus,Diploneis,benthic

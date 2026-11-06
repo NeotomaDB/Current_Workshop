@@ -1,5 +1,5 @@
 ---
-title: "Connecting to GBIF: a Proof of Concept"
+title: "Connecting to GBIF"
 author:
   - name: "Socorro Dominguez Vidaña"
     institute: [uwiscgeog]
@@ -43,7 +43,7 @@ To be gentle with the GBIF service we make **one** request, for a small set of n
 
 ## 1. Three sites from a Neotoma download
 
-We start from the download we made in the [Simple Workflow](simple_workflow.html): the diatom surface samples and water chemistry for the aggregate sites around Philadelphia. That object was built with `get_sites()`, then `get_datasets()`, then `get_downloads()`, so we do not need to call Neotoma again. We just read it in.
+We start from a download we made on the Simple Workflow.
 
 A `sites` object can be sliced like a list. To keep things small we take only the **first three sites** (`aggregate_dl[1:3]`). If you want other sites, change the numbers: `aggregate_dl[c(37, 38, 39)]` would give three from the middle.
 

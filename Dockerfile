@@ -20,6 +20,5 @@ COPY images/ /home/jovyan/images/
 # Only the files the workflows read are copied (not the whole data/ folder).
 COPY data/diatom_core_download.RDS /home/jovyan/data/
 COPY data/aggregate_slice_download.RDS /home/jovyan/data/
-COPY data/aggregate_sites_NorthAmerica.xlsx /home/jovyan/data/
 COPY data/diatom_taxontable.csv /home/jovyan/data/
 COPY data/gbif_match_three_sites.RDS /home/jovyan/data/

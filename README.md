@@ -14,7 +14,7 @@ This repository is built with the structure required to serve the content throug
 
 The workshop material is:
 
-* `simple_workflow.Rmd`: *A Simple Workflow: North American Diatoms*. Search for diatom and water chemistry sites, compare them, download a diatom record, draw a stratigraphic diagram, and start from a spreadsheet of site IDs (an "aggregate dataset").
+* `simple_workflow.Rmd`: *A Simple Workflow: North American Diatoms*. Search for diatom sites by name and location, filter by dataset type, download the samples of one Pennsylvania diatom record and harmonize its taxonomy, then draw a stratigraphic diagram and follow the change in diatom habit through time in Barnegat Bay.
 
 To access the content for this Workshop, click the badge below:
 
@@ -40,6 +40,6 @@ Users may clone this workshop and modify the content, but be aware that the Bind
 
 * `Dockerfile` defines the Binder/Docker image. It copies only the files the workflow reads.
 * `install.r` defines the R packages that are installed in the Binder environment. The workshop uses the development version of `neotoma2` from GitHub (`NeotomaDB/neotoma2`, branch `dev`). After the new release reaches CRAN, `install.r` can go back to `install.packages("neotoma2")`.
-* `data/` holds pre-downloaded Neotoma results, so the workflow does not depend on live API calls during the workshop. `data/aggregate_sites_NorthAmerica.xlsx` lists the Neotoma site IDs of the North American diatom aggregate dataset (derived from the Drexel aggregate-dataset inventory).
+* `data/` holds pre-downloaded Neotoma results, so the workflow does not depend on live API calls during the workshop.
 
 To run the workflows locally, install the packages listed in `install.r` and open the `.Rmd` files in RStudio.
