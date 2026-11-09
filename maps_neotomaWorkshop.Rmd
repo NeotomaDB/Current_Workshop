@@ -1,0 +1,784 @@
+---
+title: "Mapping Diatoms and Water Chemistry in North America"
+author: "Zoe Kerrich"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    code_folding: show
+    fig_caption: yes
+    keep_md: yes
+    self_contained: yes
+    theme: readable
+    toc: yes
+    toc_float: yes
+---
+
+```{r setup, echo=FALSE}
+options(warn = -1)
+pacman::p_load(
+  neotoma2, dplyr, tidyr, ggplot2, sf, geojsonsf, leaflet, DT, readr, stringr,
+  maps, geodata, terra
+)
+explorerURL <- "http://apps.neotomadb.org/explorer/"
+```
+
+```{r customLeaflet, echo=FALSE}
+# Adapted from neotoma2's `plotLeaflet()`, but without clustering the markers.
+plotLeaflet_nocluster <- function(object) {
+  df1 <- as.data.frame(object)
+  leaflet(df1) %>%
+    addTiles(urlTemplate = "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png") %>%
+    addCircleMarkers(lng = df1$long,
+                     lat = df1$lat,
+                     popup = paste0("<b>", df1$sitename,
+                                    "</b><br><b>Description:</b> ",
+                                    df1$description,
+                                    "<br><a href=",
+                                    explorerURL, "?siteids=",
+                                    df1$siteid,
+                                    ">Explorer Link</a>"),
+                     options = markerOptions(riseOnHover = TRUE))
+}
+```
+
+## 1. Introduction
+
+This document shows how to **map** diatom and water chemistry data from Neotoma with `neotoma2`, and how to look at them together. It builds on "A Simple Workflow for Diatoms in Neotoma" (`simple_workflow.Rmd`), so if you have not been through that one yet, start there.
+
+We will:
+
+* Map the sites with diatom and diatom surface sample datasets in North America -- [Diatoms in North America](#diatoms-in-north-america)
+* Map the sites with water chemistry data, and see which of them also have diatoms -- [Water chemistry](#water-chemistry-data-availability)
+* Load an *aggregate dataset* from a spreadsheet of site and dataset IDs, and map the pH of the lakes -- [Aggregate datasets](#aggregate-datasets)
+* Join diatom and water chemistry data, and look at the diatoms against climate (July maximum and February minimum temperature) -- [Climate](#climate)
+
+The downloads in this document are large (thousands of sites), so we ran them ahead of time and saved the answers in the `data/` folder. In each **Code** tab the download lines are commented out, and the data are read back from `data/`. The **Result** tab runs the same code, so everything here works in Binder without calling Neotoma.
+
+## 2. Where are the sites?
+
+### 2.1. Diatoms in North America {.tabset}
+
+We start by asking Neotoma for the sites with diatom data in North America. The `datasettype` parameter lets us ask for one kind of dataset, and we will make two maps: one for `"diatom surface sample"` and one for the generic `"diatom"` type. If you need the full list of dataset types, run `neotoma2::get_table('datasettypes')` (see the dataset type filtering in "A Simple Workflow").
+
+To restrict the geography, we use the `loc` parameter with an `sf` polygon of North America. The polygon is based on the North America geojson from [geo2day](https://geo2day.com/north_america.html) and OSM, with the piece in Asia removed so it is a single polygon.
+
+```{r northAmericaPolygon, eval=FALSE}
+# Based on the North America geojson from geo2day and OSM:
+# https://geo2day.com/north_america.html
+# The piece in Asia was removed, so it is a single polygon.
+northAmerica_geojson <- '{ "type": "Polygon", "coordinates": [[
+  [ -114.551021, 8.243424 ], [ -100.890972, 5.57228 ], [ -92.224904, 14.528089 ], [ -92.215719, 14.541424 ],
+  [ -92.213745, 14.553013 ], [ -92.182331, 14.573283 ], [ -92.161045, 14.646372 ], [ -92.144651, 14.654344 ],
+  [ -92.145853, 14.68025 ], [ -92.141047, 14.689715 ], [ -92.152119, 14.734544 ], [ -92.155895, 14.770235 ],
+  [ -92.179756, 14.84276 ], [ -92.144394, 14.868976 ], [ -92.133923, 14.889548 ], [ -92.144566, 14.965848 ],
+  [ -92.142162, 14.991054 ], [ -92.089977, 15.010951 ], [ -92.068005, 15.045933 ], [ -92.057608, 15.071329 ],
+  [ -92.208172, 15.260974 ], [ -92.14514, 15.3644 ], [ -91.73003, 16.072624 ], [ -90.438873, 16.071091 ],
+  [ -90.42128, 16.09755 ], [ -90.42582, 16.243368 ], [ -90.36597, 16.37167 ], [ -90.38612, 16.41403 ],
+  [ -90.47572, 16.46254 ], [ -90.547828, 16.485324 ], [ -90.58075, 16.47693 ], [ -90.62018, 16.57474 ],
+  [ -90.680693, 16.710966 ], [ -91.26217, 17.18693 ], [ -91.4179, 17.21305 ], [ -91.43341, 17.24601 ],
+  [ -90.986527, 17.250229 ], [ -90.985228, 17.281262 ], [ -90.984247, 17.812629 ], [ -90.366326, 17.809168 ],
+  [ -89.1391, 17.81344 ], [ -89.13973, 17.95423 ], [ -89.02484, 17.9995 ], [ -88.99783, 17.95056 ],
+  [ -88.98711, 17.94322 ], [ -88.94982, 17.94975 ], [ -88.93739, 17.92976 ], [ -88.9241, 17.91508 ],
+  [ -88.91209, 17.90611 ], [ -88.88123, 17.89264 ], [ -88.85808, 17.89101 ], [ -88.84036, 17.9289 ],
+  [ -88.78258, 17.9735 ], [ -88.75998, 18.02208 ], [ -88.70053, 18.07303 ], [ -88.66034, 18.13192 ],
+  [ -88.64108, 18.18045 ], [ -88.6009, 18.23771 ], [ -88.56227, 18.32867 ], [ -88.5426, 18.35952 ],
+  [ -88.54595, 18.38234 ], [ -88.52891, 18.40783 ], [ -88.5161, 18.46097 ], [ -88.47518, 18.48961 ],
+  [ -88.44756, 18.47362 ], [ -88.40121, 18.49327 ], [ -88.38969, 18.48 ], [ -88.37981, 18.47636 ],
+  [ -88.32686, 18.48703 ], [ -88.28955, 18.46881 ], [ -88.284453, 18.40684 ], [ -88.046393, 18.407716 ],
+  [ -88.03614, 18.157681 ], [ -87.913959, 18.145179 ], [ -87.363287, 17.821921 ], [ -85.49087, 18.19755 ],
+  [ -86.79214, 24.50671 ], [ -82.89581, 23.95012 ], [ -79.84516, 24.542 ], [ -79.18945, 28.04479 ],
+  [ -61.20258, 24.63857 ], [ -34.48789, 62.81725 ], [ -6.676794, 74.79839 ], [ -5.198412, 85.04177 ],
+  [ -180, 85.03695 ], [ -180, 25.53 ], [ -162.729536, 15.834578 ], [ -148.974697, 15.623121 ],
+  [ -114.551021, 8.243424 ]
+]]}'
+
+northAmerica_sf <- geojsonsf::geojson_sf(northAmerica_geojson)
+```
+
+#### 2.1.1. Code
+
+```{r northAmericaDiatom, eval=FALSE}
+diatSS_NA_sites <- get_sites(loc = northAmerica_sf,
+                             datasettype = "diatom surface sample",
+                             all_data = TRUE)
+
+diatom_NA_sites <- get_sites(loc = northAmerica_sf,
+                             datasettype = "diatom",
+                             all_data = TRUE)
+```
+
+#### 2.1.2. Result {.active}
+
+```{r northAmericaDiatomResult, echo=FALSE}
+# surface samples
+diatSS_NA_sites <- readRDS("data/diatomSurfaceSamples_NorthAmerica.rds")
+plotLeaflet(diatSS_NA_sites)
+
+# diatom (generic)
+diatom_NA_sites <- readRDS("data/diatom_NorthAmerica.rds")
+plotLeaflet(diatom_NA_sites)
+```
+
+### 2.2. Water chemistry data availability {.tabset}
+
+Now we want to know which of the sites with diatom data also have water chemistry data. First we query the database for the sites with water chemistry data, and in the next section we compare them to the diatom sites. There are many sites, so this map does not cluster the markers.
+
+#### 2.2.1. Code
+
+```{r waterChem, eval=FALSE}
+waterChem_NA_sites <- get_sites(loc = northAmerica_sf,
+                                datasettype = "water chemistry",
+                                all_data = TRUE)
+```
+
+#### 2.2.2. Result {.active}
+
+```{r waterChemResult, echo=FALSE}
+waterChem_NA_sites <- readRDS("data/waterChem_NorthAmerica.rds")
+plotLeaflet_nocluster(waterChem_NA_sites)
+```
+
+### 2.3. Comparing sites for water chemistry and diatoms {.tabset}
+
+Next we match the water chemistry sites against the diatom surface samples and against the generic diatom data. We add a column `waterchem` that is `TRUE` when the site also has water chemistry data, and `FALSE` when it does not. Both maps are coloured **blue** when the site has water chemistry data and **red** when it does not.
+
+#### 2.3.1. Code
+
+```{r waterchemVsDiatom, eval=FALSE}
+# Sites that have water chemistry data
+waterchem_ids <- as.data.frame(waterChem_NA_sites) %>%
+  distinct(siteid) %>%
+  mutate(waterchem = TRUE)
+
+# Diatom sites, flagged with whether they also have water chemistry
+diatSS_waterchem <- as.data.frame(diatSS_NA_sites) %>%
+  left_join(waterchem_ids, by = "siteid") %>%
+  mutate(waterchem = !is.na(waterchem))
+
+diatomGen_waterchem <- as.data.frame(diatom_NA_sites) %>%
+  left_join(waterchem_ids, by = "siteid") %>%
+  mutate(waterchem = !is.na(waterchem))
+
+# FALSE (no water chemistry) is red, TRUE is blue.
+pal <- leaflet::colorFactor(c("red", "blue"), domain = c(FALSE, TRUE))
+
+# map for diatom surface samples and water chemistry
+map1 <- leaflet(diatSS_waterchem) %>%
+  addTiles() %>%
+  addCircleMarkers(lng = diatSS_waterchem$long,
+                   lat = diatSS_waterchem$lat,
+                   color = pal(diatSS_waterchem$waterchem),
+                   popup = paste0("<b>", diatSS_waterchem$sitename,
+                                  "</b><br><b>Description:</b> ",
+                                  diatSS_waterchem$description,
+                                  "<br><a href=",
+                                  explorerURL, "?siteids=",
+                                  diatSS_waterchem$siteid,
+                                  ">Explorer Link</a>",
+                                  "<br>Water chemistry data: ",
+                                  diatSS_waterchem$waterchem),
+                   options = markerOptions(riseOnHover = TRUE)) %>%
+  addLegend("bottomright",
+            pal = pal,
+            values = c(FALSE, TRUE),
+            title = "Water chemistry<br>(diatom surface samples)",
+            opacity = 1)
+
+# map for diatom general samples and water chemistry
+map2 <- leaflet(diatomGen_waterchem) %>%
+  addTiles() %>%
+  addCircleMarkers(lng = diatomGen_waterchem$long,
+                   lat = diatomGen_waterchem$lat,
+                   color = pal(diatomGen_waterchem$waterchem),
+                   popup = paste0("<b>", diatomGen_waterchem$sitename,
+                                  "</b><br><b>Description:</b> ",
+                                  diatomGen_waterchem$description,
+                                  "<br><a href=",
+                                  explorerURL, "?siteids=",
+                                  diatomGen_waterchem$siteid,
+                                  ">Explorer Link</a>",
+                                  "<br>Water chemistry data: ",
+                                  diatomGen_waterchem$waterchem),
+                   options = markerOptions(riseOnHover = TRUE)) %>%
+  addLegend("bottomright",
+            pal = pal,
+            values = c(FALSE, TRUE),
+            title = "Water chemistry<br>(diatom)",
+            opacity = 1)
+
+map1
+map2
+```
+
+#### 2.3.2. Result {.active}
+
+```{r waterchemVsDiatomResult, echo=FALSE}
+# Sites that have water chemistry data
+waterchem_ids <- as.data.frame(waterChem_NA_sites) %>%
+  distinct(siteid) %>%
+  mutate(waterchem = TRUE)
+
+# Diatom sites, flagged with whether they also have water chemistry
+diatSS_waterchem <- as.data.frame(diatSS_NA_sites) %>%
+  left_join(waterchem_ids, by = "siteid") %>%
+  mutate(waterchem = !is.na(waterchem))
+
+diatomGen_waterchem <- as.data.frame(diatom_NA_sites) %>%
+  left_join(waterchem_ids, by = "siteid") %>%
+  mutate(waterchem = !is.na(waterchem))
+
+# FALSE (no water chemistry) is red, TRUE is blue.
+pal <- leaflet::colorFactor(c("red", "blue"), domain = c(FALSE, TRUE))
+
+# map for diatom surface samples and water chemistry
+map1 <- leaflet(diatSS_waterchem) %>%
+  addTiles() %>%
+  addCircleMarkers(lng = diatSS_waterchem$long,
+                   lat = diatSS_waterchem$lat,
+                   color = pal(diatSS_waterchem$waterchem),
+                   popup = paste0("<b>", diatSS_waterchem$sitename,
+                                  "</b><br><b>Description:</b> ",
+                                  diatSS_waterchem$description,
+                                  "<br><a href=",
+                                  explorerURL, "?siteids=",
+                                  diatSS_waterchem$siteid,
+                                  ">Explorer Link</a>",
+                                  "<br>Water chemistry data: ",
+                                  diatSS_waterchem$waterchem),
+                   options = markerOptions(riseOnHover = TRUE)) %>%
+  addLegend("bottomright",
+            pal = pal,
+            values = c(FALSE, TRUE),
+            title = "Water chemistry<br>(diatom surface samples)",
+            opacity = 1)
+
+# map for diatom general samples and water chemistry
+map2 <- leaflet(diatomGen_waterchem) %>%
+  addTiles() %>%
+  addCircleMarkers(lng = diatomGen_waterchem$long,
+                   lat = diatomGen_waterchem$lat,
+                   color = pal(diatomGen_waterchem$waterchem),
+                   popup = paste0("<b>", diatomGen_waterchem$sitename,
+                                  "</b><br><b>Description:</b> ",
+                                  diatomGen_waterchem$description,
+                                  "<br><a href=",
+                                  explorerURL, "?siteids=",
+                                  diatomGen_waterchem$siteid,
+                                  ">Explorer Link</a>",
+                                  "<br>Water chemistry data: ",
+                                  diatomGen_waterchem$waterchem),
+                   options = markerOptions(riseOnHover = TRUE)) %>%
+  addLegend("bottomright",
+            pal = pal,
+            values = c(FALSE, TRUE),
+            title = "Water chemistry<br>(diatom)",
+            opacity = 1)
+
+map1
+map2
+```
+
+## 3. Aggregate datasets
+
+### 3.1. Loading the data {.tabset}
+
+Sometimes the datasets you want do not line up neatly with sites. For example, a project may span many sites, while other sampling has happened at some of those same sites, so not every dataset at each site is relevant to your work.
+
+To handle this at the Academy of Natural Sciences we collated *aggregate datasets*: sets of diatom and associated water chemistry datasets. Their site and dataset IDs are stored in an Excel spreadsheet. Here we extract these IDs from the spreadsheet (the sheet `"North America"` has the IDs for all of North America) and use them to load the data from Neotoma.
+
+The download follows the same order as in "A Simple Workflow": `get_sites()` for the sites, `get_datasets()` for their datasets, `neotoma2::filter()` to keep only the datasets in the aggregate dataset, and only then `get_downloads()`. This is a big request (thousands of sites), so it is commented out and we read the saved answer instead.
+
+#### 3.1.1. Code
+
+```{r aggregateLoad, eval=FALSE}
+# Read the spreadsheet and keep the columns with the IDs
+aggData_df <- readxl::read_xlsx(
+  "data/Aggregate Datasets - Diatoms - Neotoma - 6 Jan2024.xlsx",
+  sheet = "North America") %>%
+  select(`Neotoma Site ID`,
+         `Site name`,
+         `Neotoma Water Chemistry Dataset ID`,
+         `Neotoma Diatom Dataset Id`,
+         `Aggregate dataset label`,
+         `Aggregate dataset name`)
+
+# Unique site and dataset IDs (the spreadsheet has empty cells)
+aggData_siteIDs <- unique(na.omit(aggData_df$`Neotoma Site ID`))
+aggData_waterChem_IDs <- unique(na.omit(aggData_df$`Neotoma Water Chemistry Dataset ID`))
+aggData_diatom_IDs <- unique(na.omit(aggData_df$`Neotoma Diatom Dataset Id`))
+
+aggData_waterChem_dl <- get_sites(aggData_siteIDs,
+                                  datasettype = "water chemistry",
+                                  all_data = TRUE) %>%
+  get_datasets() %>%
+  neotoma2::filter(datasetid %in% aggData_waterChem_IDs) %>%
+  get_downloads(all_data = TRUE)
+
+aggData_diatom_dl <- get_sites(aggData_siteIDs,
+                               datasettype = "diatom",
+                               all_data = TRUE) %>%
+  get_datasets() %>%
+  neotoma2::filter(datasetid %in% aggData_diatom_IDs) %>%
+  get_downloads(all_data = TRUE)
+
+# Pull the samples for the water chemistry and the diatom stratigraphic samples
+aggData_samples_waterChem <- samples(aggData_waterChem_dl)
+aggData_samples_diatom <- samples(aggData_diatom_dl)
+```
+
+#### 3.1.2. Result {.active}
+
+```{r aggregateLoadResult, echo=FALSE, message=FALSE}
+# Read the spreadsheet and keep the columns with the IDs
+aggData_df <- readxl::read_xlsx(
+  "data/Aggregate Datasets - Diatoms - Neotoma - 6 Jan2024.xlsx",
+  sheet = "North America") %>%
+  select(`Neotoma Site ID`,
+         `Site name`,
+         `Neotoma Water Chemistry Dataset ID`,
+         `Neotoma Diatom Dataset Id`,
+         `Aggregate dataset label`,
+         `Aggregate dataset name`)
+
+# Unique site and dataset IDs (the spreadsheet has empty cells)
+aggData_siteIDs <- unique(na.omit(aggData_df$`Neotoma Site ID`))
+aggData_waterChem_IDs <- unique(na.omit(aggData_df$`Neotoma Water Chemistry Dataset ID`))
+aggData_diatom_IDs <- unique(na.omit(aggData_df$`Neotoma Diatom Dataset Id`))
+
+aggData_waterChem_dl <- readRDS("data/aggData_WaterChem.rds")
+aggData_diatom_dl <- readRDS("data/aggData_DiatomSamples.rds")
+
+# Pull the samples for the water chemistry and the diatom stratigraphic samples
+aggData_samples_waterChem <- samples(aggData_waterChem_dl)
+aggData_samples_diatom <- samples(aggData_diatom_dl)
+```
+
+The spreadsheet lists `r length(aggData_siteIDs)` sites, `r length(aggData_waterChem_IDs)` water chemistry datasets and `r length(aggData_diatom_IDs)` diatom datasets. The saved downloads hold the diatom samples of `r length(unique(aggData_samples_diatom$siteid))` sites and the water chemistry samples of `r length(unique(aggData_samples_waterChem$siteid))` sites.
+
+### 3.2. pH of the lakes {.tabset}
+
+From the water chemistry samples we keep the pH values. In Neotoma a `0` in pH is a missing value, and a pH above 14 is not possible, so we keep the values between 0 and 14. Then we map the pH of each sample.
+
+#### 3.2.1. Code
+
+```{r phMap, eval=FALSE}
+# pH values, without the zeros (missing data) and the impossible values
+waterchem_ph <- aggData_samples_waterChem %>%
+  dplyr::filter(variablename == "pH") %>%
+  dplyr::filter(value > 0 & value <= 14)
+
+pal_ph <- leaflet::colorBin("viridis", domain = waterchem_ph$value)
+
+leaflet(waterchem_ph) %>%
+  addTiles() %>%
+  addCircleMarkers(lng = waterchem_ph$long,
+                   lat = waterchem_ph$lat,
+                   color = pal_ph(waterchem_ph$value),
+                   popup = paste0("<b>", waterchem_ph$sitename,
+                                  "</b><br><a href=",
+                                  explorerURL, "?siteids=",
+                                  waterchem_ph$siteid,
+                                  ">Explorer Link</a>",
+                                  "<br><b>pH: </b>",
+                                  waterchem_ph$value),
+                   options = markerOptions(riseOnHover = TRUE)) %>%
+  addLegend("bottomright",
+            pal = pal_ph,
+            values = ~value,
+            title = "pH",
+            opacity = 1)
+```
+
+#### 3.2.2. Result {.active}
+
+```{r phMapResult, echo=FALSE}
+# pH values, without the zeros (missing data) and the impossible values
+waterchem_ph <- aggData_samples_waterChem %>%
+  dplyr::filter(variablename == "pH") %>%
+  dplyr::filter(value > 0 & value <= 14)
+
+pal_ph <- leaflet::colorBin("viridis", domain = waterchem_ph$value)
+
+leaflet(waterchem_ph) %>%
+  addTiles() %>%
+  addCircleMarkers(lng = waterchem_ph$long,
+                   lat = waterchem_ph$lat,
+                   color = pal_ph(waterchem_ph$value),
+                   popup = paste0("<b>", waterchem_ph$sitename,
+                                  "</b><br><a href=",
+                                  explorerURL, "?siteids=",
+                                  waterchem_ph$siteid,
+                                  ">Explorer Link</a>",
+                                  "<br><b>pH: </b>",
+                                  waterchem_ph$value),
+                   options = markerOptions(riseOnHover = TRUE)) %>%
+  addLegend("bottomright",
+            pal = pal_ph,
+            values = ~value,
+            title = "pH",
+            opacity = 1)
+```
+
+### 3.3. Common diatom taxa {.tabset}
+
+Now the diatoms. We calculate each taxon's proportion within its sample, and keep the records where the taxon is more than 10% of the sample. Then we rank the taxa by their total count across those records and keep the 25 most prevalent ones.
+
+#### 3.3.1. Code
+
+```{r commonTaxa, eval=FALSE}
+# Proportion of each taxon within its sample; keep those above 10%
+common_taxon <- aggData_samples_diatom %>%
+  dplyr::filter(units == "NISP") %>%
+  group_by(sampleid) %>%
+  mutate(proportion = value / sum(value, na.rm = TRUE)) %>%
+  ungroup() %>%
+  dplyr::filter(proportion > 0.10)
+
+# The 25 taxa with the highest total count across the set
+top_taxon <- common_taxon %>%
+  group_by(variablename) %>%
+  mutate(tot_taxa = sum(value, na.rm = TRUE)) %>%
+  ungroup() %>%
+  mutate(rank = dense_rank(desc(tot_taxa))) %>%
+  dplyr::filter(rank <= 25)
+
+top_taxon %>%
+  distinct(rank, variablename, tot_taxa) %>%
+  arrange(rank) %>%
+  head(10)
+```
+
+#### 3.3.2. Result {.active}
+
+```{r commonTaxaResult, echo=FALSE}
+# Proportion of each taxon within its sample; keep those above 10%
+common_taxon <- aggData_samples_diatom %>%
+  dplyr::filter(units == "NISP") %>%
+  group_by(sampleid) %>%
+  mutate(proportion = value / sum(value, na.rm = TRUE)) %>%
+  ungroup() %>%
+  dplyr::filter(proportion > 0.10)
+
+# The 25 taxa with the highest total count across the set
+top_taxon <- common_taxon %>%
+  group_by(variablename) %>%
+  mutate(tot_taxa = sum(value, na.rm = TRUE)) %>%
+  ungroup() %>%
+  mutate(rank = dense_rank(desc(tot_taxa))) %>%
+  dplyr::filter(rank <= 25)
+
+top_taxon %>%
+  distinct(rank, variablename, tot_taxa) %>%
+  arrange(rank) %>%
+  head(10)
+```
+
+### 3.4. Merging diatoms and water chemistry {.tabset}
+
+Here we join the diatom and water chemistry data using `top_taxon` and `waterchem_ph` from the previous sections. Because we pulled the datasets for diatoms and water chemistry by site, we can join them by `siteid`. For each site we sum the counts of each top taxon and take the mean pH, and then we map the counts (size) and the pH (colour) for each taxon.
+
+#### 3.4.1. Code
+
+```{r mergeDiatomWaterchem, eval=FALSE, fig.height=8, fig.width=12}
+# Counts of each top taxon, by site
+taxa_to_join <- top_taxon %>%
+  group_by(siteid, sitename, lat, long, elev, variablename) %>%
+  summarise(value_sum = sum(value, na.rm = TRUE), .groups = "drop")
+
+# Mean pH, by site
+waterchem_to_join <- waterchem_ph %>%
+  group_by(siteid) %>%
+  summarise(ph_mean = mean(value, na.rm = TRUE))
+
+# Join by site, keeping the sites that have both
+taxa_ph_df <- inner_join(taxa_to_join, waterchem_to_join, by = "siteid")
+
+ggplot() +
+  annotation_map(map_data("world"), fill = "white", colour = "darkgrey") +
+  geom_point(data = taxa_ph_df,
+             mapping = aes(x = long, y = lat, size = value_sum, color = ph_mean)) +
+  scale_color_viridis_c("pH") +
+  facet_wrap(~variablename,
+             labeller = labeller(variablename = label_wrap_gen(width = 16))) +
+  guides(size = guide_legend("Observations"))
+```
+
+#### 3.4.2. Result {.active}
+
+```{r mergeDiatomWaterchemResult, echo=FALSE, fig.height=8, fig.width=12}
+# Counts of each top taxon, by site
+taxa_to_join <- top_taxon %>%
+  group_by(siteid, sitename, lat, long, elev, variablename) %>%
+  summarise(value_sum = sum(value, na.rm = TRUE), .groups = "drop")
+
+# Mean pH, by site
+waterchem_to_join <- waterchem_ph %>%
+  group_by(siteid) %>%
+  summarise(ph_mean = mean(value, na.rm = TRUE))
+
+# Join by site, keeping the sites that have both
+taxa_ph_df <- inner_join(taxa_to_join, waterchem_to_join, by = "siteid")
+
+ggplot() +
+  annotation_map(map_data("world"), fill = "white", colour = "darkgrey") +
+  geom_point(data = taxa_ph_df,
+             mapping = aes(x = long, y = lat, size = value_sum, color = ph_mean)) +
+  scale_color_viridis_c("pH") +
+  facet_wrap(~variablename,
+             labeller = labeller(variablename = label_wrap_gen(width = 16))) +
+  guides(size = guide_legend("Observations"))
+```
+
+## 4. Climate
+
+We are often interested in how taxa relate to climate. Here we use an approach adapted from an earlier version of "A Simple Workflow", and apply it to diatoms. We pick one genus, *Aulacoseira*, and look for a relationship between where it occurs and the maximum (July) and minimum (February) monthly temperatures.
+
+### 4.1. Climate for the sites {.tabset}
+
+Global climate data are easy to access in raster format. We use the [`worldclim_global()` function](https://search.r-project.org/CRAN/refmans/geodata/html/worldclim.html) from the `geodata` package to get climate data from WorldClim (`geodata` has many other global datasets too). The raster has 12 layers, one per month, and we use `terra::extract()` to read the July maximum temperature (`tmax`, layer 7) and the February minimum temperature (`tmin`, layer 2, roughly the coldest month) at each site. You can load several types of monthly climate data from WorldClim:
+
+| Variable | Description | Unit |
+| -------- | ----------- |------|
+| tmin | minimum temperature | °C |
+| tmax | maximum temperature | °C |
+| tavg | average temperature | °C |
+| prec | total precipitation | mm |
+| srad | incident solar radiation | kJ m-2 day-1 |
+| wind | wind speed (2 m above the ground) | m s-1 |
+| vapr | vapor pressure | kPa |
+
+The WorldClim files are large (about 35 MB per variable at this 10 minute spatial resolution), so we ran this ahead of time and saved the values for each site in `data/maps_climate_values.csv`. We only look at modern samples (younger than 1000 years) of diatom valves counted as `NISP`.
+
+#### 4.1.1. Code
+
+```{r climate, eval=FALSE}
+# Modern diatom valve counts
+modern <- aggData_samples_diatom %>%
+  dplyr::filter(age < 1000) %>%
+  dplyr::filter(ecologicalgroup == "DIAT" & elementtype == "valve" & units == "NISP")
+
+# Download the WorldClim rasters (about 70 MB) and read the temperature at
+# each site. `sites` has one row per site, and the result is saved in data/.
+sites <- aggData_samples_diatom %>%
+  distinct(siteid, long, lat)
+
+sites_sf <- sf::st_as_sf(sites,
+                         coords = c("long", "lat"),
+                         crs = "+proj=longlat +datum=WGS84")
+
+worldTmax <- geodata::worldclim_global(var = "tmax", res = 10, path = tempdir(), version = "2.1")
+worldTmin <- geodata::worldclim_global(var = "tmin", res = 10, path = tempdir(), version = "2.1")
+
+# The first column of `extract()` is an ID, the 12 months follow.
+sites$tmax7 <- terra::extract(worldTmax, terra::vect(sites_sf))[, 1 + 7]
+sites$tmin2 <- terra::extract(worldTmin, terra::vect(sites_sf))[, 1 + 2]
+
+climate <- sites %>% select(siteid, tmax7, tmin2)
+
+modern <- modern %>%
+  left_join(climate, by = "siteid")
+```
+
+#### 4.1.2. Result {.active}
+
+```{r climateResult, echo=FALSE}
+# Modern diatom valve counts
+modern <- aggData_samples_diatom %>%
+  dplyr::filter(age < 1000) %>%
+  dplyr::filter(ecologicalgroup == "DIAT" & elementtype == "valve" & units == "NISP")
+
+climate <- readr::read_csv("data/maps_climate_values.csv", show_col_types = FALSE)
+
+modern <- modern %>%
+  left_join(climate, by = "siteid")
+```
+
+### 4.2. Extracting the genus
+
+The `modern` table is the same as `samples()` returned, with two new columns, `tmax7` (maximum July temperature) and `tmin2` (minimum February temperature). All the taxa at a site share the same value. We have `r length(unique(modern$variablename))` distinct taxon names. We use `str_replace()` and `word()` to extract just the genus, add up the counts of each genus at each site, and keep the genera found at more than 20 sites:
+
+#### 4.2.1. Code
+
+```{r toGenus, eval=FALSE}
+by_genus <- modern %>%
+  mutate(genus = stringr::str_replace(variablename, "[[:punct:]]", " "),
+         genus = stringr::word(genus, 1)) %>%
+  group_by(genus, siteid, sitename, lat, long, tmax7, tmin2) %>%
+  summarise(count_sum = sum(value, na.rm = TRUE), .groups = "drop") %>%
+  group_by(genus) %>%
+  dplyr::filter(n() > 20) %>%
+  ungroup()
+
+# The genera and the number of sites where each is found
+by_genus %>%
+  count(genus, name = "sites") %>%
+  arrange(desc(sites)) %>%
+  head(10)
+```
+
+#### 4.2.2. Result {.active}
+
+```{r toGenusResults, echo=FALSE}
+by_genus <- modern %>%
+  mutate(genus = stringr::str_replace(variablename, "[[:punct:]]", " "),
+         genus = stringr::word(genus, 1)) %>%
+  group_by(genus, siteid, sitename, lat, long, tmax7, tmin2) %>%
+  summarise(count_sum = sum(value, na.rm = TRUE), .groups = "drop") %>%
+  group_by(genus) %>%
+  dplyr::filter(n() > 20) %>%
+  ungroup()
+
+# The genera and the number of sites where each is found
+by_genus %>%
+  count(genus, name = "sites") %>%
+  arrange(desc(sites)) %>%
+  head(10)
+```
+
+### 4.3. Mapping *Aulacoseira* with ggplot2 {.tabset}
+
+First we pick the genus *Aulacoseira*. The points are sized by the number of valves counted, and coloured by the maximum July temperature in the first map, and by the minimum February temperature in the second map.
+
+#### 4.3.1. Code
+
+```{r aulacoseiraGgplot, eval=FALSE, fig.width=9, fig.height=5}
+aul <- by_genus %>%
+  dplyr::filter(genus == "Aulacoseira")
+
+head(aul)
+
+ggplot() +
+  annotation_map(map_data("world"), fill = "white", colour = "darkgrey") +
+  geom_point(data = aul, aes(x = long, y = lat, size = count_sum, color = tmax7)) +
+  scale_color_viridis_c("Max temp (°C)", option = "inferno", direction = -1) +
+  guides(size = guide_legend("Observations")) +
+  labs(title = "Maximum July temperature")
+
+ggplot() +
+  annotation_map(map_data("world"), fill = "white", colour = "darkgrey") +
+  geom_point(data = aul, aes(x = long, y = lat, size = count_sum, color = tmin2)) +
+  scale_color_viridis_c("Min temp (°C)", option = "mako") +
+  guides(size = guide_legend("Observations")) +
+  labs(title = "Minimum February temperature")
+```
+
+#### 4.3.2. Result {.active}
+
+```{r aulacoseiraGgplotResult, echo=FALSE, fig.width=9, fig.height=5}
+aul <- by_genus %>%
+  dplyr::filter(genus == "Aulacoseira")
+
+head(aul)
+
+ggplot() +
+  annotation_map(map_data("world"), fill = "white", colour = "darkgrey") +
+  geom_point(data = aul, aes(x = long, y = lat, size = count_sum, color = tmax7)) +
+  scale_color_viridis_c("Max temp (°C)", option = "inferno", direction = -1) +
+  guides(size = guide_legend("Observations")) +
+  labs(title = "Maximum July temperature")
+
+ggplot() +
+  annotation_map(map_data("world"), fill = "white", colour = "darkgrey") +
+  geom_point(data = aul, aes(x = long, y = lat, size = count_sum, color = tmin2)) +
+  scale_color_viridis_c("Min temp (°C)", option = "mako") +
+  guides(size = guide_legend("Observations")) +
+  labs(title = "Minimum February temperature")
+```
+
+### 4.4. Mapping *Aulacoseira* with Leaflet {.tabset}
+
+The same two maps with Leaflet. The size of each circle shows the number of valves counted, and clicking on a circle shows the temperatures and the link to the site in the Neotoma Explorer.
+
+#### 4.4.1. Code
+
+```{r aulacoseiraLeaflet, eval=FALSE}
+pal_hot <- leaflet::colorBin("inferno", domain = aul$tmax7, bins = 5, reverse = TRUE)
+pal_cold <- leaflet::colorBin("mako", domain = aul$tmin2, bins = 5)
+
+aul_popup <- paste0("<b>", aul$sitename,
+                    "</b><br><a href=",
+                    explorerURL, "?siteids=",
+                    aul$siteid,
+                    ">Explorer Link</a>",
+                    "<br><b>Max temp: </b>", round(aul$tmax7, 2),
+                    "<br><b>Min temp: </b>", round(aul$tmin2, 2),
+                    "<br><b>Observations: </b>", aul$count_sum)
+
+aul_tmax <- leaflet(aul) %>%
+  addTiles() %>%
+  addCircleMarkers(lng = aul$long,
+                   lat = aul$lat,
+                   radius = scales::rescale(aul$count_sum, to = c(5, 30)),
+                   color = pal_hot(aul$tmax7),
+                   popup = aul_popup,
+                   options = markerOptions(riseOnHover = TRUE)) %>%
+  addLegend("bottomright",
+            pal = pal_hot,
+            values = ~tmax7,
+            title = "Max temperature in July (°C)",
+            opacity = 1)
+
+aul_tmin <- leaflet(aul) %>%
+  addTiles() %>%
+  addCircleMarkers(lng = aul$long,
+                   lat = aul$lat,
+                   radius = scales::rescale(aul$count_sum, to = c(5, 30)),
+                   color = pal_cold(aul$tmin2),
+                   popup = aul_popup,
+                   options = markerOptions(riseOnHover = TRUE)) %>%
+  addLegend("bottomright",
+            pal = pal_cold,
+            values = ~tmin2,
+            title = "Min temperature in February (°C)",
+            opacity = 1)
+
+aul_tmax
+aul_tmin
+```
+
+#### 4.4.2. Result {.active}
+
+```{r aulacoseiraLeafletResult, echo=FALSE}
+pal_hot <- leaflet::colorBin("inferno", domain = aul$tmax7, bins = 5, reverse = TRUE)
+pal_cold <- leaflet::colorBin("mako", domain = aul$tmin2, bins = 5)
+
+aul_popup <- paste0("<b>", aul$sitename,
+                    "</b><br><a href=",
+                    explorerURL, "?siteids=",
+                    aul$siteid,
+                    ">Explorer Link</a>",
+                    "<br><b>Max temp: </b>", round(aul$tmax7, 2),
+                    "<br><b>Min temp: </b>", round(aul$tmin2, 2),
+                    "<br><b>Observations: </b>", aul$count_sum)
+
+aul_tmax <- leaflet(aul) %>%
+  addTiles() %>%
+  addCircleMarkers(lng = aul$long,
+                   lat = aul$lat,
+                   radius = scales::rescale(aul$count_sum, to = c(5, 30)),
+                   color = pal_hot(aul$tmax7),
+                   popup = aul_popup,
+                   options = markerOptions(riseOnHover = TRUE)) %>%
+  addLegend("bottomright",
+            pal = pal_hot,
+            values = ~tmax7,
+            title = "Max temperature in July (°C)",
+            opacity = 1)
+
+aul_tmin <- leaflet(aul) %>%
+  addTiles() %>%
+  addCircleMarkers(lng = aul$long,
+                   lat = aul$lat,
+                   radius = scales::rescale(aul$count_sum, to = c(5, 30)),
+                   color = pal_cold(aul$tmin2),
+                   popup = aul_popup,
+                   options = markerOptions(riseOnHover = TRUE)) %>%
+  addLegend("bottomright",
+            pal = pal_cold,
+            values = ~tmin2,
+            title = "Min temperature in February (°C)",
+            opacity = 1)
+
+aul_tmax
+aul_tmin
+```

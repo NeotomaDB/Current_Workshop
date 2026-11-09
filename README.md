@@ -6,6 +6,8 @@
 
 [Simple Workflow: North American Diatoms](https://open.neotomadb.org/Current_Workshop/simple_workflow.html)
 
+[Mapping Diatoms and Water Chemistry in North America](https://open.neotomadb.org/Current_Workshop/maps_neotomaWorkshop.html)
+
 A repository to host the interactive `neotoma2` R workshops. This repository will always be set up for the most recent/current Neotoma Workshop. All past workshops will be archived in the [Neotoma Workshops](https://github.com/NeotomaDB/Workshops) repository.
 
 This repository is built with the structure required to serve the content through an interactive, online RStudio session using Binder. Clicking the Binder link will open RStudio in the user's browser.
@@ -14,7 +16,8 @@ This repository is built with the structure required to serve the content throug
 
 The workshop material is:
 
-* `simple_workflow.Rmd`: *A Simple Workflow: North American Diatoms*. Search for diatom sites by name and location, filter by dataset type, download the samples of one Pennsylvania diatom record, then draw a stratigraphic diagram, look up the diatom names in GBIF with one call (and harmonize them yourself in a spreadsheet), and follow the change in diatom families through time in Barnegat Bay.
+* `simple_workflow.Rmd`: *A Simple Workflow: North American Diatoms*. Search for diatom sites by name and location, filter by dataset type, download the samples of one Pennsylvania diatom record, then look up the diatom names in GBIF with one call (and harmonize them yourself in a spreadsheet), draw a stratigraphic diagram, and follow the change in diatom families through time in Barnegat Bay.
+* `maps_neotomaWorkshop.Rmd`: *Mapping Diatoms and Water Chemistry in North America*. Map the diatom, diatom surface sample and water chemistry sites of North America, see which diatom sites also have water chemistry, load an aggregate dataset from a spreadsheet of IDs, map lake pH, join diatoms with pH, and compare *Aulacoseira* with July and February temperatures from WorldClim. Everything reads from the cached files in `data/`.
 
 To access the content for this Workshop, click the badge below:
 

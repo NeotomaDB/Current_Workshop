@@ -13,6 +13,8 @@ install.packages(c("rlang",
                    "geojsonsf",
                    "readxl",
                    "rgbif",
+                   "maps",
+                   "geodata",
                    "remotes"))
 
 # neotoma2: the workshop uses the development version from GitHub.
