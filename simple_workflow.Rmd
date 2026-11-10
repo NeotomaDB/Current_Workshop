@@ -78,7 +78,7 @@ In this tutorial you will learn how to:
 * Search for sites using site names and geographic parameters -- [Site Searches](#3-site-searches)
 * Filter results by dataset type (diatoms, diatom surface samples, water chemistry) and by whether a record has a chronology -- [Filter Results](#33-filter-records-tabset)
 * Obtain sample information for one of the selected sites -- [Sample Information](#34-pulling-in-sample-data)
-* Perform basic analysis including connecting your taxon names to GBIF, a stratigraphic diagram, and the change in diatom families through time -- [Basic Analysis](#4-simple-analytics)
+* Perform basic analysis including connecting your taxon names to GBIF and a stratigraphic diagram -- [Basic Analysis](#4-simple-analytics)
 
 ### 2.1. Getting Help with Neotoma
 
@@ -410,27 +410,33 @@ Taxonomies in Neotoma are not as straightforward as we might expect. Diatom iden
 
 We use the unique identifiers (*e.g.*, `taxonid`, `siteid`, `analysisunitid`) throughout the package, since they help us to link between records. The `taxonid` values returned by the `taxa()` call can be linked to the `taxonid` column in the `samples()` table.  This allows us to link the taxa to other tables, as we will do in [section 4.1](#41-taxonomy-connecting-to-gbif). You may also note that the `taxonname` is in the field `variablename`.  Individual sample counts are reported in Neotoma as [`variables`](https://open.neotomadb.org/manual/taxonomy-related-tables-1.html#Variables). A "variable" may be either a species, something like laboratory measurements, or a non-organic proxy, like water chemistry measurements, and includes the units of measurement and the value.
 
-## 4. Simple Analytics
+#### 3.4.2. Extracting Chronologies {.tabset}
 
-Crow Hill has only two modern samples, and so do most of the Pennsylvania diatom records, which is what you want for a snapshot of the lakes today. To see change through time we need a **sediment core**, with many samples at different depths and ages. Among the diatom cores with a known chronology that we found in [section 3.3](#33-filter-records-tabset) (`penn_cores`), four come from Barnegat Bay, on the New Jersey coast, and they have between 11 and 16 samples each. Downloading all of `penn_cores` takes a while, so we did it ahead of time:
-
-```{r coreDownload}
-## This line is commented out because we've already run it for you.
-# nolint start
-## core_dl <- penn_cores %>% get_downloads(all_data = TRUE)
-## saveRDS(core_dl, "data/diatom_core_download.RDS")
-# nolint end
-core_dl <- readRDS("data/diatom_core_download.RDS")
-```
+Crow Hill has only two modern samples, and so do most of the Pennsylvania diatom records, which is what you want for a snapshot of the lakes today. To see change through time we need a **sediment core**, with many samples at different depths and ages. Among the diatom cores with a known chronology that we found in [section 3.3](#33-filter-records-tabset) (`penn_cores`), four come from Barnegat Bay, on the New Jersey coast, and they have between 11 and 16 samples each.
 
 Each chronology belongs to a collection unit. `chronologies()` gives us the chronology used by each dataset, so we can see how each core was dated:
 
-```{r coreChronologies}
+##### 3.4.2.1. Code
+
+```{r coreDownload, eval=FALSE}
+core_dl <- penn_cores %>% get_downloads(all_data = TRUE)
+
 chronologies(core_dl) %>%
   as.data.frame() %>%
-  dplyr::select(siteid, datasetid, chronologyname, isdefault) %>%
+  dplyr::select(-notes)
+```
+
+##### 3.4.2.2. Results
+
+```{r coreDownloadResults, echo=FALSE}
+core_dl <- readRDS("data/diatom_core_download.RDS")
+chronologies(core_dl) %>%
+  as.data.frame() %>%
+  dplyr::select(-notes) %>%
   DT::datatable(rownames = FALSE, options = list(scrollX = "100%", dom = "t"))
 ```
+
+## 4. Simple Analytics
 
 ### 4.1. Taxonomy: Connecting to GBIF
 
@@ -548,12 +554,6 @@ taxa_gbif %>%
 
 Do you want to merge the synonyms into their accepted names? Fold the varieties into their species? Lump every *Navicula* with a project code into one group? Different researchers will answer differently, and that is fine. The easiest way to do it is not code: save the merged table as a `csv`, open it in a spreadsheet, and add a column with the name **you** want for each taxon.
 
-```{r gbifCsv, eval=FALSE}
-# Save the table, edit it in a spreadsheet, then read it back in.
-readr::write_csv(taxa_gbif, "data/my_diatom_taxa.csv")
-my_taxa <- readr::read_csv("data/my_diatom_taxa.csv")
-```
-
 The new column can then be joined to the `samples()` table by `variablename`, in the same way that we joined the GBIF answer, and you can group and sum the counts by your own names.
 
 ### 4.2. Stratigraphic Plotting
@@ -616,7 +616,7 @@ mtext(plotting_site[[1]]$sitename,
 
 ## 5. Conclusion
 
-So, we've done a lot in this example.  We've (1) searched for sites using site names and geographic parameters, (2) filtered results by dataset type and by whether a record has a chronology, (3) downloaded the sample information for one of the sites we found, and (4) performed basic analysis including a connection to GBIF to look up our diatom names (and a way to harmonize them yourself), a stratigraphic diagram, and a look at the change in diatom families through time. Hopefully you can use these examples as templates for your own future work, or as a building block for something new and cool!
+So, we've done a lot in this example.  We've (1) searched for sites using site names and geographic parameters, (2) filtered results by dataset type and by whether a record has a chronology, (3) downloaded the sample information for one of the sites we found, and (4) performed basic analysis including a connection to GBIF to look up our diatom names (and a way to harmonize them yourself) and a stratigraphic diagram. Hopefully you can use these examples as templates for your own future work, or as a building block for something new and cool!
 
 ## 6. Installing packages on your own {#localinstall}
 
