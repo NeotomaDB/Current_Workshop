@@ -406,7 +406,7 @@ neotomatx %>%
 
 #### 3.4.2. Understanding Taxonomies in Neotoma
 
-Taxonomies in Neotoma are not as straightforward as we might expect. Diatom identification can be difficult: it depends on the orientation of the valve, the condition of the frustule, the optical quality of the microscope, the analyst's training and the taxonomic reference they used. Diatom names have also changed a great deal over time (many *Achnanthes* are now *Achnanthidium* or *Psammothidium*, for example), and different labs have identified the same valves at different taxonomic levels, from species to genus, or to a varietal level. Many records also carry project-specific codes, such as the `PIRLA` numbers you will see in names like *Eunotia* sp. 31 PIRLA. Taxonomy is therefore part of the analysis, and we come back to it in [section 4.1](#41-taxonomy-connecting-to-gbif). You can read more about concepts of taxonomy within Neotoma in the Neotoma Manual's [section on Taxonomic concepts](https://open.neotomadb.org/manual/database-design-concepts.html#taxonomy-and-synonymy).
+Taxonomies in Neotoma are not as straightforward as we might expect. Diatom identification can be difficult: it depends on the orientation of the valve, the condition of the frustule, the optical quality of the microscope, the analyst's training and the taxonomic reference they used. Diatom names have also changed a great deal over time, and different labs have identified the same valves at different taxonomic levels, from species to genus, or to a varietal level. You can read more about concepts of taxonomy within Neotoma in the Neotoma Manual's [section on Taxonomic concepts](https://open.neotomadb.org/manual/database-design-concepts.html#taxonomy-and-synonymy).
 
 We use the unique identifiers (*e.g.*, `taxonid`, `siteid`, `analysisunitid`) throughout the package, since they help us to link between records. The `taxonid` values returned by the `taxa()` call can be linked to the `taxonid` column in the `samples()` table.  This allows us to link the taxa to other tables, as we will do in [section 4.1](#41-taxonomy-connecting-to-gbif). You may also note that the `taxonname` is in the field `variablename`.  Individual sample counts are reported in Neotoma as [`variables`](https://open.neotomadb.org/manual/taxonomy-related-tables-1.html#Variables). A "variable" may be either a species, something like laboratory measurements, or a non-organic proxy, like water chemistry measurements, and includes the units of measurement and the value.
 
@@ -434,9 +434,9 @@ chronologies(core_dl) %>%
 
 ### 4.1. Taxonomy: Connecting to GBIF
 
-The taxon names in a Neotoma download are the names that each analyst used, at the level they could identify (a species, a variety, a genus, or a project code such as *Navicula* sp. 3 BB DME). Diatom taxonomy is a topic on which specialists often **do not agree**, and names change over time, so there is no single "right" table of names. Making a table is not the hard part. Deciding what to merge is, and that decision is yours and depends on your question.
+The taxon names in a Neotoma download are the names that each analyst used, at the level they could identify (a species, a variety, a genus, or a project code such as *Navicula* sp. 3 BB DME). Diatom taxonomy is a complex topic, and names change over time, so sometimes we can redirect our names to a different authority. 
 
-What we can do is ask another database what it knows about our names, and merge the answer into our table. We use [**GBIF**](https://www.gbif.org), the Global Biodiversity Information Facility, because it is free, needs no key, and has an R package (`rgbif`) on CRAN. The same pattern works for other authorities, such as [DiatomBase](https://www.diatombase.org).
+ We use [**GBIF**](https://www.gbif.org), the Global Biodiversity Information Facility, because it is free, needs no key, and has an R package (`rgbif`) on CRAN. The same pattern works for other authorities, such as [DiatomBase](https://www.diatombase.org).
 
 We do not send every taxon. Most of the 317 names in these four cores are rare. We use the **common** taxa of the four Barnegat Bay cores (at least 3% of the valves in three or more samples of a core), so the list stays small and we are gentle with the GBIF service. First, the valve counts of the cores that have at least five samples, as a proportion of each sample:
 
@@ -613,52 +613,6 @@ mtext(plotting_site[[1]]$sitename,
   side = 3, line = -1.5, adj = 0.02, font = 2, outer = TRUE
 )
 ```
-
-### 4.3. Change in Time Across Sites
-
-We now have several cores from the same bay, with samples and with taxon names, and GBIF gave us something that Neotoma's download does not: the **family** of each taxon. I'm interested in looking at how the **kind of diatoms** changes across time, using the share of the assemblage made up of each family. This lets us look at a change in the assemblage without having to read through hundreds of species.
-
-First we add the family to the valve counts, and add up the proportions of each family within every sample. We only have a family for the common taxa, so the other taxa are left out:
-
-```{r familyShares}
-family_by_sample <- long_cores %>%
-  inner_join(dplyr::select(taxa_gbif, variablename, family), by = "variablename") %>%
-  dplyr::filter(!is.na(family)) %>%
-  group_by(siteid, sitename, datasetid, sampleid, age, family) %>%
-  summarise(proportion = sum(proportion), .groups = "drop")
-```
-
-There are many families, so we keep the six with the largest share of the valves:
-
-```{r topFamilies}
-top_families <- family_by_sample %>%
-  group_by(family) %>%
-  summarise(total = sum(proportion), .groups = "drop") %>%
-  slice_max(total, n = 6) %>%
-  pull(family)
-```
-
-And then plot! One panel per family, one line per core:
-
-```{r summarizeByTime, message = FALSE, fig.width=9, fig.height=5}
-ggplot(
-  dplyr::filter(family_by_sample, family %in% top_families),
-  aes(x = age, y = proportion, color = sitename)
-) +
-  geom_line() +
-  geom_point() +
-  facet_wrap(~family, scales = "free_y") +
-  scale_x_reverse() +
-  scale_y_continuous(labels = scales::percent) +
-  xlab("Calibrated Years BP (negative = after 1950)") +
-  ylab("Share of valves counted") +
-  labs(color = "Core") +
-  guides(color = guide_legend(nrow = 2)) +
-  theme_bw() +
-  theme(legend.position = "bottom")
-```
-
-We can see whether the four cores change in a similar way, and which family drives the changes. Note that the shares are out of all the valves counted, and only the common taxa have a family, so the panels do not add up to 100%. Depending on how we divide the data we can also look at other dimensions, such as distance from the inlet, to better understand how the bay changed. And if you made your own harmonization in section 4.1, this is the place to use it instead of the GBIF family.
 
 ## 5. Conclusion
 
