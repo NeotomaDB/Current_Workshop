@@ -25,47 +25,14 @@ pacman::p_load(
 if (!requireNamespace("rgbif", quietly = TRUE)) install.packages("rgbif")
 ```
 
-```{r leafletTabs, echo=FALSE, results='asis'}
-# Maps that sit in a hidden tab are drawn at zero size, so they come out zoomed
-# out to the whole world with a grey band. When a tab is shown we tell each map
-# in it to re-measure itself and fit its points again.
-cat('
-<script>
-(function () {
-  function refit(pane) {
-    if (!pane || !window.HTMLWidgets) return;
-    pane.querySelectorAll(".leaflet.html-widget").forEach(function (el) {
-      var widget = HTMLWidgets.find("#" + el.id);
-      if (!widget || !widget.getMap) return;
-      var map = widget.getMap();
-      map.invalidateSize();
-      var tag = document.querySelector("script[data-for=\\"" + el.id + "\\"]");
-      var limits = tag && JSON.parse(tag.textContent).x.limits;
-      if (limits) {
-        map.fitBounds([[limits.lat[0], limits.lng[0]],
-                       [limits.lat[1], limits.lng[1]]]);
-      }
-    });
-  }
-  document.addEventListener("DOMContentLoaded", function () {
-    $(document).on("shown.bs.tab", "a[data-toggle=\\"tab\\"]", function (e) {
-      refit(document.querySelector($(e.target).attr("href")));
-    });
-  });
-})();
-</script>
-')
-```
-
 ## 1. Introduction
 
 This document is intended to act as a primer for the use of the new Neotoma R package, `neotoma2`, for working with **diatom** data.  Some users may be working with this document as part of a workshop for which there is a Binder instance. The Binder instance will run RStudio in your browser, with all the required packages installed.
 
-If you are using this workflow on its own, or want to use the package directly, [the `neotoma2` package](https://github.com/NeotomaDB/neotoma2) is available on GitHub. This workflow uses the development version (1.1.1.9000 or later), which you can install by running:
+If you are using this workflow on its own, or want to use the package directly, [the `neotoma2` package](https://github.com/NeotomaDB/neotoma2) is available on CRAN. This workflow uses the development version (1.1.1), which you can install by running:
 
 ```r
-install.packages("remotes")
-remotes::install_github("NeotomaDB/neotoma2", ref = "dev")
+install.packages("neotoma2")
 library(neotoma2)
 ```
 
@@ -138,7 +105,8 @@ With the pipe (`%>%`) we do not need to create the variable, we can just rewrite
 get_sites(sitename = "%Swamp%") %>%
   plotLeaflet()
 ```
-#### 2.2.3.2. Result
+
+#### 2.2.3.2. Result {.active}
 
 ```{r piping result, echo=FALSE}
 # get_sites and pipe
@@ -186,7 +154,7 @@ lake_sites <- neotoma2::get_sites(sitename = "%Lake%")
 plotLeaflet(lake_sites)
 ```
 
-##### 3.1.1.2. Result
+##### 3.1.1.2. Result {.active}
 
 ```{r sitenamePlot, echo=FALSE}
 lake_sites <- neotoma2::get_sites(sitename = "%Lake%")
@@ -232,7 +200,7 @@ neotoma2::plotLeaflet(penn_sites) %>%
   )
 ```
 
-##### 3.1.2.2. Result
+##### 3.1.2.2. Result {.active}
 
 ```{r plotLeaf, echo=FALSE}
 neotoma2::plotLeaflet(penn_sites) %>%
@@ -446,7 +414,11 @@ The taxon names in a Neotoma download are the names that each analyst used, at t
 
 We do not send every taxon. Most of the 317 names in these four cores are rare. We use the **common** taxa of the four Barnegat Bay cores (at least 3% of the valves in three or more samples of a core), so the list stays small and we are gentle with the GBIF service. First, the valve counts of the cores that have at least five samples, as a proportion of each sample:
 
-```{r longCores}
+#### {.tabset}
+
+##### 4.1.1.1. Code
+
+```{r longCores, eval=FALSE}
 long_cores <- samples(core_dl) %>%
   dplyr::filter(ecologicalgroup == "DIAT", elementtype == "valve") %>%
   group_by(datasetid) %>%
@@ -454,11 +426,32 @@ long_cores <- samples(core_dl) %>%
   group_by(siteid, sitename, datasetid, sampleid, age) %>%
   mutate(proportion = value / sum(value)) %>%
   ungroup()
+long_cores
 ```
+
+##### 4.1.1.2. Results
+
+```{r longCoresR, echo=FALSE}
+long_cores <- samples(core_dl) %>%
+  dplyr::filter(ecologicalgroup == "DIAT", elementtype == "valve") %>%
+  group_by(datasetid) %>%
+  dplyr::filter(n_distinct(sampleid) >= 5) %>%
+  group_by(siteid, sitename, datasetid, sampleid, age) %>%
+  mutate(proportion = value / sum(value)) %>%
+  select(-datasetnotes) %>%
+  ungroup()
+  
+long_cores  %>%
+  DT::datatable(rownames = FALSE, options = list(scrollX = "100%", dom = "t"))
+```
+
+####  {.tabset}
 
 And then the common taxa, one row per name:
 
-```{r commonTaxa}
+##### 4.1.1.3. Code
+
+```{r commonTaxa, eval=FALSE}
 common_taxa <- long_cores %>%
   dplyr::filter(proportion > 0.03) %>%
   group_by(siteid, variablename) %>%
@@ -466,15 +459,30 @@ common_taxa <- long_cores %>%
   dplyr::filter(samples >= 3) %>%
   dplyr::distinct(variablename) %>%
   arrange(variablename)
+common_taxa
+```
+
+##### 4.1.1.4. Results
+
+```{r commonTaxaR, echo=FALSE}
+common_taxa <- long_cores %>%
+  dplyr::filter(proportion > 0.03) %>%
+  group_by(siteid, variablename) %>%
+  summarise(samples = n_distinct(sampleid), .groups = "drop") %>%
+  dplyr::filter(samples >= 3) %>%
+  dplyr::distinct(variablename) %>%
+  arrange(variablename)
+common_taxa %>%
+  DT::datatable(rownames = FALSE, options = list(scrollX = "100%", dom = "t"))
 ```
 
 That is **`r nrow(common_taxa)` names**, which account for `r round(100 * sum(long_cores$value[long_cores$variablename %in% common_taxa$variablename]) / sum(long_cores$value))`% of all the valves counted in these cores.
 
-#### 4.1.1. One call to GBIF {.tabset}
+#### 4.1.2. One call to GBIF {.tabset}
 
 `rgbif` can match a whole table of names against the GBIF taxonomy in one go with `name_backbone_checklist()`. We also give it the **class**, *Bacillariophyceae* (the diatoms). This matters, because the same genus name can be used for an animal or a plant, and with the class GBIF knows we mean the diatom. We make **one** call and save the answer with `saveRDS()`, so we never need to ask again. Please do not put this call in a loop.
 
-##### 4.1.1.1. Code
+##### 4.1.2.1. Code
 
 ```{r gbifCode, eval=FALSE}
 # The column has to be called `scientificName`, which is what rgbif looks for.
@@ -484,15 +492,9 @@ gbif_match <- rgbif::name_backbone_checklist(
     class = "Bacillariophyceae"
   )
 )
-
-# Save the answer so we do not need to ask GBIF again.
-saveRDS(
-  list(retrieved = Sys.time(), match = gbif_match),
-  "data/gbif_match_barnegat.RDS"
-)
 ```
 
-##### 4.1.1.2. Result
+##### 4.1.2.2. Result
 
 We did this ahead of time, on `r format(readRDS("data/gbif_match_barnegat.RDS")$retrieved, "%B %d, %Y")`. Here is the saved answer:
 
@@ -510,11 +512,24 @@ gbif_match %>%
   )
 ```
 
-#### 4.1.2. Merging the two
+###
+
+Remember to save the API's response so we do not need to ask GBIF again.
+
+```r
+saveRDS(
+  list(retrieved = Sys.time(), match = gbif_match),
+  "data/gbif_match_barnegat.RDS"
+)
+```
+
+#### 4.1.3. Merging the two {.tabset}
 
 For each name GBIF tells us the taxon it matched (`canonicalName`) and at what `rank`; whether that name is `ACCEPTED` or a `SYNONYM`; how it matched (`matchType`: `EXACT`, `FUZZY` when the spelling was slightly different, or `HIGHERRANK` when it could only find a higher group); a `confidence` score; and the classification (`family`, `order`). The name that we sent comes back in `verbatim_name`, so we can use it to join the answer to our table with `left_join()`, which keeps every Neotoma taxon, with or without a match:
 
-```{r gbifJoin}
+##### 4.1.3.1. Code
+
+```{r gbifJoin, eval=FALSE}
 gbif_small <- gbif_match %>%
   dplyr::select(
     variablename = verbatim_name,
@@ -530,43 +545,101 @@ taxa_gbif <- common_taxa %>%
 nrow(taxa_gbif) == nrow(common_taxa)
 ```
 
+##### 4.1.3.1. Results
+
+```{r gbifJoinR, echo=FALSE}
+gbif_small <- gbif_match %>%
+  dplyr::select(
+    variablename = verbatim_name,
+    gbif_name = canonicalName, rank, status,
+    match_type = matchType, accepted_name = acceptedScientificName,
+    family, order
+  )
+
+taxa_gbif <- common_taxa %>%
+  left_join(gbif_small, by = "variablename")
+
+taxa_gbif %>%
+  head() %>%
+  DT::datatable(rownames = FALSE, options = list(scrollX = "100%", dom = "t"))
+```
+
 Of the `r nrow(taxa_gbif)` names, `r sum(taxa_gbif$match_type == "EXACT", na.rm = TRUE)` matched exactly, and `r sum(taxa_gbif$match_type == "HIGHERRANK", na.rm = TRUE)` could only be matched to a higher group. GBIF considers `r sum(taxa_gbif$status == "SYNONYM", na.rm = TRUE)` of the names to be synonyms. Neither of these is an error, but both are worth looking at before you use the result. This is where the taxonomic decisions begin.
+
+#### 4.1.4. Synonyms {.tabset}
 
 **Synonyms.** The name in Neotoma is not the one that GBIF treats as accepted today. Neither is wrong, and the accepted name is how you would link to other sources:
 
-```{r gbifSynonyms}
+##### 4.1.4.1. Code 
+
+```{r gbifSynonyms, eval=FALSE}
+taxa_gbif %>%
+  dplyr::filter(status == "SYNONYM") %>%
+  dplyr::select(variablename, accepted_name, family)
+```
+
+##### 4.1.4.2. Results 
+
+```{r gbifSynonymsR, echo=FALSE}
 taxa_gbif %>%
   dplyr::filter(status == "SYNONYM") %>%
   dplyr::select(variablename, accepted_name, family) %>%
   DT::datatable(rownames = FALSE, options = list(scrollX = "100%", dom = "t"))
 ```
 
+#### 4.1.5. Higher Rank {.tabset}
+
 **Matched only at a higher rank.** GBIF could not find the species, so it gave us the genus instead. This is what happens with project codes. Be careful: a row that says *Navicula* is not a species match.
 
-```{r gbifHigher}
+##### 4.1.5.1.  Code 
+
+```{r gbifHigher, eval=FALSE}
+taxa_gbif %>%
+  dplyr::filter(match_type == "HIGHERRANK") %>%
+  dplyr::select(variablename, gbif_name, rank)
+```
+
+##### 4.1.5.2. Results 
+
+```{r gbifHigherR, echo=FALSE}
 taxa_gbif %>%
   dplyr::filter(match_type == "HIGHERRANK") %>%
   dplyr::select(variablename, gbif_name, rank) %>%
   DT::datatable(rownames = FALSE, options = list(scrollX = "100%", dom = "t"))
 ```
 
-#### 4.1.3. Harmonizing is up to you
+#### 4.1.6. Harmonizing is up to you
 
 Do you want to merge the synonyms into their accepted names? Fold the varieties into their species? Lump every *Navicula* with a project code into one group? Different researchers will answer differently, and that is fine. The easiest way to do it is not code: save the merged table as a `csv`, open it in a spreadsheet, and add a column with the name **you** want for each taxon.
 
 The new column can then be joined to the `samples()` table by `variablename`, in the same way that we joined the GBIF answer, and you can group and sum the counts by your own names.
 
-### 4.2. Stratigraphic Plotting
+### 4.2. Stratigraphic Plotting {.tabset}
 
 Now that we have looked at the taxon names, let's look at how the taxa change through the depth of a single core. We can use packages like `rioja` to do stratigraphic plotting for a single record. We pick the Barnegat Bay core at West Creek (`siteid` 14270), and subset the `core_dl` object to that site:
 
-```{r pickSite}
+#### 4.2.1. Code
+
+```{r pickSite, eval=FALSE}
 plotting_site <- neotoma2::filter(core_dl, siteid == 14270)
 ```
 
+#### 4.2.2. Results
+
+```{r pickSiteR, echo=FALSE}
+plotting_site <- neotoma2::filter(core_dl, siteid == 14270)
+plotting_site %>%
+  as.data.frame() %>%
+  DT::datatable(rownames = FALSE, options = list(scrollX = "100%", dom = "t"))
+```
+
+### {.tabset}
+
 `rioja` needs a "wide" table (one row per sample, one column per taxon), but `samples()` gives a "long" one. The `toWide()` function does the conversion, and it lets us choose the taxa, units and elements first. Here we keep only diatoms counted as valves (`NISP`), we group the samples by `age`, and we turn the counts into proportions. The first column of the result is `age`:
 
-```{r stratiWide}
+#### 4.2.3. Code
+
+```{r stratiWide, eval=FALSE}
 counts <- plotting_site %>%
   samples() %>%
   toWide(
@@ -578,22 +651,84 @@ counts <- plotting_site %>%
   )
 ```
 
+#### 4.2.4. Results
+
+```{r stratiWideR, echo=FALSE}
+counts <- plotting_site %>%
+  samples() %>%
+  toWide(
+    ecologicalgroup = c("DIAT"),
+    unit = c("NISP"),
+    elementtypes = c("valve"),
+    groupby = "age",
+    operation = "prop"
+  )
+
+counts %>%
+  head() %>%
+  DT::datatable(rownames = FALSE, options = list(scrollX = "100%", dom = "t"))
+```
+
+### {.tabset}
+
 There are hundreds of taxa in this core, and most of them are rare. We keep the age column, plus the taxa that make up at least 3% of the valves in three or more samples (the same rule we used for the common taxa in [section 4.1](#41-taxonomy-connecting-to-gbif), here for one core). (The ages here include negative values, after 1950, so we do not test the age column itself.)
 
-```{r stratiCommon}
+#### 4.2.5. Code
+
+```{r stratiCommon, eval=FALSE}
 common <- colSums(counts[, -1] > 0.03, na.rm = TRUE) >= 3
 counts <- counts[, c(TRUE, common)]
 ```
+
+#### 4.2.6. Result
+
+```{r stratiCommonR, echo=FALSE}
+common <- colSums(counts[, -1] > 0.03, na.rm = TRUE) >= 3
+counts <- counts[, c(TRUE, common)]
+
+counts %>% head() %>% DT::datatable(rownames = FALSE, options = list(scrollX = "100%", dom = "t"))
+```
+
+###
 
 I've also added a CONISS plot to the edge of the plot, to show how the new *wide* data frame works with distance metric functions. First we run the constrained clustering:
 
 ```{r stratiCluster}
 clust <- rioja::chclust(dist(sqrt(counts[, -1])), method = "coniss")
+clust
 ```
+
+
+### {.tabset}
 
 To plot the data we use `rioja`'s `strat.plot()`, converting proportions to percentages and sorting the taxa using weighted averaging scores (`wa.order`). Base R plots are drawn one layer on top of the other, so the zone lines and the site name are added in the same chunk:
 
-```{r plotStrigraph, message=FALSE, warning=FALSE, fig.width=11, fig.height=6.5}
+#### 4.2.7. Code
+
+```{r plotStrigraph, message=FALSE, warning=FALSE, fig.width=11, fig.height=6.5, eval=FALSE}
+plot <- rioja::strat.plot(counts[, -1] * 100,
+  yvar = counts$age,
+  title = "",
+  ylabel = "Calibrated Years BP (negative = after 1950)",
+  xlabel = "Diatoms (% of valves counted)",
+  y.rev = TRUE,
+  clust = clust,
+  wa.order = "topleft",
+  scale.percent = TRUE,
+  yTop = 0.62, # leave room for the taxon names
+  cex.xlabel = 0.8
+)
+
+# Mark the two main zones of the clustering and name the site:
+rioja::addClustZone(plot, clust, 2, col = "red")
+mtext(plotting_site[[1]]$sitename,
+  side = 3, line = -1.5, adj = 0.02, font = 2, outer = TRUE
+)
+```
+
+#### 4.2.8. Results
+
+```{r plotStrigraphR, message=FALSE, warning=FALSE, fig.width=11, fig.height=6.5, echo=FALSE}
 plot <- rioja::strat.plot(counts[, -1] * 100,
   yvar = counts$age,
   title = "",
